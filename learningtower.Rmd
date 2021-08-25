@@ -1,0 +1,54 @@
+---
+title: "learningtower: Exploring standardized test scores across the globe"
+abstract: >
+  An abstract of less than 150 words.
+draft: true
+author:  
+  # see ?rjournal_article for more information
+  - name: Quietest Quokka
+    affiliation: University of Little Mates
+    address:
+    - Department of Letter Q
+    - Somewhere, Australia
+    url: https://www.britannica.com/animal/quokka
+    orcid: 0000-1721-1511-1101
+    email:  qquo@ulm.edu
+  - name: Bounciest Bilby
+    url: https://www.britannica.com/animal/bilby
+    email: bbil@ulm.edu
+    orcid: 0000-0002-0912-0225
+    affiliation: University of Little Mates
+    address:
+    - Department of Letter B
+    - Somewhere, Australia
+date: "`r Sys.Date()`"
+creative_commons: CC BY
+output: 
+  rjtools::rjournal_web_article
+bibliography: skeleton.bib
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(plotly)
+library(ggplot2)
+library(palmerpenguins)
+```
+
+# Introduction
+
+- What is PISA?
+- `learningtower` intro
+- Questions to be answered in the paper
+- Outlining the structure of the rest of the paper
+
+# Gender Analysis
+
+Some packages on interactive graphics include \CRANpkg{plotly} [@plotly] that interfaces with Javascript for web-based interactive graphics, \CRANpkg{crosstalk} [@crosstalk] that specializes cross-linking elements across individual graphics.  The recent R Journal paper \CRANpkg{tsibbletalk} [@RJ-2021-050] provides a good example of including interactive graphics into an article for the journal. It has both a set of linked plots, and also an animated gif example, illustrating linking between time series plots and feature summaries.
+
+
+
+# Summary
+
+We have displayed various tooltips that are available in the package \pkg{ToOoOlTiPs}. 
