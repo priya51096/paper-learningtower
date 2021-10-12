@@ -1,26 +1,31 @@
 ---
-title: "learningtower: Exploring standardized test scores across the globe"
+title: "R package learningtower: Exploring standardised test scores across the globe"
 abstract: >
-  An abstract of less than 150 words.
+  An abstract of less than 150 words - Discuss what the paper talks about with a little introduction.
 draft: true
-author:  
+author: 
   # see ?rjournal_article for more information
-  - name: Quietest Quokka
-    affiliation: University of Little Mates
+  - name: Priya Ravindra Dingorkar
+    url: https://www.linkedin.com/in/priya-dingorkar/
+    email: priyadingorkar@gmail.com
+    affiliation: Monash University
     address:
-    - Department of Letter Q
-    - Somewhere, Australia
-    url: https://www.britannica.com/animal/quokka
-    orcid: 0000-1721-1511-1101
-    email:  qquo@ulm.edu
-  - name: Bounciest Bilby
-    url: https://www.britannica.com/animal/bilby
-    email: bbil@ulm.edu
-    orcid: 0000-0002-0912-0225
-    affiliation: University of Little Mates
+    - Department Econometrics and Business Statistics
+    - Clayton, Australia
+  - name: Kevin Wang
+    affiliation: University of Sydney
     address:
-    - Department of Letter B
-    - Somewhere, Australia
+    - Data scientist and statistician
+    - CSL Behring, Australia
+    url: https://kevinwang09.github.io/
+    email: kevinwangstats@gmail.com 
+  - name: Di Cook
+    affiliation: Monash University
+    address:
+    - Department Econometrics and Business Statistics
+    - Clayton, Australia
+    url: http://dicook.org/
+    email: dicook@monash.edu
 date: "`r Sys.Date()`"
 creative_commons: CC BY
 output: 
@@ -31,6 +36,7 @@ bibliography: skeleton.bib
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(rjtools)
 library(plotly)
 library(ggplot2)
 library(palmerpenguins)
@@ -38,17 +44,51 @@ library(palmerpenguins)
 
 # Introduction
 
-- What is PISA?
-- `learningtower` intro
-- Questions to be answered in the paper
-- Outlining the structure of the rest of the paper
+The Organization for Economic Cooperation and Development (OECD) is a global organization that aims to create better policies for better lives. Their mission is to create policies that promote prosperity, equality, opportunity, and well-being for all.
 
-# Gender Analysis
+PISA is one of the OECD's Programme for International Student Assessment. PISA assesses 15-year-olds potential to apply their knowledge and abilities in reading, mathematics, and science to real-world challenges. The OECD launched this in 1997, it was initially administered in 2000, and it currently includes over [80 nations](https://www.oecd.org/pisa/aboutpisa/pisa-participants.htm). The PISA study, conducted every three years, provides comparative statistics on 15-year-olds performance in reading, maths, and science.
 
-Some packages on interactive graphics include \CRANpkg{plotly} [@plotly] that interfaces with Javascript for web-based interactive graphics, \CRANpkg{crosstalk} [@crosstalk] that specializes cross-linking elements across individual graphics.  The recent R Journal paper \CRANpkg{tsibbletalk} [@RJ-2021-050] provides a good example of including interactive graphics into an article for the journal. It has both a set of linked plots, and also an animated gif example, illustrating linking between time series plots and feature summaries.
+## What is PISA?
 
 
+
+## R package - learningtower
+
+# Data Description
+
+## Data Compilation
+
+## Data Structure
+
+# Exploratory Data Analysis
+
+## Gender Analysis
+
+## Socioeconomic Factors Analysis 
+
+## Temoral Trend Australia 
+
+# Future Developments
 
 # Summary
 
-We have displayed various tooltips that are available in the package \pkg{ToOoOlTiPs}. 
+Figure `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(fig:penguins-plotly)', '\\@ref(fig:penguins-ggplot)'))` shows an `r ifelse(knitr::is_html_output(), 'interactive', '')` plot of the \CRANpkg{palmerpenguins} data [@palmerpenguins], made using the `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\CRANpkg{plotly}', '\\CRANpkg{ggplot2}'))` package. This data features three penguin species which has a lovely illustration by Alison Horst in Figure \@ref(fig:penguins-alison). 
+
+```{r penguins-plotly, echo = TRUE, fig.height = 5, fig.cap="A basic interactive plot made with the plotly package on palmer penguin data. Three species of penguins are plotted with bill depth on the x-axis and bill length on the y-axis. When hovering on a point, a tooltip will show the exact value of the bill depth and length for that point, along with the species name.", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+p <- penguins %>% 
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm, 
+             color = species)) + 
+  geom_point()
+ggplotly(p)
+```
+
+```{r penguins-ggplot, echo = TRUE, fig.height = 5, fig.cap="A basic non-interactive plot made with the ggplot2 package on palmer penguin data. Three species of penguins are plotted with bill depth on the x-axis and bill length on the y-axis. Visit the online article to access the interactive version made with the plotly package.", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+penguins %>% 
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm, 
+             color = species)) + 
+  geom_point()
+```
+
+@RJ-2021-050
+
+We have displayed various tooltips that are available in the package \pkg{ToOoOlTiPs}.
