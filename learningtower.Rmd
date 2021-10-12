@@ -26,11 +26,11 @@ author:
     - Clayton, Australia
     url: http://dicook.org/
     email: dicook@monash.edu
-date: "`r Sys.Date()`"
+type: package
 creative_commons: CC BY
 output: 
   rjtools::rjournal_web_article
-bibliography: skeleton.bib
+bibliography: learningtower.bib
 
 ---
 
