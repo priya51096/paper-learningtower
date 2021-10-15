@@ -35,7 +35,9 @@ bibliography: learningtower.bib
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, 
+                      warning = FALSE, 
+                      message = FALSE)
 library(rjtools)
 library(plotly)
 library(ggplot2)
@@ -44,33 +46,48 @@ library(palmerpenguins)
 
 # Introduction
 
-The Organization for Economic Cooperation and Development (OECD) is a global organization that aims to create better policies for better lives. Their mission is to create policies that promote prosperity, equality, opportunity, and well-being for all.
+The Organization for Economic Cooperation and Development [OECD](OECD - https://www.oecd.org/about/) is a global organization that aims to create better policies for better lives. Their mission is to create policies that promote prosperity, equality, opportunity, and well-being for all.
 
-PISA is one of the OECD's Programme for International Student Assessment. PISA assesses 15-year-olds potential to apply their knowledge and abilities in reading, mathematics, and science to real-world challenges. The OECD launched this in 1997, it was initially administered in 2000, and it currently includes over [80 nations](https://www.oecd.org/pisa/aboutpisa/pisa-participants.htm). The PISA study, conducted every three years, provides comparative statistics on 15-year-olds performance in reading, maths, and science.
+[PISA](PISA - https://www.oecd.org/pisa/) is one of the OECD's Programme for International Student Assessment. PISA assesses 15-year-olds potential to apply their knowledge and abilities in reading, mathematics, and science to real-world challenges. The OECD launched this in 1997, it was initially administered in 2000, and it currently includes over [80 nations](https://www.oecd.org/pisa/aboutpisa/pisa-participants.htm). The PISA study, conducted every three years, provides comparative statistics on 15-year-olds performance in reading, maths, and science.
 
-## What is PISA?
+# What is PISA?
+
+PISA assesses the extent to which children approaching the end of compulsory school have learned some of the information and abilities required for full participation in modern society, notably in maths, reading, and science. The examination focuses on reading, mathematics, science, and problem solving. It also assesses students capacity to replicate information and extrapolate from what they have learned and apply that knowledge in unexpected circumstances, both inside and outside of school. This approach reflects the fact that individuals are rewarded in modern economies not for what they know, but for what they can accomplish with what they know. 
+
+```{r penguins-alison, out.height = "360", out.width = "400", fig.align = "center", fig.cap = "Artwork by `learningtower` Authors"}
+knitr::include_graphics("figures/pisa_image.png")
+```
+
+This evaluation, which is carried out every three years, assists in identifying students development of knowledge and skills throughout the world, which can provide actionable insights and therefore assist education policymakers. PISA is well known for its distinctive testing characteristics, which include policy orientation, an innovative notion of literacy, relevance to lifelong learning, regularity, and breadth of coverage. PISA is now used as an assessment tool in many regions around the world. In addition to OECD member countries, the survey has been or is being conducted in East, South and Southeast Asia, Central, Mediterranean and Eastern Europe, and Central Asia, The Middle East, Central and South America and Africa. 
+
+For each PISA, one domain is thoroughly examined. In 2018, for example, reading was assessed alongside mathematics and science as minor areas of assessment. The 2012 survey concentrates on mathematics, with reading, science, and problem solving serving as minor evaluation topics.
+
+PISA targets a certain age group of pupils in order to properly compare student performance worldwide. PISA students are aged between 15 years 3 months and 16 years 2 months at the time of the assessment, and have completed at least 6 years of formal schooling. They can enroll in any sort of institution, participate in full-time or part-time education, academic or vocational programs, and attend public, private, or international schools inside the country. Using this age across nations and throughout time allows PISA to compare the knowledge and abilities of people born in the same year who are still in school at the age of 15, irrespective of their diverse schooling.
 
 
 
-## R package - learningtower
+# R package - learningtower
+
 
 # Data Description
 
 ## Data Compilation
 
-## Data Structure
+# Data Structure
 
 # Exploratory Data Analysis
 
-## Gender Analysis
+# Gender Analysis
 
-## Socioeconomic Factors Analysis 
+# Socioeconomic Factors Analysis 
 
-## Temoral Trend Australia 
+# Temoral Trend Australia 
 
 # Future Developments
 
 # Summary
+
+# Testing
 
 Figure `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(fig:penguins-plotly)', '\\@ref(fig:penguins-ggplot)'))` shows an `r ifelse(knitr::is_html_output(), 'interactive', '')` plot of the \CRANpkg{palmerpenguins} data [@palmerpenguins], made using the `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\CRANpkg{plotly}', '\\CRANpkg{ggplot2}'))` package. This data features three penguin species which has a lovely illustration by Alison Horst in Figure \@ref(fig:penguins-alison). 
 
