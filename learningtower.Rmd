@@ -15,8 +15,8 @@ author:
   - name: Kevin Wang
     affiliation: University of Sydney
     address:
-    - Data scientist and statistician
-    - CSL Behring, Australia
+    - School of Mathematics and Statistics 
+    - Sydney, Australia
     url: https://kevinwang09.github.io/
     email: kevinwangstats@gmail.com 
   - name: Di Cook
@@ -29,7 +29,7 @@ author:
 type: package
 creative_commons: CC BY
 output: 
-  rjtools::rjournal_web_article
+  rjtools::rjournal_pdf_article
 bibliography: learningtower.bib
 
 ---
@@ -54,9 +54,9 @@ The Organization for Economic Cooperation and Development [OECD](OECD - https://
 
 PISA assesses the extent to which children approaching the end of compulsory school have learned some of the information and abilities required for full participation in modern society, notably in maths, reading, and science. The examination focuses on reading, mathematics, science, and problem solving. It also assesses students capacity to replicate information and extrapolate from what they have learned and apply that knowledge in unexpected circumstances, both inside and outside of school. This approach reflects the fact that individuals are rewarded in modern economies not for what they know, but for what they can accomplish with what they know. 
 
-```{r penguins-alison, out.height = "360", out.width = "400", fig.align = "center", fig.cap = "Artwork by `learningtower` Authors"}
-knitr::include_graphics("figures/pisa_image.png")
-```
+<!-- ```{r penguins-alison, out.height = "360", out.width = "400", fig.align = "center", fig.cap = "Artwork by `learningtower` Authors"} -->
+<!-- knitr::include_graphics("figures/pisa_image.png") -->
+<!-- ``` -->
 
 This evaluation, which is carried out every three years, assists in identifying students development of knowledge and skills throughout the world, which can provide actionable insights and therefore assist education policymakers. PISA is well known for its distinctive testing characteristics, which include policy orientation, an innovative notion of literacy, relevance to lifelong learning, regularity, and breadth of coverage. PISA is now used as an assessment tool in many regions around the world. In addition to OECD member countries, the survey has been or is being conducted in East, South and Southeast Asia, Central, Mediterranean and Eastern Europe, and Central Asia, The Middle East, Central and South America and Africa. 
 
@@ -89,20 +89,20 @@ PISA targets a certain age group of pupils in order to properly compare student 
 
 # Testing
 
-Figure `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(fig:penguins-plotly)', '\\@ref(fig:penguins-ggplot)'))` shows an `r ifelse(knitr::is_html_output(), 'interactive', '')` plot of the \CRANpkg{palmerpenguins} data [@palmerpenguins], made using the `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\CRANpkg{plotly}', '\\CRANpkg{ggplot2}'))` package. This data features three penguin species which has a lovely illustration by Alison Horst in Figure \@ref(fig:penguins-alison). 
+Figure `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(fig:penguins-plotly)', '\\@ref(fig:penguins-ggplot)'))` shows an `r ifelse(knitr::is_html_output(), 'interactive', '')` plot of the \CRANpkg{palmerpenguins} data [@palmerpenguins], made using the `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\CRANpkg{plotly}', '\\CRANpkg{ggplot2}'))` package. This data features three penguin species which has a lovely illustration by Alison Horst in Figure \@ref(fig:penguins-alison).
 
 ```{r penguins-plotly, echo = TRUE, fig.height = 5, fig.cap="A basic interactive plot made with the plotly package on palmer penguin data. Three species of penguins are plotted with bill depth on the x-axis and bill length on the y-axis. When hovering on a point, a tooltip will show the exact value of the bill depth and length for that point, along with the species name.", include=knitr::is_html_output(), eval=knitr::is_html_output()}
-p <- penguins %>% 
-  ggplot(aes(x = bill_depth_mm, y = bill_length_mm, 
-             color = species)) + 
+p <- penguins %>%
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm,
+             color = species)) +
   geom_point()
 ggplotly(p)
 ```
 
 ```{r penguins-ggplot, echo = TRUE, fig.height = 5, fig.cap="A basic non-interactive plot made with the ggplot2 package on palmer penguin data. Three species of penguins are plotted with bill depth on the x-axis and bill length on the y-axis. Visit the online article to access the interactive version made with the plotly package.", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
-penguins %>% 
-  ggplot(aes(x = bill_depth_mm, y = bill_length_mm, 
-             color = species)) + 
+penguins %>%
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm,
+             color = species)) +
   geom_point()
 ```
 
