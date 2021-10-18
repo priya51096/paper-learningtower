@@ -1,5 +1,5 @@
 ---
-title: "R package learningtower: Exploring standardised test scores across the globe"
+title: "`learningtower`: Exploring standardised test scores across the globe"
 abstract: >
   An abstract of less than 150 words - Discuss what the paper talks about with a little introduction.
 draft: true
@@ -29,7 +29,7 @@ author:
 type: package
 creative_commons: CC BY
 output: 
-  rjtools::rjournal_pdf_article
+  rjtools::rjournal_web_article
 bibliography: learningtower.bib
 
 ---
@@ -54,15 +54,15 @@ The Organization for Economic Cooperation and Development [OECD](OECD - https://
 
 PISA assesses the extent to which children approaching the end of compulsory school have learned some of the information and abilities required for full participation in modern society, notably in maths, reading, and science. The examination focuses on reading, mathematics, science, and problem solving. It also assesses students capacity to replicate information and extrapolate from what they have learned and apply that knowledge in unexpected circumstances, both inside and outside of school. This approach reflects the fact that individuals are rewarded in modern economies not for what they know, but for what they can accomplish with what they know. 
 
-<!-- ```{r penguins-alison, out.height = "360", out.width = "400", fig.align = "center", fig.cap = "Artwork by `learningtower` Authors"} -->
-<!-- knitr::include_graphics("figures/pisa_image.png") -->
-<!-- ``` -->
+
 
 This evaluation, which is carried out every three years, assists in identifying students development of knowledge and skills throughout the world, which can provide actionable insights and therefore assist education policymakers. PISA is well known for its distinctive testing characteristics, which include policy orientation, an innovative notion of literacy, relevance to lifelong learning, regularity, and breadth of coverage. PISA is now used as an assessment tool in many regions around the world. In addition to OECD member countries, the survey has been or is being conducted in East, South and Southeast Asia, Central, Mediterranean and Eastern Europe, and Central Asia, The Middle East, Central and South America and Africa. 
 
 For each PISA, one domain is thoroughly examined. In 2018, for example, reading was assessed alongside mathematics and science as minor areas of assessment. The 2012 survey concentrates on mathematics, with reading, science, and problem solving serving as minor evaluation topics.
 
 PISA targets a certain age group of pupils in order to properly compare student performance worldwide. PISA students are aged between 15 years 3 months and 16 years 2 months at the time of the assessment, and have completed at least 6 years of formal schooling. They can enroll in any sort of institution, participate in full-time or part-time education, academic or vocational programs, and attend public, private, or international schools inside the country. Using this age across nations and throughout time allows PISA to compare the knowledge and abilities of people born in the same year who are still in school at the age of 15, irrespective of their diverse schooling.
+
+The PISA test is primarily computer-based and lasts around 2 hours. The questions are a mix of multiple choice and free entry. A few countries that were not ready for computer-based delivery carried out the testing on paper. Each student may have a unique set of questions. An example of the test may be seen [here.](https://www.oecd.org/pisa/test/)PISA assessment areas seek to measure the following aspects of students' literacy in math, reading, and science. The goal of mathematical literacy is to assess pupils' ability to conceive and interpret arithmetic in a variety of settings. Reading literacy assesses students' capacity to absorb, apply, analyze, and reflect on texts in order to attain required goals and participate in society. Science literacy is described as the ability to engage with science-related issues and scientific concepts as a reflective citizen.
 
 
 
