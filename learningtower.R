@@ -5,10 +5,241 @@
 knitr::opts_chunk$set(echo = FALSE, 
                       warning = FALSE, 
                       message = FALSE)
+
+
+## ----loadlibraries------------------------------------------------------------
 library(rjtools)
+library(learningtower)
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
 library(plotly)
 library(ggplot2)
 library(palmerpenguins)
+
+
+## ----gendergap, fig.height = 14, fig.width = 6, fig.align = "center"----------
+student_2018 <- load_student("2018")
+data(countrycode)
+
+student_country <- left_join(student_2018, countrycode, by = "country")
+
+
+#removing na values
+math_pisa_2018_data <- student_country %>% 
+  filter(!is.na(gender)) %>% 
+  filter(!is.na(math)) %>% 
+  filter(!is.na(stu_wgt)) 
+
+#avg math scores and diff 
+math_diff_df <- math_pisa_2018_data %>%
+group_by(gender, country_name) %>%
+summarise(avg = weighted.mean(math, stu_wgt)) %>%
+ungroup() %>%
+pivot_wider(country_name, names_from = gender,
+values_from = avg) %>%
+mutate(diff = female - male,
+country_name = fct_reorder(country_name, diff))
+
+# Check if plot can be made
+# ggplot(math_diff_df, aes(x = diff, y = country_name)) +
+# geom_point() +
+# geom_vline(xintercept = 0, color = "red") +
+# labs(y = "Country",
+# x = "Difference in mean PV1 (girl - boy)") +
+# theme_bw(base_size = 14)
+
+
+#Bootstrap using R: Part 1
+set.seed(2020) # for reproducibility
+boot_sample1_math <- math_pisa_2018_data %>%
+group_by(country_name, gender) %>%
+sample_n(size = n(), replace = TRUE)
+
+boot_sample1_df_math <- boot_sample1_math %>%
+summarise(avg = weighted.mean(math, stu_wgt)) %>%
+ungroup() %>%
+pivot_wider(country_name, names_from = gender, values_from = avg) %>%
+mutate(diff = female - male, country_name = fct_reorder(country_name, diff))
+
+#Bootstrap using R: Part 2
+boot_ests_math <- map_dfr(1:100, ~{
+math_pisa_2018_data %>%
+group_by(country_name, gender) %>%
+sample_n(size = n(), replace = TRUE) %>%
+summarise(avg = weighted.mean(math, stu_wgt)) %>%
+ungroup() %>%
+pivot_wider(country_name, names_from = gender, values_from = avg) %>%
+mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
+mutate(boot_id = .x)
+})
+
+#Bootstrap using R: Part 3
+math_diff_conf_intervals <- boot_ests_math %>%
+group_by(country_name) %>%
+summarise(lower = sort(diff)[5],
+upper = sort(diff)[95])%>%
+left_join(math_diff_df, by = "country_name") %>%
+mutate(country_name = fct_reorder(country_name, diff))
+
+
+math_plot <- ggplot(math_diff_conf_intervals, 
+                    aes(diff, country_name)) +
+geom_point() +
+geom_errorbar(aes(
+xmin = lower,
+xmax = upper)) +
+geom_vline(xintercept = 0, color = "red") +
+labs(y = "",
+x = "Diff in female - male in maths scores") +
+theme_bw(base_size = 14)
+
+
+## -----------------------------------------------------------------------------
+#removing na values
+read_pisa_2018_data <- student_country %>% 
+  filter(!is.na(gender)) %>% 
+  filter(!is.na(read)) %>% 
+  filter(!is.na(stu_wgt)) 
+
+#avg math scores and diff 
+read_diff_df <- read_pisa_2018_data %>%
+group_by(gender, country_name) %>%
+summarise(avg = weighted.mean(read, stu_wgt)) %>%
+ungroup() %>%
+pivot_wider(country_name, names_from = gender,
+values_from = avg) %>%
+mutate(diff = female - male,
+country_name = fct_reorder(country_name, diff))
+
+# Check if plot can be made
+# ggplot(math_diff_df, aes(x = diff, y = country_name)) +
+# geom_point() +
+# geom_vline(xintercept = 0, color = "red") +
+# labs(y = "Country",
+# x = "Difference in mean PV1 (girl - boy)") +
+# theme_bw(base_size = 14)
+
+
+#Bootstrap using R: Part 1
+set.seed(2020) # for reproducibility
+boot_sample1_read <- read_pisa_2018_data %>%
+group_by(country_name, gender) %>%
+sample_n(size = n(), replace = TRUE)
+
+boot_sample1_df_read <- boot_sample1_read %>%
+summarise(avg = weighted.mean(read, stu_wgt)) %>%
+ungroup() %>%
+pivot_wider(country_name, names_from = gender, values_from = avg) %>%
+mutate(diff = female - male, country_name = fct_reorder(country_name, diff))
+
+#Bootstrap using R: Part 2
+boot_ests_read <- map_dfr(1:100, ~{
+read_pisa_2018_data %>%
+group_by(country_name, gender) %>%
+sample_n(size = n(), replace = TRUE) %>%
+summarise(avg = weighted.mean(read, stu_wgt)) %>%
+ungroup() %>%
+pivot_wider(country_name, names_from = gender, values_from = avg) %>%
+mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
+mutate(boot_id = .x)
+})
+
+#Bootstrap using R: Part 3
+read_diff_conf_intervals <- boot_ests_read %>%
+group_by(country_name) %>%
+summarise(lower = sort(diff)[5],
+upper = sort(diff)[95])%>%
+left_join(read_diff_df, by = "country_name") %>%
+mutate(country_name = fct_reorder(country_name, diff))
+
+
+read_plot <- ggplot(read_diff_conf_intervals, 
+                    aes(diff, country_name)) +
+geom_point() +
+geom_errorbar(aes(
+xmin = lower,
+xmax = upper)) +
+geom_vline(xintercept = 0, color = "red") +
+labs(y = "",
+x = "Diff in female - male in reading scores") +
+theme_bw(base_size = 14)
+
+
+## -----------------------------------------------------------------------------
+#removing na values
+sci_pisa_2018_data <- student_country %>% 
+  filter(!is.na(gender)) %>% 
+  filter(!is.na(science)) %>% 
+  filter(!is.na(stu_wgt)) 
+
+#avg math scores and diff 
+sci_diff_df <- sci_pisa_2018_data %>%
+group_by(gender, country_name) %>%
+summarise(avg = weighted.mean(science, stu_wgt)) %>%
+ungroup() %>%
+pivot_wider(country_name, names_from = gender,
+values_from = avg) %>%
+mutate(diff = female - male,
+country_name = fct_reorder(country_name, diff))
+
+# Check if plot can be made
+# ggplot(math_diff_df, aes(x = diff, y = country_name)) +
+# geom_point() +
+# geom_vline(xintercept = 0, color = "red") +
+# labs(y = "Country",
+# x = "Difference in mean PV1 (girl - boy)") +
+# theme_bw(base_size = 14)
+
+
+#Bootstrap using R: Part 1
+set.seed(2020) # for reproducibility
+boot_sample1_sci <- sci_pisa_2018_data %>%
+group_by(country_name, gender) %>%
+sample_n(size = n(), replace = TRUE)
+
+boot_sample1_df_sci <- boot_sample1_sci %>%
+summarise(avg = weighted.mean(science, stu_wgt)) %>%
+ungroup() %>%
+pivot_wider(country_name, names_from = gender, values_from = avg) %>%
+mutate(diff = female - male, country_name = fct_reorder(country_name, diff))
+
+#Bootstrap using R: Part 2
+boot_ests_sci <- map_dfr(1:100, ~{
+sci_pisa_2018_data %>%
+group_by(country_name, gender) %>%
+sample_n(size = n(), replace = TRUE) %>%
+summarise(avg = weighted.mean(science, stu_wgt)) %>%
+ungroup() %>%
+pivot_wider(country_name, names_from = gender, values_from = avg) %>%
+mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
+mutate(boot_id = .x)
+})
+
+#Bootstrap using R: Part 3
+sci_diff_conf_intervals <- boot_ests_sci %>%
+group_by(country_name) %>%
+summarise(lower = sort(diff)[5],
+upper = sort(diff)[95])%>%
+left_join(sci_diff_df, by = "country_name") %>%
+mutate(country_name = fct_reorder(country_name, diff))
+
+
+sci_plot <- ggplot(sci_diff_conf_intervals, 
+                    aes(diff, country_name)) +
+geom_point() +
+geom_errorbar(aes(
+xmin = lower,
+xmax = upper)) +
+geom_vline(xintercept = 0, color = "red") +
+labs(y = "",
+x = "Diff in female - male in science scores") +
+theme_bw(base_size = 14)
+
+
+## ----score-differences, fig.cap ="Gender Analysis", fig.width=12, fig.height=12, out.width="100%", layout = "l-body"----
+library(patchwork)
+math_plot + read_plot + sci_plot
 
 
 ## ----penguins-plotly, echo = TRUE, fig.height = 5, fig.cap="A basic interactive plot made with the plotly package on palmer penguin data. Three species of penguins are plotted with bill depth on the x-axis and bill length on the y-axis. When hovering on a point, a tooltip will show the exact value of the bill depth and length for that point, along with the species name.", include=knitr::is_html_output(), eval=knitr::is_html_output()----

@@ -1,6 +1,6 @@
 % !TeX root = RJwrapper.tex
-\title{\texttt{learningtower}: Exploring standardised test scores across
-the globe}
+\title{learningtower: an R package for Exploring Standardised Test
+Scores Across the Globe}
 \author{by Priya Ravindra Dingorkar, Kevin Wang, and Di Cook}
 
 \maketitle
@@ -18,17 +18,21 @@ The Organization for Economic Cooperation and Development
 organization that aims to create better policies for better lives. Their
 mission is to create policies that promote prosperity, equality,
 opportunity, and well-being for all.
-
-\href{PISA\%20-\%20https://www.oecd.org/pisa/}{PISA} is one of the
-OECD's Programme for International Student Assessment. PISA assesses
+\href{PISA\%20-\%20https://www.oecd.org/pisa/}{PISA} is one of OECD's
+Programme for International Student Assessment. PISA assesses
 15-year-olds potential to apply their knowledge and abilities in
-reading, mathematics, and science to real-world challenges. The OECD
+reading, mathematics, and science to real-world challenges. OECD
 launched this in 1997, it was initially administered in 2000, and it
 currently includes over
 \href{https://www.oecd.org/pisa/aboutpisa/pisa-participants.htm}{80
 nations}. The PISA study, conducted every three years, provides
 comparative statistics on 15-year-olds performance in reading, maths,
-and science.
+and science. This paper describes how to utilize the
+\texttt{learningtower} package, which offers OECD PISA datasets from
+2000 to 2018 in an easy-to-use format. This dataset comprises
+information on their test results and other socioeconomic factors, as
+well as information on their school and its infrastructure and the
+countries participating in the program.
 
 \hypertarget{what-is-pisa}{%
 \section{What is PISA?}\label{what-is-pisa}}
@@ -44,7 +48,7 @@ outside of school. This approach reflects the fact that individuals are
 rewarded in modern economies not for what they know, but for what they
 can accomplish with what they know.
 
-This evaluation, which is carried out every three years, assists in
+This evaluation which is carried out every three years, assists in
 identifying students development of knowledge and skills throughout the
 world, which can provide actionable insights and therefore assist
 education policymakers. PISA is well known for its distinctive testing
@@ -59,9 +63,8 @@ Central and South America and Africa.
 For each PISA, one domain is thoroughly examined. In 2018, for example,
 reading was assessed alongside mathematics and science as minor areas of
 assessment. The 2012 survey concentrates on mathematics, with reading,
-science, and problem solving serving as minor evaluation topics.
-
-PISA targets a certain age group of pupils in order to properly compare
+science, and problem solving serving as minor evaluation topics. PISA
+targets a certain age group of pupils in order to properly compare
 student performance worldwide. PISA students are aged between 15 years 3
 months and 16 years 2 months at the time of the assessment, and have
 completed at least 6 years of formal schooling. They can enroll in any
@@ -76,33 +79,115 @@ The PISA test is primarily computer-based and lasts around 2 hours. The
 questions are a mix of multiple choice and free entry. A few countries
 that were not ready for computer-based delivery carried out the testing
 on paper. Each student may have a unique set of questions. An example of
-the test may be seen \href{https://www.oecd.org/pisa/test/}{here.}PISA
+the test may be seen \href{https://www.oecd.org/pisa/test/}{here.} PISA
 assessment areas seek to measure the following aspects of students'
 literacy in math, reading, and science. The goal of mathematical
-literacy is to assess pupils' ability to conceive and interpret
-arithmetic in a variety of settings. Reading literacy assesses students'
-capacity to absorb, apply, analyze, and reflect on texts in order to
-attain required goals and participate in society. Science literacy is
-described as the ability to engage with science-related issues and
-scientific concepts as a reflective citizen.
+literacy is to assess students ability to grasp and interpret
+mathematics in a variety of settings. Reading literacy assesses
+students' capacity to absorb, apply, analyze, and reflect on texts in
+order to attain required goals and participate in society. Science
+literacy is described as the ability to engage with science-related
+issues and scientific concepts as a reflective citizen.
 
-\hypertarget{r-package---learningtower}{%
-\section{R package - learningtower}\label{r-package---learningtower}}
-
-\hypertarget{data-description}{%
-\section{Data Description}\label{data-description}}
+PISA data is publicly accessible for
+\href{https://www.oecd.org/pisa/data/}{download}. Furthermore, reading
+the
+\href{https://www.oecd.org/pisa/data/pisa2018technicalreport/Ch.09-Scaling-PISA-Data.pdf}{data
+documentation} reveals that the disclosed PISA scores are generated
+using a sophisticated linear model applied to the data. For each
+student, several values are simulated. This is known as synthetic data,
+and it is a popular technique to ensuring data privacy. The data can
+still be deemed accurate within the mean, variance, and stratum used in
+the original data's model. In addition, if you continue to obtain data
+from the PISA website, you will be needed to download huge files in SPSS
+format in order to receive the results from the PISA website. This has
+now been simplified into a single R package called
+\texttt{learningtower}, which contains all of the PISA scores from the
+years 2000 to 2018.
 
 \hypertarget{data-compilation}{%
-\subsection{Data Compilation}\label{data-compilation}}
+\section{Data Compilation}\label{data-compilation}}
 
-\hypertarget{data-structure}{%
-\section{Data Structure}\label{data-structure}}
+Work in Progess
 
-\hypertarget{exploratory-data-analysis}{%
-\section{Exploratory Data Analysis}\label{exploratory-data-analysis}}
+\hypertarget{r-package---learningtower}{%
+\section{\texorpdfstring{R package -
+\texttt{learningtower}}{R package - learningtower}}\label{r-package---learningtower}}
+
+\href{https://cran.r-project.org/web/packages/learningtower/index.html}{`learningtower'}
+is an easy-to-use R package that provides quick access to a variety of
+variables using OECD PISA data collected over a three-year period from
+2000 to 2018. This dataset includes information on on the PISA test
+scores in mathematics, reading, and science. Furthermore, these datasets
+include information on other socioeconomic aspects, as well as
+information on their school and its facilities, as well as the nations
+participating in the program.
+
+The motivation for developing the `learningtower' package was sparked by
+the announcement of the PISA 2018 results, which caused a collective
+wringing of hands in the Australian press, with headlines such as
+\href{https://theconversation.com/vital-signs-australias-slipping-student-scores-will-lead-to-greater-income-inequality-128301}{``Vital
+Signs: Australia's slipping student scores will lead to greater income
+inequality''} and
+\href{https://www.smh.com.au/education/in-china-nicholas-studied-maths-20-hours-a-week-in-australia-it-s-three-20191203-p53ggv.html}{``In
+China, Nicholas studied maths 20 hours a week. In Australia, it's
+three''}.That's when several academics from Australia, New Zealand, and
+Indonesia decided to make things easier by providing easy access to PISA
+scores as part of the \href{https://ozunconf19.ropensci.org/}{ROpenSci
+OzUnconf}, which was held in Sydney from December 11 to 13, 2019. The
+data from this survey, as well as all other surveys performed since the
+initial collection in 2000, is freely accessible to the public. However,
+downloading and loading data in R environment using SPSS formats could
+could be time consuming. As a result, we have made a more convenient
+subset of the data freely available in a new R package called
+`learningtower,' along with sample code for analysis.
+
+The learningtower package is primarily comprised of three datasets:
+\texttt{student}, \texttt{school}, and \texttt{countrycode.} The
+\texttt{student} dataset includes results from triennial testing of
+15-year-olds throughout the world. This dataset also includes
+information about their parents' education, family wealth, gender, and
+presence of computers, internet, vehicles, books, rooms, desks, and
+other comparable factors. Keeping the package's size restrictions in
+mind. The package only comprises a subset of student data, known as the
+\texttt{student\ subset\ data}; this subset of student data is
+accessible for all years in which the PISA experiment was conducted.The
+full year wise student data set can be downloaded using the
+\texttt{load\_student()} function included in this
+\href{https://kevinwang09.github.io/learningtower/}{package.} The school
+dataset includes school weight as well as other information such as
+school funding distribution, whether the school is private or public,
+enrolment of boys and girls, school size, and similar other
+characteristics of interest of different schools these 15-year-olds
+attend around the world. The countrycode dataset includes a mapping of a
+country's ISO code to its name.
+
+\texttt{learningtower} developers are committed to providing R users
+with data to analyse PISA results every three years. Our package's
+future enhancements include updating the package every time additional
+PISA scores are announced. To account for post COVID-19 problems, OECD
+member nations and associates decided to postpone the PISA 2021
+evaluation to 2022 and the PISA 2024 assessment to 2025.
+
+\hypertarget{example-analysis}{%
+\section{Example Analysis}\label{example-analysis}}
+
+In this section we will witness a few examples analysis of how the
+learningtower package can be utilized to answer few of the research
+question. In this section we will apply various analysis methodologies
+and statistical computations on the dataset.
 
 \hypertarget{gender-analysis}{%
 \section{Gender Analysis}\label{gender-analysis}}
+
+Figure @(fig:score-differences) shows differences between mean scores
+for the three topics.
+
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/score-differences-1} \caption[Gender Analysis]{Gender Analysis}\label{fig:score-differences}
+\end{figure}
+\end{Schunk}
 
 \hypertarget{socioeconomic-factors-analysis}{%
 \section{Socioeconomic Factors
@@ -111,20 +196,17 @@ Analysis}\label{socioeconomic-factors-analysis}}
 \hypertarget{temoral-trend-australia}{%
 \section{Temoral Trend Australia}\label{temoral-trend-australia}}
 
-\hypertarget{future-developments}{%
-\section{Future Developments}\label{future-developments}}
-
-\hypertarget{summary}{%
-\section{Summary}\label{summary}}
+\hypertarget{discussion}{%
+\section{Discussion}\label{discussion}}
 
 \hypertarget{testing}{%
 \section{Testing}\label{testing}}
 
-Figure @ref(fig:penguins-ggplot) shows an plot of the
+Figure \ref{fig:penguins-ggplot} shows an plot of the
 \CRANpkg{palmerpenguins} data \citep{palmerpenguins}, made using the
 \CRANpkg{ggplot2} package. This data features three penguin species
 which has a lovely illustration by Alison Horst in Figure
-@ref(fig:penguins-alison).
+\ref{fig:penguins-alison}.
 
 \begin{Schunk}
 \begin{Sinput}
