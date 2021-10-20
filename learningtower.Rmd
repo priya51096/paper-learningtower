@@ -19,7 +19,7 @@ author:
     - Sydney, Australia
     url: https://kevinwang09.github.io/
     email: kevinwangstats@gmail.com 
-  - name: Di Cook
+  - name: Dianne Cook
     affiliation: Monash University
     address:
     - Department Econometrics and Business Statistics
@@ -309,7 +309,7 @@ x = "Diff in female - male in science scores") +
 theme_bw(base_size = 14)
 ```
 
-Figure \@(fig:score-differences) shows differences between mean scores for the three topics.
+Figure \@ref(fig:score-differences) shows differences between mean scores for the three topics. 
 
 ```{r score-differences, fig.cap ="Gender Analysis", fig.width=12, fig.height=12, out.width="100%", layout = "l-body"}
 library(patchwork)
