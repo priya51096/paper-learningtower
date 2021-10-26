@@ -110,17 +110,35 @@ which contains all of the PISA scores from the years 2000 to 2018.
 \hypertarget{data-compilation}{%
 \section{Data Compilation}\label{data-compilation}}
 
-Work in Progess
+An intense component of disseminating this data is the process of
+acquiring and measuring information on variables of relevance for the
+development of \texttt{learningtower.} Each author was initially given a
+certain year for the PISA experiment, and they worked with the survey
+data from that year. The data was first acquired from the PISA database,
+which is open to the public and contains information on students' test
+results as well as school statistics. This data was eventually put into
+the R environment, and after some data cleaning and wrangling with the
+appropriate script, the variables of interest were subgrouped, saved,
+and exported in RDS format. Similarly, datasets were filtered from their
+raw form to a curated version for each year that PISA was administered.
+One significant issue that the developers found was ensuring the
+consistency of variables over various years. For example, a student's
+mother's highest level of education was never recorded in 2000, but it
+was categorized as ``ST11R01'' between 2003 and 2012 and ``ST005Q01TA''
+between 2015 and 2018. Such problems were tackled by manually curating
+these values as an integer variable named ``mother educ'' in the output
+data. These final RDS formats of data for each PISA year are now
+thoroughly vetted and made available in the learningtower package.
 
-\hypertarget{r-package---learningtower}{%
-\section{\texorpdfstring{R package -
-\texttt{learningtower}}{R package - learningtower}}\label{r-package---learningtower}}
+\hypertarget{what-islearningtower}{%
+\section{\texorpdfstring{What
+is\texttt{learningtower}?}{What islearningtower?}}\label{what-islearningtower}}
 
 \href{https://cran.r-project.org/web/packages/learningtower/index.html}{`learningtower'}
 is an easy-to-use R package that provides quick access to a variety of
 variables using OECD PISA data collected over a three-year period from
-2000 to 2018. This dataset includes information on on the PISA test
-scores in mathematics, reading, and science. Furthermore, these datasets
+2000 to 2018. This dataset includes information on the PISA test scores
+in mathematics, reading, and science. Furthermore, these datasets
 include information on other socioeconomic aspects, as well as
 information on their school and its facilities, as well as the nations
 participating in the program.
@@ -134,7 +152,7 @@ Signs: Australia's slipping student scores will lead to greater income
 inequality''} and
 \href{https://www.smh.com.au/education/in-china-nicholas-studied-maths-20-hours-a-week-in-australia-it-s-three-20191203-p53ggv.html}{``In
 China, Nicholas studied maths 20 hours a week. In Australia, it's
-three''}.That's when several academics from Australia, New Zealand, and
+three''}. That's when several academics from Australia, New Zealand, and
 Indonesia decided to make things easier by providing easy access to PISA
 scores as part of the \href{https://ozunconf19.ropensci.org/}{ROpenSci
 OzUnconf}, which was held in Sydney from December 11 to 13, 2019. The
@@ -145,7 +163,7 @@ could be a time consuming task. As a result, we have made a more
 convenient subset of the data freely available in a new R package called
 \texttt{learningtower}, along with sample code for analysis.
 
-The \texttt{learningtower} package is primarily comprised of three
+The \texttt{learningtower} package primarily comprised of three
 datasets: \texttt{student}, \texttt{school}, and \texttt{countrycode.}
 The \texttt{student} dataset includes results from triennial testing of
 15-year-old students throughout the world. This dataset also includes
@@ -179,7 +197,8 @@ to 2025.
 
 In this section we will illustrate how the \texttt{learningtower}
 package can be utilized to answer some research questions by applying
-various methodologies and statistical computations on the dataset.
+various methodologies and statistical computations on the learningtower
+datasets.
 
 \hypertarget{gender-analysis}{%
 \section{Gender Analysis}\label{gender-analysis}}

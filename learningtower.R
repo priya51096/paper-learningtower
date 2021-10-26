@@ -4,7 +4,8 @@
 ## ----setup, include=FALSE-----------------------------------------------------
 knitr::opts_chunk$set(echo = FALSE, 
                       warning = FALSE, 
-                      message = FALSE)
+                      message = FALSE, 
+                      error = TRUE)
 
 
 ## ----loadlibraries------------------------------------------------------------
@@ -13,6 +14,8 @@ library(learningtower)
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
+
+
 library(plotly)
 library(ggplot2)
 library(palmerpenguins)
