@@ -33,7 +33,8 @@ creative_commons: CC BY
 output: 
   rjtools::rjournal_web_article
 bibliography: learningtower.bib
-
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -53,7 +54,6 @@ library(dplyr)
 
 library(plotly)
 library(ggplot2)
-library(palmerpenguins)
 ```
 
 # Introduction
@@ -74,7 +74,7 @@ PISA data is publicly accessible for [download](https://www.oecd.org/pisa/data/)
 
 # Data Compilation
 
-An intense component of disseminating this data is the process of acquiring and measuring information on variables of relevance for the development of `learningtower.` Each author was initially given a certain year for the PISA experiment, and they worked with the survey data from that year. The data was first acquired from the PISA database, which is open to the public and contains information on students' test results as well as school statistics. This data was eventually put into the R environment, and after some data cleaning and wrangling with the appropriate script, the variables of interest were subgrouped, saved, and exported in RDS format. Similarly, datasets were filtered from their raw form to a curated version for each year that PISA was administered. One significant issue that the developers found was ensuring the consistency of variables over various years. For example, a student's mother's highest level of education was never recorded in 2000, but it was categorized as "ST11R01" between 2003 and 2012 and "ST005Q01TA" between 2015 and 2018. Such problems were tackled by manually curating these values as an integer variable named "mother educ" in the output data. These final RDS formats of data for each PISA year are now thoroughly vetted and made available in the learningtower package.
+Each developer at the ROpenSci OzUnconf was assigned to curate a specific year of the PISA study. Data on the participating students and schools were first downloaded from the PISA website, in either SPSS or SAS format. The data were read into an R environment with the exception of the year 2000 and 2003. Due to formatting issues, the data for these two particular years were first read using SPSS and then exported into compatible `.sav` files. After some data cleaning and wrangling with the appropriate script, the variables of interest were re-categorised and saved as RDS files. One major challenge faced by the developers was to ensure the consistency of variables over the  years. For example, a student's mother's highest level of education was never recorded in 2000, but it was categorised as "ST11R01" between 2003 and 2012 and "ST005Q01TA" between 2015 and 2018. Such a problem was tackled manually by curating these values as an integer variable named "mother_educ" in the output data. These final RDS file for each PISA year were then thoroughly vetted and made available in a separate [GitHub repository](https://github.com/kevinwang09/learningtower_masonry).
 
 # What is`learningtower`?
 
@@ -88,34 +88,32 @@ The `learningtower` package primarily comprised of three datasets: `student`, `s
 
 # Example Analysis
 
-In this section we will illustrate how the `learningtower` package can be utilized to answer some research questions by applying various methodologies and statistical computations on the learningtower datasets.
+In this section we will illustrate how the `learningtower` package can be utilized to answer some research questions by applying various methodologies and statistical computations on the `learningtower` dataset.
 
 # Gender Analysis
 
-
+We will use only the 2018 data here for illustrative purpose. We will begin first by constructing a `data.frame` that records the (weighted) average maths score for each country/region, grouped by gender. We will also calculate the difference between the two averages by gender. 
 
 ```{r gendergap, fig.height = 14, fig.width = 6, fig.align = "center"}
 student_2018 <- load_student("2018")
-data(countrycode)
+data(countrycode, package = "learningtower")
 
 student_country <- left_join(student_2018, countrycode, by = "country")
 
-
-#removing na values
+# removing NA's
 math_pisa_2018_data <- student_country %>% 
-  filter(!is.na(gender)) %>% 
-  filter(!is.na(math)) %>% 
-  filter(!is.na(stu_wgt)) 
+  filter(!is.na(gender), !is.na(math), !is.na(stu_wgt)) 
 
-#avg math scores and diff 
+# avg math scores and diff 
 math_diff_df <- math_pisa_2018_data %>%
-group_by(gender, country_name) %>%
-summarise(avg = weighted.mean(math, stu_wgt)) %>%
-ungroup() %>%
-pivot_wider(country_name, names_from = gender,
-values_from = avg) %>%
-mutate(diff = female - male,
-country_name = fct_reorder(country_name, diff))
+  group_by(gender, country_name) %>%
+  summarise(avg = weighted.mean(math, stu_wgt)) %>%
+  ungroup() %>%
+  pivot_wider(country_name, 
+              names_from = "gender",
+              values_from = "avg") %>%
+  mutate(diff = female - male,
+         country_name = fct_reorder(country_name, diff))
 
 # Check if plot can be made
 # ggplot(math_diff_df, aes(x = diff, y = country_name)) +
@@ -124,51 +122,51 @@ country_name = fct_reorder(country_name, diff))
 # labs(y = "Country",
 # x = "Difference in mean PV1 (girl - boy)") +
 # theme_bw(base_size = 14)
+```
 
-
-#Bootstrap using R: Part 1
+```{r}
+# Bootstrap using R: Part 1
 set.seed(2020) # for reproducibility
-boot_sample1_math <- math_pisa_2018_data %>%
-group_by(country_name, gender) %>%
-sample_n(size = n(), replace = TRUE)
+# boot_sample1_math <- math_pisa_2018_data %>%
+#   group_by(country_name, gender) %>%
+#   sample_n(size = n(), replace = TRUE)
+# 
+# boot_sample1_df_math <- boot_sample1_math %>%
+#   summarise(avg = weighted.mean(math, stu_wgt)) %>%
+#   ungroup() %>%
+#   pivot_wider(country_name, names_from = gender, values_from = avg) %>%
+#   mutate(diff = female - male, country_name = fct_reorder(country_name, diff))
 
-boot_sample1_df_math <- boot_sample1_math %>%
-summarise(avg = weighted.mean(math, stu_wgt)) %>%
-ungroup() %>%
-pivot_wider(country_name, names_from = gender, values_from = avg) %>%
-mutate(diff = female - male, country_name = fct_reorder(country_name, diff))
-
-#Bootstrap using R: Part 2
+# Bootstrap using R: Part 2
 boot_ests_math <- map_dfr(1:100, ~{
-math_pisa_2018_data %>%
-group_by(country_name, gender) %>%
-sample_n(size = n(), replace = TRUE) %>%
-summarise(avg = weighted.mean(math, stu_wgt)) %>%
-ungroup() %>%
-pivot_wider(country_name, names_from = gender, values_from = avg) %>%
-mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
-mutate(boot_id = .x)
+  math_pisa_2018_data %>%
+    group_by(country_name, gender) %>%
+    sample_n(size = n(), replace = TRUE) %>%
+    summarise(avg = weighted.mean(math, stu_wgt), .groups = "drop") %>%
+    pivot_wider(country_name, names_from = gender, values_from = avg) %>%
+    mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
+    mutate(boot_id = .x)
 })
 
-#Bootstrap using R: Part 3
+# Bootstrap using R: Part 3
 math_diff_conf_intervals <- boot_ests_math %>%
-group_by(country_name) %>%
-summarise(lower = sort(diff)[5],
-upper = sort(diff)[95])%>%
-left_join(math_diff_df, by = "country_name") %>%
-mutate(country_name = fct_reorder(country_name, diff))
+  group_by(country_name) %>%
+  summarise(lower = sort(diff)[5],
+            upper = sort(diff)[95])%>%
+  left_join(math_diff_df, by = "country_name") %>%
+  mutate(country_name = fct_reorder(country_name, diff))
 
 
 math_plot <- ggplot(math_diff_conf_intervals, 
                     aes(diff, country_name)) +
-geom_point() +
-geom_errorbar(aes(
-xmin = lower,
-xmax = upper)) +
-geom_vline(xintercept = 0, color = "red") +
-labs(y = "",
-x = "Diff in female - male in maths scores") +
-theme_bw(base_size = 14)
+  geom_point() +
+  geom_errorbar(aes(
+    xmin = lower,
+    xmax = upper)) +
+  geom_vline(xintercept = 0, color = "red") +
+  labs(y = "",
+       x = "Diff in female - male in maths scores") +
+  theme_bw(base_size = 14)
 ```
 
 ```{r}
@@ -331,22 +329,22 @@ math_plot + read_plot + sci_plot
 
 # Testing
 
-Figure `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(fig:penguins-plotly)', '\\@ref(fig:penguins-ggplot)'))` shows an `r ifelse(knitr::is_html_output(), 'interactive', '')` plot of the \CRANpkg{palmerpenguins} data [@palmerpenguins], made using the `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\CRANpkg{plotly}', '\\CRANpkg{ggplot2}'))` package. This data features three penguin species which has a lovely illustration by Alison Horst in Figure \@ref(fig:penguins-alison).
+<!-- Figure `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(fig:penguins-plotly)', '\\@ref(fig:penguins-ggplot)'))` shows an `r ifelse(knitr::is_html_output(), 'interactive', '')` plot of the \CRANpkg{palmerpenguins} data [@palmerpenguins], made using the `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\CRANpkg{plotly}', '\\CRANpkg{ggplot2}'))` package. This data features three penguin species which has a lovely illustration by Alison Horst in Figure \@ref(fig:penguins-alison). -->
 
-```{r penguins-plotly, echo = TRUE, fig.height = 5, fig.cap="A basic interactive plot made with the plotly package on palmer penguin data. Three species of penguins are plotted with bill depth on the x-axis and bill length on the y-axis. When hovering on a point, a tooltip will show the exact value of the bill depth and length for that point, along with the species name.", include=knitr::is_html_output(), eval=knitr::is_html_output()}
-p <- penguins %>%
-  ggplot(aes(x = bill_depth_mm, y = bill_length_mm,
-             color = species)) +
-  geom_point()
-ggplotly(p)
-```
+<!-- ```{r penguins-plotly, echo = TRUE, fig.height = 5, fig.cap="A basic interactive plot made with the plotly package on palmer penguin data. Three species of penguins are plotted with bill depth on the x-axis and bill length on the y-axis. When hovering on a point, a tooltip will show the exact value of the bill depth and length for that point, along with the species name.", include=knitr::is_html_output(), eval=knitr::is_html_output()} -->
+<!-- p <- penguins %>% -->
+<!--   ggplot(aes(x = bill_depth_mm, y = bill_length_mm, -->
+<!--              color = species)) + -->
+<!--   geom_point() -->
+<!-- ggplotly(p) -->
+<!-- ``` -->
 
-```{r penguins-ggplot, echo = TRUE, fig.height = 5, fig.cap="A basic non-interactive plot made with the ggplot2 package on palmer penguin data. Three species of penguins are plotted with bill depth on the x-axis and bill length on the y-axis. Visit the online article to access the interactive version made with the plotly package.", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
-penguins %>%
-  ggplot(aes(x = bill_depth_mm, y = bill_length_mm,
-             color = species)) +
-  geom_point()
-```
+<!-- ```{r penguins-ggplot, echo = TRUE, fig.height = 5, fig.cap="A basic non-interactive plot made with the ggplot2 package on palmer penguin data. Three species of penguins are plotted with bill depth on the x-axis and bill length on the y-axis. Visit the online article to access the interactive version made with the plotly package.", include=knitr::is_latex_output(), eval=knitr::is_latex_output()} -->
+<!-- penguins %>% -->
+<!--   ggplot(aes(x = bill_depth_mm, y = bill_length_mm, -->
+<!--              color = species)) + -->
+<!--   geom_point() -->
+<!-- ``` -->
 
 @RJ-2021-050
 
