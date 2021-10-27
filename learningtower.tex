@@ -110,25 +110,24 @@ which contains all of the PISA scores from the years 2000 to 2018.
 \hypertarget{data-compilation}{%
 \section{Data Compilation}\label{data-compilation}}
 
-An intense component of disseminating this data is the process of
-acquiring and measuring information on variables of relevance for the
-development of \texttt{learningtower.} Each author was initially given a
-certain year for the PISA experiment, and they worked with the survey
-data from that year. The data was first acquired from the PISA database,
-which is open to the public and contains information on students' test
-results as well as school statistics. This data was eventually put into
-the R environment, and after some data cleaning and wrangling with the
-appropriate script, the variables of interest were subgrouped, saved,
-and exported in RDS format. Similarly, datasets were filtered from their
-raw form to a curated version for each year that PISA was administered.
-One significant issue that the developers found was ensuring the
-consistency of variables over various years. For example, a student's
-mother's highest level of education was never recorded in 2000, but it
-was categorized as ``ST11R01'' between 2003 and 2012 and ``ST005Q01TA''
-between 2015 and 2018. Such problems were tackled by manually curating
-these values as an integer variable named ``mother educ'' in the output
-data. These final RDS formats of data for each PISA year are now
-thoroughly vetted and made available in the learningtower package.
+Each developer at the ROpenSci OzUnconf was assigned to curate a
+specific year of the PISA study. Data on the participating students and
+schools were first downloaded from the PISA website, in either SPSS or
+SAS format. The data were read into an R environment with the exception
+of the year 2000 and 2003. Due to formatting issues, the data for these
+two particular years were first read using SPSS and then exported into
+compatible \texttt{.sav} files. After some data cleaning and wrangling
+with the appropriate script, the variables of interest were
+re-categorised and saved as RDS files. One major challenge faced by the
+developers was to ensure the consistency of variables over the years.
+For example, a student's mother's highest level of education was never
+recorded in 2000, but it was categorised as ``ST11R01'' between 2003 and
+2012 and ``ST005Q01TA'' between 2015 and 2018. Such a problem was
+tackled manually by curating these values as an integer variable named
+``mother\_educ'' in the output data. These final RDS file for each PISA
+year were then thoroughly vetted and made available in a separate
+\href{https://github.com/kevinwang09/learningtower_masonry}{GitHub
+repository}.
 
 \hypertarget{what-islearningtower}{%
 \section{\texorpdfstring{What
@@ -197,11 +196,21 @@ to 2025.
 
 In this section we will illustrate how the \texttt{learningtower}
 package can be utilized to answer some research questions by applying
-various methodologies and statistical computations on the learningtower
-datasets.
+various methodologies and statistical computations on the
+\texttt{learningtower} dataset.
 
 \hypertarget{gender-analysis}{%
 \section{Gender Analysis}\label{gender-analysis}}
+
+We will use only the 2018 data here for illustrative purpose. We will
+begin first by constructing a \texttt{data.frame} that records the
+(weighted) average maths score for each country/region, grouped by
+gender. We will also calculate the difference between the two averages
+by gender. In order to show the variability in the mean estimate, we
+will perform sampling with replace on the data and calculate the same
+mean difference estimate. The empirical 90\% confidence intervals are
+shown for each estimate for each country. We will repeat this process
+for reading and science test scores.
 
 Figure \ref{fig:score-differences} shows differences between mean scores
 for the three topics.
@@ -211,6 +220,8 @@ for the three topics.
 \includegraphics[width=1\linewidth]{learningtower_files/figure-latex/score-differences-1} \caption[Gender Analysis]{Gender Analysis}\label{fig:score-differences}
 \end{figure}
 \end{Schunk}
+
+Interpretations????
 
 \hypertarget{socioeconomic-factors-analysis}{%
 \section{Socioeconomic Factors
@@ -224,24 +235,6 @@ Analysis}\label{socioeconomic-factors-analysis}}
 
 \hypertarget{testing}{%
 \section{Testing}\label{testing}}
-
-Figure \ref{fig:penguins-ggplot} shows an plot of the
-\CRANpkg{palmerpenguins} data \citep{palmerpenguins}, made using the
-\CRANpkg{ggplot2} package. This data features three penguin species
-which has a lovely illustration by Alison Horst in Figure
-\ref{fig:penguins-alison}.
-
-\begin{Schunk}
-\begin{Sinput}
-penguins %>%
-  ggplot(aes(x = bill_depth_mm, y = bill_length_mm,
-             color = species)) +
-  geom_point()
-\end{Sinput}
-\begin{figure}
-\includegraphics{learningtower_files/figure-latex/penguins-ggplot-1} \caption[A basic non-interactive plot made with the ggplot2 package on palmer penguin data]{A basic non-interactive plot made with the ggplot2 package on palmer penguin data. Three species of penguins are plotted with bill depth on the x-axis and bill length on the y-axis. Visit the online article to access the interactive version made with the plotly package.}\label{fig:penguins-ggplot}
-\end{figure}
-\end{Schunk}
 
 \citet{RJ-2021-050}
 
