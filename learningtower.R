@@ -17,6 +17,7 @@ library(dplyr)
 library(patchwork)
 library(viridis)
 library(plotly)
+library(ggplot2)
 
 
 ## ----gendergap, fig.height = 14, fig.width = 6, fig.align = "center", fig.pos="H"----
@@ -32,6 +33,7 @@ math_pisa_2018_data <- student_country %>%
   filter(!is.na(gender)) %>% 
   filter(!is.na(math)) %>% 
   filter(!is.na(stu_wgt)) 
+
 
 #avg math scores and diff 
 math_diff_df <- math_pisa_2018_data %>%
@@ -330,7 +332,6 @@ read_map_plot <- ggplot(read_world_data,
                   theme_map() +
                   labs(title = "World Map displaying Reading Scores Difference") +
                   scale_fill_viridis(option = "C")
-                  
 
 
 ## -----------------------------------------------------------------------------
@@ -372,12 +373,12 @@ sci_map_plot <- ggplot(sci_world_data,
                   scale_fill_viridis(option = "G")
 
 
-## ----plotly_maps, fig.cap="Plotly Maps", fig.pos="H", fig.height=6, fig.width=12, include=knitr::is_html_output(), eval=knitr::is_html_output()----
+## ----plotly_maps, fig.cap="Plotly Maps", fig.pos="H", fig.height=4, fig.width=12, include=knitr::is_html_output(), eval=knitr::is_html_output()----
 #> ggplotly(math_map_plot)
 #> ggplotly(read_map_plot)
 #> ggplotly(sci_map_plot)
 
 
-## ----ggplot_maps, fig.cap="Maps", fig.height=6, fig.pos="H", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
+## ----ggplot-maps, fig.cap="Maps", fig.height=9, fig.pos="H", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
 math_map_plot/read_map_plot/sci_map_plot
 
