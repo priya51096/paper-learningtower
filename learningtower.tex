@@ -197,20 +197,52 @@ to 2025.
 
 In this section we will illustrate how the \texttt{learningtower}
 package can be utilized to answer some research questions by applying
-various methodologies and statistical computations on the learningtower
-datasets.
+various methodologies and statistical computations on the
+\texttt{learningtower} datasets.
 
 \hypertarget{gender-analysis}{%
 \section{Gender Analysis}\label{gender-analysis}}
 
-Figure \ref{fig:score-differences} shows differences between mean scores
-for the three topics.
+Write everything about the research question one
+
+\hypertarget{math-plot}{%
+\subsection{Math Plot}\label{math-plot}}
+
+\hypertarget{read-plot}{%
+\subsection{Read Plot}\label{read-plot}}
+
+\hypertarget{sci-plot}{%
+\subsection{Sci Plot}\label{sci-plot}}
 
 \begin{Schunk}
-\begin{figure}
+\begin{figure}[H]
 \includegraphics[width=1\linewidth]{learningtower_files/figure-latex/score-differences-1} \caption[Gender Analysis]{Gender Analysis}\label{fig:score-differences}
 \end{figure}
 \end{Schunk}
+
+Figure \ref{fig:score-differences} shows differences between mean scores
+for the three topics.
+
+\hypertarget{math-maps}{%
+\subsection{Math Maps}\label{math-maps}}
+
+\hypertarget{read-maps}{%
+\subsection{Read Maps}\label{read-maps}}
+
+\hypertarget{science-maps}{%
+\subsection{Science Maps}\label{science-maps}}
+
+Figure @ref(fig:plotly\_maps) shows differences between mean scores for
+the three topics.
+
+\begin{Schunk}
+\begin{figure}[H]
+\includegraphics{learningtower_files/figure-latex/ggplot_maps-1} \caption[Maps]{Maps}\label{fig:ggplot_maps}
+\end{figure}
+\end{Schunk}
+
+Figure @ref(fig:ggplot\_maps) shows differences between mean scores for
+the three topics.
 
 \hypertarget{socioeconomic-factors-analysis}{%
 \section{Socioeconomic Factors
@@ -218,35 +250,6 @@ Analysis}\label{socioeconomic-factors-analysis}}
 
 \hypertarget{temoral-trend-australia}{%
 \section{Temoral Trend Australia}\label{temoral-trend-australia}}
-
-\hypertarget{discussion}{%
-\section{Discussion}\label{discussion}}
-
-\hypertarget{testing}{%
-\section{Testing}\label{testing}}
-
-Figure \ref{fig:penguins-ggplot} shows an plot of the
-\CRANpkg{palmerpenguins} data \citep{palmerpenguins}, made using the
-\CRANpkg{ggplot2} package. This data features three penguin species
-which has a lovely illustration by Alison Horst in Figure
-\ref{fig:penguins-alison}.
-
-\begin{Schunk}
-\begin{Sinput}
-penguins %>%
-  ggplot(aes(x = bill_depth_mm, y = bill_length_mm,
-             color = species)) +
-  geom_point()
-\end{Sinput}
-\begin{figure}
-\includegraphics{learningtower_files/figure-latex/penguins-ggplot-1} \caption[A basic non-interactive plot made with the ggplot2 package on palmer penguin data]{A basic non-interactive plot made with the ggplot2 package on palmer penguin data. Three species of penguins are plotted with bill depth on the x-axis and bill length on the y-axis. Visit the online article to access the interactive version made with the plotly package.}\label{fig:penguins-ggplot}
-\end{figure}
-\end{Schunk}
-
-\citet{RJ-2021-050}
-
-We have displayed various tooltips that are available in the package
-\pkg{ToOoOlTiPs}.
 
 \bibliography{learningtower.bib}
 

@@ -5,7 +5,7 @@
 knitr::opts_chunk$set(echo = FALSE, 
                       warning = FALSE, 
                       message = FALSE, 
-                      error = TRUE)
+                      error = FALSE)
 
 
 ## ----loadlibraries------------------------------------------------------------
@@ -14,14 +14,13 @@ library(learningtower)
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
-
-
+library(patchwork)
+library(viridis)
 library(plotly)
-library(ggplot2)
-library(palmerpenguins)
 
 
-## ----gendergap, fig.height = 14, fig.width = 6, fig.align = "center"----------
+## ----gendergap, fig.height = 14, fig.width = 6, fig.align = "center", fig.pos="H"----
+
 student_2018 <- load_student("2018")
 data(countrycode)
 
@@ -44,13 +43,6 @@ values_from = avg) %>%
 mutate(diff = female - male,
 country_name = fct_reorder(country_name, diff))
 
-# Check if plot can be made
-# ggplot(math_diff_df, aes(x = diff, y = country_name)) +
-# geom_point() +
-# geom_vline(xintercept = 0, color = "red") +
-# labs(y = "Country",
-# x = "Difference in mean PV1 (girl - boy)") +
-# theme_bw(base_size = 14)
 
 
 #Bootstrap using R: Part 1
@@ -83,19 +75,22 @@ group_by(country_name) %>%
 summarise(lower = sort(diff)[5],
 upper = sort(diff)[95])%>%
 left_join(math_diff_df, by = "country_name") %>%
-mutate(country_name = fct_reorder(country_name, diff))
+mutate(country_name = fct_reorder(country_name, diff)) %>% 
+mutate(score_class = ifelse(diff < 0, 'red', 'blue'))
 
 
 math_plot <- ggplot(math_diff_conf_intervals, 
-                    aes(diff, country_name)) +
+                    aes(diff, country_name, 
+                        col = score_class)) +
 geom_point() +
 geom_errorbar(aes(
 xmin = lower,
 xmax = upper)) +
 geom_vline(xintercept = 0, color = "red") +
 labs(y = "",
-x = "Diff in female - male in maths scores") +
-theme_bw(base_size = 14)
+x = "Maths Scores Girls - Boys", 
+title = "Maths") +
+ theme(legend.position="none")
 
 
 ## -----------------------------------------------------------------------------
@@ -115,13 +110,7 @@ values_from = avg) %>%
 mutate(diff = female - male,
 country_name = fct_reorder(country_name, diff))
 
-# Check if plot can be made
-# ggplot(math_diff_df, aes(x = diff, y = country_name)) +
-# geom_point() +
-# geom_vline(xintercept = 0, color = "red") +
-# labs(y = "Country",
-# x = "Difference in mean PV1 (girl - boy)") +
-# theme_bw(base_size = 14)
+
 
 
 #Bootstrap using R: Part 1
@@ -154,19 +143,22 @@ group_by(country_name) %>%
 summarise(lower = sort(diff)[5],
 upper = sort(diff)[95])%>%
 left_join(read_diff_df, by = "country_name") %>%
-mutate(country_name = fct_reorder(country_name, diff))
+mutate(country_name = fct_reorder(country_name, diff)) %>% 
+mutate(score_class = ifelse(diff < 0, 'red', 'blue'))
 
 
 read_plot <- ggplot(read_diff_conf_intervals, 
-                    aes(diff, country_name)) +
+                    aes(diff, country_name, 
+                        col = score_class)) +
 geom_point() +
 geom_errorbar(aes(
 xmin = lower,
 xmax = upper)) +
 geom_vline(xintercept = 0, color = "red") +
 labs(y = "",
-x = "Diff in female - male in reading scores") +
-theme_bw(base_size = 14)
+x = "Reading Scores Girls - Boys", 
+title = "Reading") +
+ theme(legend.position="none")
 
 
 ## -----------------------------------------------------------------------------
@@ -186,13 +178,7 @@ values_from = avg) %>%
 mutate(diff = female - male,
 country_name = fct_reorder(country_name, diff))
 
-# Check if plot can be made
-# ggplot(math_diff_df, aes(x = diff, y = country_name)) +
-# geom_point() +
-# geom_vline(xintercept = 0, color = "red") +
-# labs(y = "Country",
-# x = "Difference in mean PV1 (girl - boy)") +
-# theme_bw(base_size = 14)
+
 
 
 #Bootstrap using R: Part 1
@@ -225,37 +211,173 @@ group_by(country_name) %>%
 summarise(lower = sort(diff)[5],
 upper = sort(diff)[95])%>%
 left_join(sci_diff_df, by = "country_name") %>%
-mutate(country_name = fct_reorder(country_name, diff))
+mutate(country_name = fct_reorder(country_name, diff))%>% 
+mutate(score_class = ifelse(diff < 0, 'red', 'blue'))
 
 
 sci_plot <- ggplot(sci_diff_conf_intervals, 
-                    aes(diff, country_name)) +
+                    aes(diff, country_name, 
+                        col = score_class)) +
 geom_point() +
 geom_errorbar(aes(
 xmin = lower,
 xmax = upper)) +
 geom_vline(xintercept = 0, color = "red") +
 labs(y = "",
-x = "Diff in female - male in science scores") +
-theme_bw(base_size = 14)
+x = "Science Scores Girls - Boys", 
+title = "Science") +
+ theme(legend.position="none")
 
 
-## ----score-differences, fig.cap ="Gender Analysis", fig.width=12, fig.height=12, out.width="100%", layout = "l-body"----
-library(patchwork)
+## ----score-differences, fig.cap ="Gender Analysis", fig.width=12, fig.height=16, fig.pos = "H", out.width="100%", layout="l-body"----
 math_plot + read_plot + sci_plot
 
 
-## ----penguins-plotly, echo = TRUE, fig.height = 5, fig.cap="A basic interactive plot made with the plotly package on palmer penguin data. Three species of penguins are plotted with bill depth on the x-axis and bill length on the y-axis. When hovering on a point, a tooltip will show the exact value of the bill depth and length for that point, along with the species name.", include=knitr::is_html_output(), eval=knitr::is_html_output()----
-#> p <- penguins %>%
-#>   ggplot(aes(x = bill_depth_mm, y = bill_length_mm,
-#>              color = species)) +
-#>   geom_point()
-#> ggplotly(p)
+## -----------------------------------------------------------------------------
+theme_map <- function(...) {
+  theme_minimal() +
+  theme(
+    text = element_text(),
+    axis.line = element_blank(),
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    panel.border = element_blank(),
+    ...
+  )
+}
 
 
-## ----penguins-ggplot, echo = TRUE, fig.height = 5, fig.cap="A basic non-interactive plot made with the ggplot2 package on palmer penguin data. Three species of penguins are plotted with bill depth on the x-axis and bill length on the y-axis. Visit the online article to access the interactive version made with the plotly package.", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
-penguins %>%
-  ggplot(aes(x = bill_depth_mm, y = bill_length_mm,
-             color = species)) +
-  geom_point()
+## -----------------------------------------------------------------------------
+math_map_data <- math_diff_conf_intervals %>% 
+  dplyr::mutate(country_name = case_when(
+                country_name == "Brunei Darussalam" ~ "Brunei",
+                country_name == "United Kingdom" ~ "UK",
+                country_name %in% c("Macau SAR China", "B-S-J-Z (China)", 
+                                    "Hong Kong SAR China") ~ "China",
+                country_name == "Korea" ~ "South Korea",
+                country_name == "North Macedonia" ~ "Macedonia",
+                country_name == "Baku (Azerbaijan)" ~ "Baku",
+                country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
+                "Russian Federation") ~ "Russia",
+                country_name == "Slovak Republic" ~ "Slovakia",
+                country_name == "Chinese Taipei" ~ "Taiwan",
+                country_name == "United States" ~ "USA",
+                TRUE ~ as.character(country_name)))
+
+world_map <- map_data("world") %>% 
+  filter(region != "Antarctica") %>% 
+  fortify() %>% 
+  rename(country_name = region)
+
+math_world_data <- full_join(math_map_data,
+                        world_map,
+                        by = "country_name") 
+
+math_world_data <- math_world_data %>% 
+  rename(Country = country_name, 
+         `Maths Scores Girls - Boys` = diff)
+
+
+math_map_plot <- ggplot(math_world_data, 
+                        aes(x = long, y = lat, group = group)) +
+                  geom_polygon(aes(fill= `Maths Scores Girls - Boys`, 
+                                   label = Country)) +
+                  theme_map() +
+                  labs(title = "World Map displaying Maths Scores Difference") +
+                  scale_fill_viridis(option = "D")
+
+
+## -----------------------------------------------------------------------------
+# Maps in R - Reading Maps
+read_map_data <- read_diff_conf_intervals %>% 
+  dplyr::mutate(country_name = case_when(
+                country_name == "Brunei Darussalam" ~ "Brunei",
+                country_name == "United Kingdom" ~ "UK",
+                country_name %in% c("Macau SAR China", "B-S-J-Z (China)", 
+                                    "Hong Kong SAR China") ~ "China",
+                country_name == "Korea" ~ "South Korea",
+                country_name == "North Macedonia" ~ "Macedonia",
+                country_name == "Baku (Azerbaijan)" ~ "Baku",
+                country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
+                "Russian Federation") ~ "Russia",
+                country_name == "Slovak Republic" ~ "Slovakia",
+                country_name == "Chinese Taipei" ~ "Taiwan",
+                country_name == "United States" ~ "USA",
+                TRUE ~ as.character(country_name)))
+
+world_map <- map_data("world") %>% 
+  filter(region != "Antarctica") %>% 
+  fortify() %>% 
+  rename(country_name = region)
+
+read_world_data <- full_join(read_map_data,
+                        world_map,
+                        by = "country_name") 
+
+read_world_data <- read_world_data %>% 
+  rename(Country = country_name, 
+         `Reading Scores Girls - Boys` = diff)
+
+
+
+read_map_plot <- ggplot(read_world_data, 
+                        aes(x = long, y = lat, group = group)) +
+                  geom_polygon(aes(fill= `Reading Scores Girls - Boys`, 
+                                   label = Country)) +
+                  theme_map() +
+                  labs(title = "World Map displaying Reading Scores Difference") +
+                  scale_fill_viridis(option = "C")
+                  
+
+
+## -----------------------------------------------------------------------------
+sci_map_data <- sci_diff_conf_intervals %>% 
+  dplyr::mutate(country_name = case_when(
+                country_name == "Brunei Darussalam" ~ "Brunei",
+                country_name == "United Kingdom" ~ "UK",
+                country_name %in% c("Macau SAR China", "B-S-J-Z (China)", 
+                                    "Hong Kong SAR China") ~ "China",
+                country_name == "Korea" ~ "South Korea",
+                country_name == "North Macedonia" ~ "Macedonia",
+                country_name == "Baku (Azerbaijan)" ~ "Baku",
+                country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
+                "Russian Federation") ~ "Russia",
+                country_name == "Slovak Republic" ~ "Slovakia",
+                country_name == "Chinese Taipei" ~ "Taiwan",
+                country_name == "United States" ~ "USA",
+                TRUE ~ as.character(country_name)))
+
+world_map <- map_data("world") %>% 
+  filter(region != "Antarctica") %>% 
+  fortify() %>% 
+  rename(country_name = region)
+
+sci_world_data <- full_join(sci_map_data,
+                        world_map,
+                        by = "country_name") 
+
+sci_world_data <- sci_world_data %>% 
+  rename(Country = country_name, 
+         `Science Scores Girls - Boys` = diff)
+
+sci_map_plot <- ggplot(sci_world_data, 
+                        aes(x = long, y = lat, group = group)) +
+                  geom_polygon(aes(fill= `Science Scores Girls - Boys`, 
+                                   label = Country)) +
+                  theme_map() +
+                  labs(title = "World Map displaying Science Scores Difference") +
+                  scale_fill_viridis(option = "G")
+
+
+## ----plotly_maps, fig.cap="Plotly Maps", fig.pos="H", fig.height=6, fig.width=12, include=knitr::is_html_output(), eval=knitr::is_html_output()----
+#> ggplotly(math_map_plot)
+#> ggplotly(read_map_plot)
+#> ggplotly(sci_map_plot)
+
+
+## ----ggplot_maps, fig.cap="Maps", fig.height=6, fig.pos="H", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
+math_map_plot/read_map_plot/sci_map_plot
 
