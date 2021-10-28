@@ -645,8 +645,190 @@ Figure \@ref(fig:qual-plot)
 
 ## TV Plots
 
+```{r}
+tv_math_data <- student_country_data %>% 
+  group_by(country_name, television) %>% 
+  dplyr::summarise(math_avg = weighted.mean(math, 
+                                            w = stu_wgt, 
+                                            na.rm = TRUE)) %>% 
+  dplyr::mutate(country_name = case_when(
+                country_name == "Brunei Darussalam" ~ "Brunei",
+                country_name == "United Kingdom" ~ "UK",
+                country_name %in% c("Macau SAR China", "B-S-J-Z (China)", 
+                                    "Hong Kong SAR China") ~ "China",
+                country_name == "Korea" ~ "South Korea",
+                country_name == "North Macedonia" ~ "Macedonia",
+                country_name == "Baku (Azerbaijan)" ~ "Baku",
+                country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
+                "Russian Federation") ~ "Russia",
+                country_name == "Slovak Republic" ~ "Slovakia",
+                country_name == "Chinese Taipei" ~ "Taiwan",
+                country_name == "United States" ~ "USA",
+                TRUE ~ as.character(country_name))) %>%
+dplyr::mutate(television = recode_factor(television,
+                 "0" = "No TV",
+                 "1" = "Only 1 TVs",
+                 "2" = "Only 2 Tvs",
+                 "3+" = "More than 2 TVs", 
+                .ordered = TRUE)) %>%
+  na.omit() %>% 
+  dplyr::select(television, 
+                math_avg)
+
+linear_model <- function(y, x){
+  coef(lm(y ~ x))[2]
+}
+
+tv_plot <- tv_math_data %>%
+  group_by(country_name) %>%
+  mutate(slope = linear_model(math_avg, television)) %>%
+  ungroup() %>%
+  mutate(country_name = fct_reorder(country_name, slope)) %>%
+  ggplot(aes(x=television, y=math_avg)) + geom_point() + 
+  geom_line(aes(group = country_name)) +
+  facet_wrap(~country_name, ncol = 7) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+```{r tv-plot, fig.cap ="TV Plot", fig.height=21, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"}
+tv_plot
+```
 
 
+Figure \@ref(fig:tv-plot)
+
+## Book Plot
+
+```{r}
+book_math_read_sci_data <- student_country_data %>% 
+  group_by(country_name, book) %>% 
+  dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE), 
+                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE), 
+                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>% 
+  dplyr::mutate(country_name = case_when(
+                country_name == "Brunei Darussalam" ~ "Brunei",
+                country_name == "United Kingdom" ~ "UK",
+                country_name %in% c("Macau SAR China", "B-S-J-Z (China)", 
+                                    "Hong Kong SAR China") ~ "China",
+                country_name == "Korea" ~ "South Korea",
+                country_name == "North Macedonia" ~ "Macedonia",
+                country_name == "Baku (Azerbaijan)" ~ "Baku",
+                country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
+                "Russian Federation") ~ "Russia",
+                country_name == "Slovak Republic" ~ "Slovakia",
+                country_name == "Chinese Taipei" ~ "Taiwan",
+                country_name == "United States" ~ "USA",
+                TRUE ~ as.character(country_name))) %>% 
+  dplyr::mutate(book = recode_factor(book, 
+                                     "0-10" = "0-10",
+                                     "11-25" = "11-25", 
+                                     "26-100" = "26-100",
+                                     "101-200" = "101-200",
+                                     "201-500" = "201-500",
+                                     "more than 500" = "500+",
+                                     .ordered = TRUE)) %>% 
+  na.omit() %>% 
+  rename(Number_of_Books = book) %>% 
+  dplyr::select(Number_of_Books, math_avg, read_avg, sci_avg)
+
+linear_model <- function(y, x){
+  coef(lm(y ~ x))[2]
+}
+
+
+book_plot <- book_math_read_sci_data %>%
+  group_by(country_name) %>%
+  mutate(slope = linear_model(math_avg, Number_of_Books)) %>%
+  ungroup() %>%
+  mutate(country_name = fct_reorder(country_name, slope)) %>%
+  ggplot(aes(x=Number_of_Books, y=math_avg)) + geom_point() + 
+  geom_line(aes(group = country_name)) +
+  facet_wrap(~country_name, ncol = 5) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+
+```{r book-plot, fig.cap ="Book Plot", fig.height=21, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"}
+book_plot
+```
+
+Figure \@ref(fig:book-plot)
+
+## Internet and Computer Plot
+
+```{r}
+int_math_read_sci_data <- student_country_data %>% 
+  group_by(country_name, internet) %>% 
+  dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE), 
+                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE), 
+                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>% 
+  dplyr::mutate(country_name = case_when(
+                country_name == "Brunei Darussalam" ~ "Brunei",
+                country_name == "United Kingdom" ~ "UK",
+                country_name %in% c("Macau SAR China", "B-S-J-Z (China)", 
+                                    "Hong Kong SAR China") ~ "China",
+                country_name == "Korea" ~ "South Korea",
+                country_name == "North Macedonia" ~ "Macedonia",
+                country_name == "Baku (Azerbaijan)" ~ "Baku",
+                country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
+                "Russian Federation") ~ "Russia",
+                country_name == "Slovak Republic" ~ "Slovakia",
+                country_name == "Chinese Taipei" ~ "Taiwan",
+                country_name == "United States" ~ "USA",
+                TRUE ~ as.character(country_name))) %>% 
+  na.omit() 
+
+comp_math_read_sci_data <- student_country_data %>% 
+  group_by(country_name, computer) %>% 
+  dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE), 
+                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE), 
+                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>% 
+  dplyr::mutate(country_name = case_when(
+                country_name == "Brunei Darussalam" ~ "Brunei",
+                country_name == "United Kingdom" ~ "UK",
+                country_name %in% c("Macau SAR China", "B-S-J-Z (China)", 
+                                    "Hong Kong SAR China") ~ "China",
+                country_name == "Korea" ~ "South Korea",
+                country_name == "North Macedonia" ~ "Macedonia",
+                country_name == "Baku (Azerbaijan)" ~ "Baku",
+                country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
+                "Russian Federation") ~ "Russia",
+                country_name == "Slovak Republic" ~ "Slovakia",
+                country_name == "Chinese Taipei" ~ "Taiwan",
+                country_name == "United States" ~ "USA",
+                TRUE ~ as.character(country_name))) %>% 
+  na.omit() 
+
+
+computer_plot <- comp_math_read_sci_data %>%
+  ggplot(aes(x=computer, 
+             y= math_avg, 
+             group = country_name)) +
+    geom_point(color = "black",
+               size=0.36) +
+    geom_line(size = .27, 
+              alpha = .45) +
+    theme(legend.position = "none") 
+
+
+internet_plot <- int_math_read_sci_data %>%
+  ggplot(aes(x=internet, 
+             y= math_avg, 
+             group = country_name )) +
+    geom_point(color = "black",
+               size=0.36) +
+    geom_line(size = .27, 
+              alpha = .45) +
+    theme(legend.position = "none") 
+```
+
+
+
+```{r compint-plot, fig.cap ="Qualification Plots",  fig.pos = "H", out.width="100%", layout="l-body"}
+computer_plot + internet_plot
+```
+
+Figure \@ref(fig:compint-plot)
 
 # Temoral Trend Australia 
 
