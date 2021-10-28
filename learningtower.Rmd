@@ -55,6 +55,8 @@ library(patchwork)
 library(viridis)
 library(plotly)
 library(ggplot2)
+library(ggbeeswarm)
+library(brolgar)
 ```
 
 # Introduction
@@ -468,8 +470,7 @@ sci_map_plot <- ggplot(sci_world_data,
 ```
 
 
-
-```{r plotly_maps, fig.cap="Plotly Maps", fig.pos="H", fig.height=4, fig.width=12, include=knitr::is_html_output(), eval=knitr::is_html_output()}
+```{r plotly-maps, fig.cap="Plotly Maps", fig.pos="H", fig.height=4, fig.width=12, out.width="100%", layout="l-body", include=knitr::is_html_output(), eval=knitr::is_html_output()}
 ggplotly(math_map_plot)
 ggplotly(read_map_plot)
 ggplotly(sci_map_plot)
@@ -477,17 +478,175 @@ ggplotly(sci_map_plot)
 
 
 
-Figure \@ref(fig:plotly_maps)  
-
-```{r ggplot-maps, fig.cap="Maps", fig.height=9, fig.pos="H", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
+```{r ggplot-maps, fig.cap="Maps", fig.height=9, fig.pos="H", out.width="100%", layout="l-body", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
 math_map_plot/read_map_plot/sci_map_plot
+```
+
+Figure `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(fig:plotly_maps)', '\\@ref(fig:ggplot-maps)'))` 
+
+# Socioeconomic Factors Analysis 
+
+## Corr plot
+
+```{r}
+p1 <- ggplot(data = student_country, 
+             aes(x = math, y = read)) +
+  geom_hex() + 
+  labs(x = "Math Scores", 
+       y = "Reading Scores") +
+  theme_bw()
+
+p2 <- ggplot(data = student_country, 
+             aes(x = math, y = science)) +
+  geom_hex() + 
+  labs(x = "Math Scores", 
+       y = "Science Scores") +
+  theme_bw()
+
+p3 <- ggplot(data = student_country, 
+             aes(x = read, y = science)) +
+  geom_hex() + 
+  labs(x = "Reading Scores", 
+       y = "Science Scores") +
+  theme_bw()
+```
+
+```{r corr-plot, fig.cap ="Correlation Plot", fig.width=9, fig.pos = "H", out.width="100%", layout="l-body"}
+p1+p2+p3
 ```
 
 
 
-Figure \@ref(fig:ggplot-maps) 
+Figure \@ref(fig:corr-plot)
 
-# Socioeconomic Factors Analysis 
+## Qual Plot
+
+```{r}
+student_country_data <- left_join(student_2018,
+                                  countrycode,
+                                  by = "country")
+
+
+father_qual_math_read_sci_data <- student_country_data %>%
+  group_by(country_name, father_educ) %>%
+  dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
+                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
+                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>%
+  dplyr::mutate(country_name = case_when(
+                country_name == "Brunei Darussalam" ~ "Brunei",
+                country_name == "United Kingdom" ~ "UK",
+                country_name %in% c("Macau SAR China", "B-S-J-Z (China)",
+                                    "Hong Kong SAR China") ~ "China",
+                country_name == "Korea" ~ "South Korea",
+                country_name == "North Macedonia" ~ "Macedonia",
+                country_name == "Baku (Azerbaijan)" ~ "Baku",
+                country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
+                "Russian Federation") ~ "Russia",
+                country_name == "Slovak Republic" ~ "Slovakia",
+                country_name == "Chinese Taipei" ~ "Taiwan",
+                country_name == "United States" ~ "USA",
+                TRUE ~ as.character(country_name))) %>%
+dplyr::mutate(father_educ = recode_factor(father_educ,
+                "less than ISCED1" = "Early Childhood",
+                "ISCED 1" = "Primary",
+                "ISCED 2" = "Lower Secondary",
+                "ISCED 3A" = "Upper Secondary",
+                "ISCED 3B, C" = "Upper Secondary",
+                .ordered = TRUE)) %>%
+  na.omit() %>%
+  rename(`Father's Education` = father_educ) 
+
+
+
+
+mother_qual_math_read_sci_data <- student_country_data %>%
+  group_by(country_name, mother_educ) %>%
+  dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
+                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
+                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>%
+dplyr::mutate(country_name = case_when(
+              country_name == "Brunei Darussalam" ~ "Brunei",
+              country_name == "United Kingdom" ~ "UK",
+              country_name %in% c("Macau SAR China", "B-S-J-Z (China)",
+                                  "Hong Kong SAR China") ~ "China",
+              country_name == "Korea" ~ "South Korea",
+              country_name == "North Macedonia" ~ "Macedonia",
+              country_name == "Baku (Azerbaijan)" ~ "Baku",
+              country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
+              "Russian Federation") ~ "Russia",
+              country_name == "Slovak Republic" ~ "Slovakia",
+              country_name == "Chinese Taipei" ~ "Taiwan",
+              country_name == "United States" ~ "USA",
+              TRUE ~ as.character(country_name))) %>%
+dplyr::mutate(mother_educ = recode_factor(mother_educ,
+                "less than ISCED1" = "Early Childhood",
+                "ISCED 1" = "Primary",
+                "ISCED 2" = "Lower Secondary",
+                "ISCED 3A" = "Upper Secondary",
+                "ISCED 3B, C" = "Upper Secondary",
+                .ordered = TRUE)) %>%
+  na.omit() %>%
+  rename(`Mother's Education` = mother_educ)
+
+
+father_qual_math <- ggplot(mother_qual_math_read_sci_data, 
+       aes(x=`Mother's Education`,
+           y=math_avg,
+           col=`Mother's Education`)) +
+  geom_quasirandom(size = 1.7, 
+             cex = 3) +
+  geom_line(aes(group = country_name), 
+            size=0.5, alpha=.36) +
+  scale_fill_viridis(discrete = TRUE,
+                     option = "A",
+                      alpha=0.2) +
+    stat_summary(fun.y = median, 
+                 fun.ymin = median, 
+                 fun.ymax = median,
+                 geom = "crossbar", 
+                 width = 0.5, 
+                 col = "black") +
+  theme(legend.position="none",
+      plot.title = element_text(size=11)) +
+    labs(y = "Average Mathematics Score",
+         x = "Mother's Qualification",
+         title = "Maths Scores and Mother's Qualification")
+
+mother_qual_math <- ggplot(father_qual_math_read_sci_data, 
+       aes(x=`Father's Education`,
+           y=math_avg,
+           col=`Father's Education`)) +
+  geom_quasirandom(size = 1.7, 
+             cex = 3) +
+  geom_line(aes(group = country_name), 
+            size=0.5, alpha=.36) +
+  scale_fill_viridis(discrete = TRUE,
+                     option = "A",
+                      alpha=0.2) +
+    stat_summary(fun.y = median, 
+                 fun.ymin = median, 
+                 fun.ymax = median,
+                 geom = "crossbar", 
+                 width = 0.5, 
+                 col = "black") +
+  theme(legend.position="none",
+      plot.title = element_text(size=11)) +
+    labs(y = "Average Mathematics Score",
+         x = "Father's Qualification",
+         title = "Maths Scores and Father's Qualification")
+```
+
+```{r qual-plot, fig.cap ="Qualification Plots", fig.width= 12, fig.pos = "H", out.width="100%", layout="l-body"}
+father_qual_math + mother_qual_math
+```
+
+Figure \@ref(fig:qual-plot)
+
+
+## TV Plots
+
+
+
 
 # Temoral Trend Australia 
 
