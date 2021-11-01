@@ -345,7 +345,7 @@ another.
 \end{Schunk}
 
 We plotted all three scores against each other in the figure
-\ref{fig:corr-plot}to understand the relationship between them. This
+\ref{fig:corr-plot} to understand the relationship between them. This
 data allows us to deduce that math, science, and reading scores are
 positively and significantly connected with one another, implying that
 when we inspect and analyze the many socioeconomic determinants, we
@@ -354,21 +354,61 @@ component. As a result of seeing this substantially positive association
 between all three scores for all countries that participated in the PISA
 experiment in 2018, the \texttt{learningtower} developers decided to
 show the effect of socioeconomic variables on average math scores only
-because of the significant association between present and between,
-reading and science scores would tend to show similar patterns as well.
+because of the significant association between present reading and
+science scores would tend to show similar patterns as well. Let us
+further explore the impact of the a few socioeconomic factors on the
+students score.
 
-Figure \ref{fig:corr-plot}
-
-\hypertarget{qual-plot}{%
-\subsection{Qual Plot}\label{qual-plot}}
+Parents qualification is and will always be a vital element of childhood
+development. As previously stated, the student dataset in the package
+includes information regarding the parents qualification. In this
+section, we will investigate if both the mother's and father's
+qualifications have a significant impact on the child's performance. The
+mother and father qualifying variables are originally recorded in the
+package at distinct levels that are less than ISCED1 equivalent to ISCED
+0, ISCED 1, ISCED 2, ISCED 3A and ISCED 3B, C. The International
+Standard Classification of Education, (ISCED) who decides and classifies
+these levels, where level 0 indicates pre-primary education or no
+education at all, level 1 indicates primary education or the first stage
+of basic education, level 2 indicates lower secondary education or the
+second stage of basic education, and level 3 indicates upper secondary
+education. ISCED level 3 have been further classified into three
+distinct levels, with ideally very little difference in their
+classification. This may also be found in the publication
+\href{https://www.oecd.org/education/1841854.pdf}{Classifying
+Educational Programmes} published by ISCED. To determine the impact of
+parents qualification we first create a \texttt{data.frame} that is
+first categorized by the various countries and regions and grouping by
+the father's amd mother qualification as well. We next compute the
+average weighted weighted mean of math scores while accounting for
+student weights. Furthermore, we restructured this variable based on the
+multiple levels of classification, dividing it into four unique levels
+of education, namely early childhood, primary, lower, and secondary
+education. Furthermore, we display the weighted math average versus
+qualification for both the mother and father using the
+\texttt{geom\_quasirandom} function wrapped within \texttt{ggplot2.}
 
 \begin{Schunk}
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/qual-plot-1} \caption[Qualification Plots]{Qualification Plots}\label{fig:qual-plot}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/qual-plot-1} \caption[The influence of parents' education on their children's academic success]{The influence of parents' education on their children's academic success. When the parents have attained higher levels of education, the figure shows a significant increase in scores and an increase in the median of scores for each category. When compared to the parents who have lesser levels of education qualifications. Parents upper secondary education or equivalent qualifications children tend to scoree higer in weighted average math scores.}\label{fig:qual-plot}
 \end{figure}
 \end{Schunk}
 
-Figure \ref{fig:qual-plot}
+The figure \ref{fig:qual-plot} depicts the impact of mothers' and
+fathers' qualifications on student academic performance. The figure
+\ref{fig:qual-plot} allows us to deduce a very important and remarkable
+insight in which we see a constant increase in the students' academic
+performance when both mother and father qualifications shift towards
+higher levels of education. The bold horizontal black lines that we see
+in each category for mother's and father's qualification here represent
+the category's median score. As the parent attains better
+qualifications, we notice an increasing trend in these medians for each
+category. Taking a closer look at the figure \ref{fig:qual-plot}, we can
+see that there is a considerable boost in scores when both the mother
+and father have upper secondary education. Furthermore, utilizing
+\texttt{the\ geom\_quasirandom} function makes this plot more accessible
+and understandable by providing a way to offset points inside categories
+to prevent overplotting.
 
 \hypertarget{tv-plots}{%
 \subsection{TV Plots}\label{tv-plots}}

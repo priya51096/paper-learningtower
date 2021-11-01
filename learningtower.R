@@ -401,20 +401,6 @@ father_qual_math_read_sci_data <- student_country_data %>%
   dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
                    read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
                    sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>%
-  dplyr::mutate(country_name = case_when(
-                country_name == "Brunei Darussalam" ~ "Brunei",
-                country_name == "United Kingdom" ~ "UK",
-                country_name %in% c("Macau SAR China", "B-S-J-Z (China)",
-                                    "Hong Kong SAR China") ~ "China",
-                country_name == "Korea" ~ "South Korea",
-                country_name == "North Macedonia" ~ "Macedonia",
-                country_name == "Baku (Azerbaijan)" ~ "Baku",
-                country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
-                "Russian Federation") ~ "Russia",
-                country_name == "Slovak Republic" ~ "Slovakia",
-                country_name == "Chinese Taipei" ~ "Taiwan",
-                country_name == "United States" ~ "USA",
-                TRUE ~ as.character(country_name))) %>%
 dplyr::mutate(father_educ = recode_factor(father_educ,
                 "less than ISCED1" = "Early Childhood",
                 "ISCED 1" = "Primary",
@@ -423,7 +409,7 @@ dplyr::mutate(father_educ = recode_factor(father_educ,
                 "ISCED 3B, C" = "Upper Secondary",
                 .ordered = TRUE)) %>%
   na.omit() %>%
-  rename(`Father's Education` = father_educ) 
+  rename(`Father's Education` = father_educ)
 
 
 
@@ -432,21 +418,7 @@ mother_qual_math_read_sci_data <- student_country_data %>%
   group_by(country_name, mother_educ) %>%
   dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
                    read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
-                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>%
-dplyr::mutate(country_name = case_when(
-              country_name == "Brunei Darussalam" ~ "Brunei",
-              country_name == "United Kingdom" ~ "UK",
-              country_name %in% c("Macau SAR China", "B-S-J-Z (China)",
-                                  "Hong Kong SAR China") ~ "China",
-              country_name == "Korea" ~ "South Korea",
-              country_name == "North Macedonia" ~ "Macedonia",
-              country_name == "Baku (Azerbaijan)" ~ "Baku",
-              country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
-              "Russian Federation") ~ "Russia",
-              country_name == "Slovak Republic" ~ "Slovakia",
-              country_name == "Chinese Taipei" ~ "Taiwan",
-              country_name == "United States" ~ "USA",
-              TRUE ~ as.character(country_name))) %>%
+                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>% 
 dplyr::mutate(mother_educ = recode_factor(mother_educ,
                 "less than ISCED1" = "Early Childhood",
                 "ISCED 1" = "Primary",
@@ -458,7 +430,7 @@ dplyr::mutate(mother_educ = recode_factor(mother_educ,
   rename(`Mother's Education` = mother_educ)
 
 
-father_qual_math <- ggplot(mother_qual_math_read_sci_data, 
+mother_qual_math <- ggplot(mother_qual_math_read_sci_data, 
        aes(x=`Mother's Education`,
            y=math_avg,
            col=`Mother's Education`)) +
@@ -481,7 +453,7 @@ father_qual_math <- ggplot(mother_qual_math_read_sci_data,
          x = "Mother's Qualification",
          title = "Maths Scores and Mother's Qualification")
 
-mother_qual_math <- ggplot(father_qual_math_read_sci_data, 
+father_qual_math <- ggplot(father_qual_math_read_sci_data, 
        aes(x=`Father's Education`,
            y=math_avg,
            col=`Father's Education`)) +
@@ -505,7 +477,7 @@ mother_qual_math <- ggplot(father_qual_math_read_sci_data,
          title = "Maths Scores and Father's Qualification")
 
 
-## ----qual-plot, fig.cap ="Qualification Plots", fig.width= 12, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----qual-plot, fig.cap ="The influence of parents' education on their children's academic success. When the parents have attained higher levels of education, the figure shows a significant increase in scores and an increase in the median of scores for each category. When compared to the parents who have lesser levels of education qualifications. Parents upper secondary education or equivalent qualifications children tend to scoree higer in weighted average math scores.", fig.width= 16, fig.height= 10, fig.pos = "H", out.width="100%", layout="l-body"----
 father_qual_math + mother_qual_math
 
 
