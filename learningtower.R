@@ -19,150 +19,128 @@ library(viridis)
 library(plotly)
 library(ggplot2)
 library(ggbeeswarm)
-library(brolgar)
 
 
 ## ----gendergap, fig.height = 14, fig.width = 6, fig.align = "center", fig.pos="H"----
 
 student_2018 <- load_student("2018")
-data(countrycode)
+data(countrycode, package = "learningtower")
 
 student_country <- left_join(student_2018, countrycode, by = "country")
 
 
 #removing na values
 math_pisa_2018_data <- student_country %>% 
-  filter(!is.na(gender)) %>% 
-  filter(!is.na(math)) %>% 
-  filter(!is.na(stu_wgt)) 
+  filter(!is.na(gender), !is.na(math), !is.na(stu_wgt))
 
 
 #avg math scores and diff 
 math_diff_df <- math_pisa_2018_data %>%
-group_by(gender, country_name) %>%
-summarise(avg = weighted.mean(math, stu_wgt)) %>%
-ungroup() %>%
-pivot_wider(country_name, names_from = gender,
-values_from = avg) %>%
-mutate(diff = female - male,
-country_name = fct_reorder(country_name, diff))
+  group_by(gender, country_name) %>% 
+  summarise(avg = weighted.mean(math, stu_wgt)) %>%
+  ungroup() %>%
+  pivot_wider(country_name, 
+              names_from = gender,
+              values_from = avg) %>%
+mutate(diff = female - male, 
+       country_name = fct_reorder(country_name, diff))
 
 
-
-#Bootstrap using R: Part 1
-set.seed(2020) # for reproducibility
-boot_sample1_math <- math_pisa_2018_data %>%
-group_by(country_name, gender) %>%
-sample_n(size = n(), replace = TRUE)
-
-boot_sample1_df_math <- boot_sample1_math %>%
-summarise(avg = weighted.mean(math, stu_wgt)) %>%
-ungroup() %>%
-pivot_wider(country_name, names_from = gender, values_from = avg) %>%
-mutate(diff = female - male, country_name = fct_reorder(country_name, diff))
-
-#Bootstrap using R: Part 2
+#Bootstrap
+set.seed(2020)
 boot_ests_math <- map_dfr(1:100, ~{
-math_pisa_2018_data %>%
-group_by(country_name, gender) %>%
-sample_n(size = n(), replace = TRUE) %>%
-summarise(avg = weighted.mean(math, stu_wgt)) %>%
-ungroup() %>%
-pivot_wider(country_name, names_from = gender, values_from = avg) %>%
-mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
-mutate(boot_id = .x)
+  math_pisa_2018_data %>%
+  group_by(country_name, gender) %>%
+  sample_n(size = n(), replace = TRUE) %>%
+  summarise(avg = weighted.mean(math, stu_wgt), .groups = "drop") %>%
+  ungroup() %>%
+  pivot_wider(country_name, names_from = gender, values_from = avg) %>%
+  mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
+  mutate(boot_id = .x) 
 })
 
-#Bootstrap using R: Part 3
+#Confidence Intervals
 math_diff_conf_intervals <- boot_ests_math %>%
-group_by(country_name) %>%
-summarise(lower = sort(diff)[5],
-upper = sort(diff)[95])%>%
-left_join(math_diff_df, by = "country_name") %>%
-mutate(country_name = fct_reorder(country_name, diff)) %>% 
-mutate(score_class = ifelse(diff < 0, 'red', 'blue'))
+  group_by(country_name) %>%
+  summarise(lower = sort(diff)[5],
+  upper = sort(diff)[95])%>%
+  left_join(math_diff_df, by = "country_name") %>%
+  mutate(country_name = fct_reorder(country_name, diff)) %>%
+  mutate(score_class = case_when(lower < 0 & upper < 0 ~ "red", 
+                           lower < 0 & upper > 0 ~ "blue",
+                           lower > 0 & upper > 0 ~ "green"))
 
-
+#Math Plot
 math_plot <- ggplot(math_diff_conf_intervals, 
                     aes(diff, country_name, 
                         col = score_class)) +
-geom_point() +
-geom_errorbar(aes(
-xmin = lower,
-xmax = upper)) +
-geom_vline(xintercept = 0, color = "red") +
-labs(y = "",
-x = "Maths Scores Girls - Boys", 
-title = "Maths") +
- theme(legend.position="none")
+  scale_colour_brewer(palette = "Dark2") +
+  geom_point() + geom_errorbar(aes(xmin = lower, xmax = upper)) +
+  geom_vline(xintercept = 0, color = "red") +
+  labs(y = "",
+  x = "Maths Scores Girls - Boys", 
+  title = "Maths") +
+  theme(legend.position="none") + 
+  annotate("text", x = 10.5, y = 1, label = "Girls") +
+  annotate("text", x = -10.5, y = 1, label = "Boys") +
+  scale_x_continuous(breaks = pretty(math_diff_conf_intervals$diff), 
+                     labels = abs(pretty(math_diff_conf_intervals$diff)))
 
 
 ## -----------------------------------------------------------------------------
 #removing na values
-read_pisa_2018_data <- student_country %>% 
+read_pisa_2018_data <- student_country %>%  
   filter(!is.na(gender)) %>% 
   filter(!is.na(read)) %>% 
   filter(!is.na(stu_wgt)) 
 
 #avg math scores and diff 
 read_diff_df <- read_pisa_2018_data %>%
-group_by(gender, country_name) %>%
-summarise(avg = weighted.mean(read, stu_wgt)) %>%
-ungroup() %>%
-pivot_wider(country_name, names_from = gender,
-values_from = avg) %>%
-mutate(diff = female - male,
-country_name = fct_reorder(country_name, diff))
+  group_by(gender, country_name) %>%
+  summarise(avg = weighted.mean(read, stu_wgt), .groups = "drop") %>%
+  ungroup() %>%
+  pivot_wider(country_name, names_from = gender,
+  values_from = avg) %>%
+  mutate(diff = female - male,
+  country_name = fct_reorder(country_name, diff))
 
-
-
-
-#Bootstrap using R: Part 1
-set.seed(2020) # for reproducibility
-boot_sample1_read <- read_pisa_2018_data %>%
-group_by(country_name, gender) %>%
-sample_n(size = n(), replace = TRUE)
-
-boot_sample1_df_read <- boot_sample1_read %>%
-summarise(avg = weighted.mean(read, stu_wgt)) %>%
-ungroup() %>%
-pivot_wider(country_name, names_from = gender, values_from = avg) %>%
-mutate(diff = female - male, country_name = fct_reorder(country_name, diff))
-
-#Bootstrap using R: Part 2
+#Bootstrap
 boot_ests_read <- map_dfr(1:100, ~{
-read_pisa_2018_data %>%
-group_by(country_name, gender) %>%
-sample_n(size = n(), replace = TRUE) %>%
-summarise(avg = weighted.mean(read, stu_wgt)) %>%
-ungroup() %>%
-pivot_wider(country_name, names_from = gender, values_from = avg) %>%
-mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
-mutate(boot_id = .x)
+  read_pisa_2018_data %>%
+  group_by(country_name, gender) %>%
+  sample_n(size = n(), replace = TRUE) %>%
+  summarise(avg = weighted.mean(read, stu_wgt)) %>%
+  ungroup() %>%
+  pivot_wider(country_name, names_from = gender, values_from = avg) %>%
+  mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
+  mutate(boot_id = .x)
 })
 
-#Bootstrap using R: Part 3
+#CI
 read_diff_conf_intervals <- boot_ests_read %>%
-group_by(country_name) %>%
-summarise(lower = sort(diff)[5],
-upper = sort(diff)[95])%>%
-left_join(read_diff_df, by = "country_name") %>%
-mutate(country_name = fct_reorder(country_name, diff)) %>% 
-mutate(score_class = ifelse(diff < 0, 'red', 'blue'))
+  group_by(country_name) %>%
+  summarise(lower = sort(diff)[5],
+  upper = sort(diff)[95])%>%
+  left_join(read_diff_df, by = "country_name") %>%
+  mutate(country_name = fct_reorder(country_name, diff)) %>%
+  mutate(score_class = case_when(lower < 0 & upper < 0 ~ "red", 
+                           lower < 0 & upper > 0 ~ "blue",
+                           lower > 0 & upper > 0 ~ "green"))
 
 
 read_plot <- ggplot(read_diff_conf_intervals, 
                     aes(diff, country_name, 
-                        col = score_class)) +
-geom_point() +
-geom_errorbar(aes(
-xmin = lower,
-xmax = upper)) +
-geom_vline(xintercept = 0, color = "red") +
-labs(y = "",
-x = "Reading Scores Girls - Boys", 
-title = "Reading") +
- theme(legend.position="none")
+                        col = score_class)) + 
+  scale_colour_brewer(palette = "Dark2") +
+  geom_point() + geom_errorbar(aes(xmin = lower, xmax = upper)) +
+  geom_vline(xintercept = 0, color = "red") +
+  labs(y = "",
+  x = "Reading Scores Girls - Boys", 
+  title = "Reading") +
+  theme(legend.position="none") +
+  annotate("text", x = 20, y = 1, label = "Girls") +
+  scale_x_continuous(breaks = pretty(math_diff_conf_intervals$diff), 
+                     labels = abs(pretty(math_diff_conf_intervals$diff)))
 
 
 ## -----------------------------------------------------------------------------
@@ -174,66 +152,56 @@ sci_pisa_2018_data <- student_country %>%
 
 #avg math scores and diff 
 sci_diff_df <- sci_pisa_2018_data %>%
-group_by(gender, country_name) %>%
-summarise(avg = weighted.mean(science, stu_wgt)) %>%
-ungroup() %>%
-pivot_wider(country_name, names_from = gender,
-values_from = avg) %>%
-mutate(diff = female - male,
-country_name = fct_reorder(country_name, diff))
+  group_by(gender, country_name) %>%
+  summarise(avg = weighted.mean(science, stu_wgt), .groups = "drop") %>%
+  ungroup() %>%
+  pivot_wider(country_name, names_from = gender,
+  values_from = avg) %>%
+  mutate(diff = female - male,
+  country_name = fct_reorder(country_name, diff))
 
 
-
-
-#Bootstrap using R: Part 1
-set.seed(2020) # for reproducibility
-boot_sample1_sci <- sci_pisa_2018_data %>%
-group_by(country_name, gender) %>%
-sample_n(size = n(), replace = TRUE)
-
-boot_sample1_df_sci <- boot_sample1_sci %>%
-summarise(avg = weighted.mean(science, stu_wgt)) %>%
-ungroup() %>%
-pivot_wider(country_name, names_from = gender, values_from = avg) %>%
-mutate(diff = female - male, country_name = fct_reorder(country_name, diff))
-
-#Bootstrap using R: Part 2
+#Bootstrap
 boot_ests_sci <- map_dfr(1:100, ~{
-sci_pisa_2018_data %>%
-group_by(country_name, gender) %>%
-sample_n(size = n(), replace = TRUE) %>%
-summarise(avg = weighted.mean(science, stu_wgt)) %>%
-ungroup() %>%
-pivot_wider(country_name, names_from = gender, values_from = avg) %>%
-mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
-mutate(boot_id = .x)
+  sci_pisa_2018_data %>%
+  group_by(country_name, gender) %>%
+  sample_n(size = n(), replace = TRUE) %>%
+  summarise(avg = weighted.mean(science, stu_wgt)) %>%
+  ungroup() %>%
+  pivot_wider(country_name, names_from = gender, values_from = avg) %>%
+  mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
+  mutate(boot_id = .x)
 })
 
 #Bootstrap using R: Part 3
 sci_diff_conf_intervals <- boot_ests_sci %>%
-group_by(country_name) %>%
-summarise(lower = sort(diff)[5],
-upper = sort(diff)[95])%>%
-left_join(sci_diff_df, by = "country_name") %>%
-mutate(country_name = fct_reorder(country_name, diff))%>% 
-mutate(score_class = ifelse(diff < 0, 'red', 'blue'))
+  group_by(country_name) %>%
+  summarise(lower = sort(diff)[5],
+  upper = sort(diff)[95])%>%
+  left_join(sci_diff_df, by = "country_name") %>%
+  mutate(country_name = fct_reorder(country_name, diff)) %>%
+  mutate(score_class = case_when(lower < 0 & upper < 0 ~ "red", 
+                           lower < 0 & upper > 0 ~ "blue",
+                           lower > 0 & upper > 0 ~ "green"))
 
 
 sci_plot <- ggplot(sci_diff_conf_intervals, 
                     aes(diff, country_name, 
                         col = score_class)) +
-geom_point() +
-geom_errorbar(aes(
-xmin = lower,
-xmax = upper)) +
-geom_vline(xintercept = 0, color = "red") +
-labs(y = "",
-x = "Science Scores Girls - Boys", 
-title = "Science") +
- theme(legend.position="none")
+  scale_colour_brewer(palette = "Dark2") +
+  geom_point() + geom_errorbar(aes(xmin = lower, xmax = upper)) +
+  geom_vline(xintercept = 0, color = "red") +
+  labs(y = "",
+  x = "Science Scores Girls - Boys", 
+  title = "Science") +
+  theme(legend.position="none") + 
+  annotate("text", x = 10, y = 1, label = "Girls") +
+  annotate("text", x = -5, y = 1, label = "Boys") +
+  scale_x_continuous(breaks = pretty(math_diff_conf_intervals$diff), 
+                     labels = abs(pretty(math_diff_conf_intervals$diff)))
 
 
-## ----score-differences, fig.cap ="Gender Analysis", fig.width=12, fig.height=16, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----score-differences, fig.cap ="The chart below depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the red line represent the performances of the girls, while the scores to the left of the red line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all nations outperformed boys in reading.", fig.width=12, fig.height=16, fig.pos = "H", out.width="100%", layout="l-body"----
 math_plot + read_plot + sci_plot
 
 
@@ -249,7 +217,7 @@ theme_map <- function(...) {
     axis.title.x = element_blank(),
     axis.title.y = element_blank(),
     panel.border = element_blank(),
-    ...
+    panel.grid = element_blank()
   )
 }
 
@@ -282,7 +250,8 @@ math_world_data <- full_join(math_map_data,
 
 math_world_data <- math_world_data %>% 
   rename(Country = country_name, 
-         `Maths Scores Girls - Boys` = diff)
+         `Maths Scores Girls - Boys` = diff) %>% 
+  mutate(`Maths Scores Girls - Boys` = round(`Maths Scores Girls - Boys`, digits = 2))
 
 
 math_map_plot <- ggplot(math_world_data, 
@@ -323,7 +292,8 @@ read_world_data <- full_join(read_map_data,
 
 read_world_data <- read_world_data %>% 
   rename(Country = country_name, 
-         `Reading Scores Girls - Boys` = diff)
+         `Reading Scores Girls - Boys` = diff) %>% 
+  mutate(`Reading Scores Girls - Boys` = round(`Reading Scores Girls - Boys`, digits = 2))
 
 
 
@@ -364,7 +334,8 @@ sci_world_data <- full_join(sci_map_data,
 
 sci_world_data <- sci_world_data %>% 
   rename(Country = country_name, 
-         `Science Scores Girls - Boys` = diff)
+         `Science Scores Girls - Boys` = diff)  %>% 
+  mutate(`Science Scores Girls - Boys` = round(`Science Scores Girls - Boys`, digits = 2))
 
 sci_map_plot <- ggplot(sci_world_data, 
                         aes(x = long, y = lat, group = group)) +
@@ -537,20 +508,6 @@ tv_math_data <- student_country_data %>%
   dplyr::summarise(math_avg = weighted.mean(math, 
                                             w = stu_wgt, 
                                             na.rm = TRUE)) %>% 
-  dplyr::mutate(country_name = case_when(
-                country_name == "Brunei Darussalam" ~ "Brunei",
-                country_name == "United Kingdom" ~ "UK",
-                country_name %in% c("Macau SAR China", "B-S-J-Z (China)", 
-                                    "Hong Kong SAR China") ~ "China",
-                country_name == "Korea" ~ "South Korea",
-                country_name == "North Macedonia" ~ "Macedonia",
-                country_name == "Baku (Azerbaijan)" ~ "Baku",
-                country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
-                "Russian Federation") ~ "Russia",
-                country_name == "Slovak Republic" ~ "Slovakia",
-                country_name == "Chinese Taipei" ~ "Taiwan",
-                country_name == "United States" ~ "USA",
-                TRUE ~ as.character(country_name))) %>%
 dplyr::mutate(television = recode_factor(television,
                  "0" = "No TV",
                  "1" = "Only 1 TVs",

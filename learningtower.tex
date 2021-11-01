@@ -129,9 +129,9 @@ year were then thoroughly vetted and made available in a separate
 \href{https://github.com/kevinwang09/learningtower_masonry}{GitHub
 repository}.
 
-\hypertarget{what-islearningtower}{%
-\section{\texorpdfstring{What
-is\texttt{learningtower}?}{What islearningtower?}}\label{what-islearningtower}}
+\hypertarget{what-is-learningtower}{%
+\section{\texorpdfstring{What is
+\texttt{learningtower}?}{What is learningtower?}}\label{what-is-learningtower}}
 
 \href{https://cran.r-project.org/web/packages/learningtower/index.html}{`learningtower'}
 is an easy-to-use R package that provides quick access to a variety of
@@ -199,27 +199,72 @@ package can be utilized to answer some research questions by applying
 various methodologies and statistical computations on the
 \texttt{learningtower} datasets.
 
-We will use only the 2018 data here for illustrative purpose. We will
-begin first by constructing a \texttt{data.frame} that records the
-(weighted) average maths score for each country/region, grouped by
-gender. We will also calculate the difference between the two averages
-by gender. In order to show the variability in the mean estimate, we
-will perform sampling with replace on the data and calculate the same
-mean difference estimate. The empirical 90\% confidence intervals are
-shown for each estimate for each country. We will repeat this process
-for reading and science test scores.
+We will solely utilize the 2018 PISA data and scores for illustrative
+purposes throughout the example analysis section. During the
+post-development phase, the \texttt{learningtower} developers
+collectively decided to answer a few intriguing questions on the PISA
+data and see if we could identify any interesting trends or insights
+utilizing this dataset. Some of these questions include if there is any
+significant gender difference between girls and boys whos perform is
+better in any of the three areas of mathematics, reading, and science.
+Do the various socioeconomic characteristics reflected in the student
+data have a substantial impact on the scores of these 15-year-olds.
+Furthermore, we will delve into Australia's score history and temporal
+trend to uncover some noteworthy trends that Australia has observed as a
+result of its participation in the PISA experiment.
+
+Gender gaps have always been a topic of interest among researchers, and
+when it comes to PISA data and scores of 15-year-old students around the
+world, uncovering patterns based on their gender would help gain
+meaningful insights in the field of education for various education
+policymakers around the world. Based on the 2018 PISA results, let us
+see if there is a major gender disparity between girls and boys
+throughout the world in mathematics, reading, and science. To begin, we
+will create a `data.frame' that stores the weighted average maths score
+for each nation as well as the various regions of the countries
+organized by country gender.
+\href{https://www.oecd.org/pisa/data/2015-technical-report/PISA-2015-Technical-Report-Chapter-8-Survey-Weighting.pdf}{Survey
+weights} are critical and must be used in the analysis to guarantee that
+each sampled student accurately represents the total number of pupils in
+the PISA population. In addition, we compute the gender difference
+between the two averages. To demonstrate the variability in the mean
+estimate, we use bootstrap sampling with replacement on the data and
+compute the same mean difference estimate. For each nation, the
+empirical 90 percent confidence intervals are presented. The same
+process is used for reading and science test scores.
 
 \hypertarget{gender-analysis}{%
 \section{Gender Analysis}\label{gender-analysis}}
 
 \begin{Schunk}
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/score-differences-1} \caption[Gender Analysis]{Gender Analysis}\label{fig:score-differences}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/score-differences-1} \caption[The chart below depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018]{The chart below depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the red line represent the performances of the girls, while the scores to the left of the red line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all nations outperformed boys in reading.}\label{fig:score-differences}
 \end{figure}
 \end{Schunk}
 
-Figure \ref{fig:score-differences} shows differences between mean scores
-for the three topics.
+Figure \ref{fig:score-differences} illustrates the global disparities in
+mean math, reading, and science outcomes Before we get to the plot
+conclusion, let's have a look at the variables that have been plotted.
+The red line here indicates a reference point, and all of the scores to
+the right of the red line show the scores of girls in math, reading, and
+science. Similarly, the scores on the left side of this line indicate
+the scores of boys in the three disciplines. Based on the figure
+\ref{fig:score-differences}, because most math estimates and confidence
+intervals lie to the left of the red line, we may conclude that most
+boys outperformed girls in math. In nations such as Morocco,
+Netherlands, Slovenia, Poland, Bulgaria, and Greece, there is almost no
+gender difference in math outcomes. When we look at the reading scores,
+we notice a really interesting detail: girls outpaced boys in reading in
+all countries in 2018. The highest reading scores were achieved by girls
+from Qatar, the United Arab Emirates, and Finland. Looking further into
+the science plot, we see an unexpected pattern: most nations have very
+little gender difference in science scores, implying that most boys and
+girls perform equally well in science. Boys from Peru, Colombia, and
+regions of China perform really well in science and girls from Qatar,
+the United Arab Emirates, and Jordan are the top scores for science.
+Figure \ref{fig:score-differences} helps us depicts the gender gap in
+math, reading, and science for all nations and regions that took part in
+the 2018 PISA experiment.
 
 \hypertarget{maps}{%
 \section{Maps}\label{maps}}
