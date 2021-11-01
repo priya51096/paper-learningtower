@@ -367,24 +367,26 @@ p1 <- ggplot(data = student_country,
   geom_hex() + 
   labs(x = "Math Scores", 
        y = "Reading Scores") +
-  theme_bw()
+  theme(legend.position="none")
 
 p2 <- ggplot(data = student_country, 
              aes(x = math, y = science)) +
   geom_hex() + 
   labs(x = "Math Scores", 
        y = "Science Scores") +
-  theme_bw()
+  theme(legend.position = "bottom", 
+        legend.box = "horizontal", 
+        legend.text=element_text(size=7.2))
 
 p3 <- ggplot(data = student_country, 
              aes(x = read, y = science)) +
   geom_hex() + 
   labs(x = "Reading Scores", 
        y = "Science Scores") +
-  theme_bw()
+  theme(legend.position="none")
 
 
-## ----corr-plot, fig.cap ="Correlation Plot", fig.width=9, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----corr-plot, fig.cap ="The scatterplot displays the relationship between math, reading, and science scores for all PISA countries that participated in the experiment in 2018. This scatterplot shows that all three subjects have a significant and positive correlation with one another.", fig.width=9, fig.pos = "H", out.width="100%", layout="l-body"----
 p1+p2+p3
 
 

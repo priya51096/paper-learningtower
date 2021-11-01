@@ -309,18 +309,53 @@ grey colour for different geographic locations across the maps in figure
 \ref{fig:ggplot-maps} indicates that these regions were not a part of
 the PISA experiment in year 2018.
 
+As a result, in this section, we have seen the gender gap scores and
+striking trends between 15-year-old girls and boys in math, reading, and
+science. Our main conclusion from this gender study is the performance
+of girls in reading. The fewer gender disparity evident in science
+scores, and the majority of boys perform better than girls in
+mathematics.
+
 \hypertarget{socioeconomic-factors-analysis}{%
 \section{Socioeconomic Factors
 Analysis}\label{socioeconomic-factors-analysis}}
 
-\hypertarget{corr-plot}{%
-\subsection{Corr plot}\label{corr-plot}}
+Socioeconomic status is an economic and sociological complete measure of
+a person's work experience, economic access to resources, and social
+standing in relation to others. Do these socioeconomic factors influence
+students' academic performance? In this section, we will investigate if
+different socioeconomic factors owned by a family have a significant
+impact on a student's academic performance. The student dataset in the
+\texttt{learningtower} package is made up of scores from triennial
+testing of 15-year-olds throughout the world. This dataset also includes
+information about their parents' education, family wealth, gender, and
+ownership of computers, internet, cars, books, rooms, desks, and
+dishwashers. In this section, we will mainly explore intriguing figures
+and derive some fascinating aspects of the influence of a few
+socioeconomic factors on student performance in math, reading, and
+science. Before we go on to our socioeconomic determinants and their
+impact on students, figure \ref{fig:corr-plot} shows how the math,
+reading, and science scores are strongly positively related to one
+another.
 
 \begin{Schunk}
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/corr-plot-1} \caption[Correlation Plot]{Correlation Plot}\label{fig:corr-plot}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/corr-plot-1} \caption[The scatterplot displays the relationship between math, reading, and science scores for all PISA countries that participated in the experiment in 2018]{The scatterplot displays the relationship between math, reading, and science scores for all PISA countries that participated in the experiment in 2018. This scatterplot shows that all three subjects have a significant and positive correlation with one another.}\label{fig:corr-plot}
 \end{figure}
 \end{Schunk}
+
+We plotted all three scores against each other in the figure
+\ref{fig:corr-plot}to understand the relationship between them. This
+data allows us to deduce that math, science, and reading scores are
+positively and significantly connected with one another, implying that
+when we inspect and analyze the many socioeconomic determinants, we
+would get comparable outcomes with each score and influence of desire
+component. As a result of seeing this substantially positive association
+between all three scores for all countries that participated in the PISA
+experiment in 2018, the \texttt{learningtower} developers decided to
+show the effect of socioeconomic variables on average math scores only
+because of the significant association between present and between,
+reading and science scores would tend to show similar patterns as well.
 
 Figure \ref{fig:corr-plot}
 

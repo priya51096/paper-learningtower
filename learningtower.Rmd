@@ -463,13 +463,16 @@ math_map_plot/read_map_plot/sci_map_plot
 
 
 
-In the graphic `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(fig: plotly-maps)', '\\@ref(fig:ggplot-maps)'))`, we have used maps to show the gender gap difference between girls and boys in math, reading, and science in 2018. Map visualization aids in the comprehension of large volumes of data at a look and in a more efficient manner. Increases the ability to compare outcomes across many geographies at a glance. In the illustration, we see both positive and negative score difference scale ranges in all three maps. A positive country score indicates that girls outperformed boys in that country, whereas a negative country score shows that boys outscored girls in that country. Observing the legends of these maps further helps us deduce the large gender discrepancy between girls and boys. Looking at these three maps together, we can see that the most gender difference can be seen in math and reading scores, where most boys around the world outperform girls in the subject of mathematics, whereas all positive reading scores indicate that all girls around the world outperformed boys in reading in 2018. Furthermore, there is less of a gender disparity in science scores. Furthermore, the separate diverging scale for each subject aids in the interpretation of the gender gap score transferred to different nations. It also assists us in identifying the nations that took part in the PISA experiment. The grey colour for different geographic locations across the maps in figure `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(fig: plotly-maps)', '\\@ref(fig:ggplot-maps)'))` indicates that these regions were not a part of the PISA experiment in year 2018.
+In the graphic `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(fig:plotly-maps)', '\\@ref(fig:ggplot-maps)'))`, we have used maps to show the gender gap difference between girls and boys in math, reading, and science in 2018. Map visualization aids in the comprehension of large volumes of data at a look and in a more efficient manner. Increases the ability to compare outcomes across many geographies at a glance. In the illustration, we see both positive and negative score difference scale ranges in all three maps. A positive country score indicates that girls outperformed boys in that country, whereas a negative country score shows that boys outscored girls in that country. Observing the legends of these maps further helps us deduce the large gender discrepancy between girls and boys. Looking at these three maps together, we can see that the most gender difference can be seen in math and reading scores, where most boys around the world outperform girls in the subject of mathematics, whereas all positive reading scores indicate that all girls around the world outperformed boys in reading in 2018. Furthermore, there is less of a gender disparity in science scores. Furthermore, the separate diverging scale for each subject aids in the interpretation of the gender gap score transferred to different nations. It also assists us in identifying the nations that took part in the PISA experiment. The grey colour for different geographic locations across the maps in figure `r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(fig: plotly-maps)', '\\@ref(fig:ggplot-maps)'))` indicates that these regions were not a part of the PISA experiment in year 2018. 
+
+As a result, in this section, we have seen the gender gap scores and striking trends between 15-year-old girls and boys in math, reading, and science. Our main conclusion from this gender study is the performance of girls in reading. The fewer gender disparity evident in science scores, and the majority of boys perform better than girls in mathematics.
 
 
 
 # Socioeconomic Factors Analysis 
 
-## Corr plot
+
+Socioeconomic status is an economic and sociological complete measure of a person's work experience, economic access to resources, and social standing in relation to others. Do these socioeconomic factors influence students' academic performance? In this section, we will investigate if different socioeconomic factors owned by a family have a significant impact on a student's academic performance. The student dataset in the `learningtower` package is made up of scores from triennial testing of 15-year-olds throughout the world. This dataset also includes information about their parents' education, family wealth, gender, and ownership of computers, internet, cars, books, rooms, desks, and dishwashers. In this section, we will mainly explore intriguing figures and derive some fascinating aspects of the influence of a few socioeconomic factors on student performance in math, reading, and science. Before we go on to our socioeconomic determinants and their impact on students, figure \@ref(fig:corr-plot) shows how the math, reading, and science scores are strongly positively related to one another.
 
 ```{r}
 p1 <- ggplot(data = student_country, 
@@ -477,30 +480,33 @@ p1 <- ggplot(data = student_country,
   geom_hex() + 
   labs(x = "Math Scores", 
        y = "Reading Scores") +
-  theme_bw()
+  theme(legend.position="none")
 
 p2 <- ggplot(data = student_country, 
              aes(x = math, y = science)) +
   geom_hex() + 
   labs(x = "Math Scores", 
        y = "Science Scores") +
-  theme_bw()
+  theme(legend.position = "bottom", 
+        legend.box = "horizontal", 
+        legend.text=element_text(size=7.2))
 
 p3 <- ggplot(data = student_country, 
              aes(x = read, y = science)) +
   geom_hex() + 
   labs(x = "Reading Scores", 
        y = "Science Scores") +
-  theme_bw()
+  theme(legend.position="none")
 ```
 
-```{r corr-plot, fig.cap ="Correlation Plot", fig.width=9, fig.pos = "H", out.width="100%", layout="l-body"}
+```{r corr-plot, fig.cap ="The scatterplot displays the relationship between math, reading, and science scores for all PISA countries that participated in the experiment in 2018. This scatterplot shows that all three subjects have a significant and positive correlation with one another.", fig.width=9, fig.pos = "H", out.width="100%", layout="l-body"}
 p1+p2+p3
 ```
 
+We plotted all three scores against each other in the figure \@ref(fig:corr-plot) to understand the relationship between them. This data allows us to deduce that math, science, and reading scores are positively and significantly connected with one another, implying that when we inspect and analyze the many socioeconomic determinants, we would get comparable outcomes with each score and influence of desire component. As a result of seeing this substantially positive association between all three scores for all countries that participated in the PISA experiment in 2018, the `learningtower` developers decided to show the effect of socioeconomic variables on average math scores only because of the significant association between present and between, reading and science scores would tend to show similar patterns as well.
 
 
-Figure \@ref(fig:corr-plot)
+
 
 ## Qual Plot
 
