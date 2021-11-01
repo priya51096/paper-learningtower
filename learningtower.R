@@ -201,7 +201,7 @@ sci_plot <- ggplot(sci_diff_conf_intervals,
                      labels = abs(pretty(math_diff_conf_intervals$diff)))
 
 
-## ----score-differences, fig.cap ="The chart below depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the red line represent the performances of the girls, while the scores to the left of the red line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all nations outperformed boys in reading.", fig.width=12, fig.height=16, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----score-differences, fig.cap ="The chart above depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the red line represent the performances of the girls, while the scores to the left of the red line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all nations outperformed boys in reading.", fig.width=12, fig.height=16, fig.pos = "H", out.width="100%", layout="l-body"----
 math_plot + read_plot + sci_plot
 
 
@@ -223,7 +223,7 @@ theme_map <- function(...) {
 
 
 ## -----------------------------------------------------------------------------
-math_map_data <- math_diff_conf_intervals %>% 
+math_map_data <- math_diff_conf_intervals  %>% 
   dplyr::mutate(country_name = case_when(
                 country_name == "Brunei Darussalam" ~ "Brunei",
                 country_name == "United Kingdom" ~ "UK",
@@ -250,13 +250,13 @@ math_world_data <- full_join(math_map_data,
 
 math_world_data <- math_world_data %>% 
   rename(Country = country_name, 
-         `Maths Scores Girls - Boys` = diff) %>% 
-  mutate(`Maths Scores Girls - Boys` = round(`Maths Scores Girls - Boys`, digits = 2))
+         Maths = diff) %>% 
+  mutate(Maths = round(Maths, digits = 2))
 
 
 math_map_plot <- ggplot(math_world_data, 
                         aes(x = long, y = lat, group = group)) +
-                  geom_polygon(aes(fill= `Maths Scores Girls - Boys`, 
+                  geom_polygon(aes(fill= Maths,  
                                    label = Country)) +
                   theme_map() +
                   labs(title = "World Map displaying Maths Scores Difference") +
@@ -292,14 +292,14 @@ read_world_data <- full_join(read_map_data,
 
 read_world_data <- read_world_data %>% 
   rename(Country = country_name, 
-         `Reading Scores Girls - Boys` = diff) %>% 
-  mutate(`Reading Scores Girls - Boys` = round(`Reading Scores Girls - Boys`, digits = 2))
+         Reading = diff) %>% 
+  mutate(Reading = round(Reading, digits = 2))
 
 
 
 read_map_plot <- ggplot(read_world_data, 
                         aes(x = long, y = lat, group = group)) +
-                  geom_polygon(aes(fill= `Reading Scores Girls - Boys`, 
+                  geom_polygon(aes(fill= Reading, 
                                    label = Country)) +
                   theme_map() +
                   labs(title = "World Map displaying Reading Scores Difference") +
@@ -334,25 +334,30 @@ sci_world_data <- full_join(sci_map_data,
 
 sci_world_data <- sci_world_data %>% 
   rename(Country = country_name, 
-         `Science Scores Girls - Boys` = diff)  %>% 
-  mutate(`Science Scores Girls - Boys` = round(`Science Scores Girls - Boys`, digits = 2))
+         Science = diff)  %>% 
+  mutate(Science = round(Science, digits = 2))
 
 sci_map_plot <- ggplot(sci_world_data, 
                         aes(x = long, y = lat, group = group)) +
-                  geom_polygon(aes(fill= `Science Scores Girls - Boys`, 
+                  geom_polygon(aes(fill= Science, 
                                    label = Country)) +
                   theme_map() +
                   labs(title = "World Map displaying Science Scores Difference") +
                   scale_fill_viridis(option = "G")
 
 
-## ----plotly-maps, fig.cap="Plotly Maps", fig.pos="H", fig.height=4, fig.width=12, out.width="100%", layout="l-body", include=knitr::is_html_output(), eval=knitr::is_html_output()----
-#> ggplotly(math_map_plot)
-#> ggplotly(read_map_plot)
-#> ggplotly(sci_map_plot)
+## ----plotly-maps, fig.cap="Interactive maps that show the gender gap in math, reading, and science results between girls and boys throughout the world. The interactive aspect of the map allows one to move their cursor around the global map, which displays the country name as well as the gender gap scores between girls and boys. A positive score for a country indicates that girls outperformed boys in that country, whereas a negative score for a country difference indicates that boys outperformed girls in that country. The diverging colour scale makes it possible to interpret the range of scores and the also helps us intrepret the gender gap difference among these students across the globe. The reading scores all have positive values, indicating that girls outperform boys across the world in the year 2018.", fig.pos="H", fig.height=4, fig.width=12, out.width="100%", layout="l-body", include=knitr::is_html_output(), eval=knitr::is_html_output()----
+#> gmp1 <- ggplotly(math_map_plot)
+#> gmp2 <- ggplotly(read_map_plot)
+#> gmp3 <- ggplotly(sci_map_plot)
+#> # fig <- subplot(gmp1, gmp2, gmp3, nrows = 3)
+#> # s1 <- subplot(gmp1, gmp2, nrows =2)
+#> gmp1
+#> gmp2
+#> gmp3
 
 
-## ----ggplot-maps, fig.cap="Maps", fig.height=9, fig.pos="H", out.width="100%", layout="l-body", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
+## ----ggplot-maps, fig.cap="Maps that show the gender gap in math, reading, and science results between girls and boys throughout the world. The diverging colour scale makes it possible to interpret the range of scores and the also helps us intrepret the gender gap difference among these students across the globe. The legend for each discipline enables interpretation of the score differential for each subject across all maps. A positive score for a country indicates that girls outperformed boys in that country, whereas a negative score for a country difference indicates that boys outperformed girls in that country.The reading scores are all positive, suggesting that girls outperform boys globally in the year 2018.", fig.height=9, fig.pos="H", out.width="100%", layout="l-body", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
 math_map_plot/read_map_plot/sci_map_plot
 
 

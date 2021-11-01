@@ -238,7 +238,7 @@ process is used for reading and science test scores.
 
 \begin{Schunk}
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/score-differences-1} \caption[The chart below depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018]{The chart below depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the red line represent the performances of the girls, while the scores to the left of the red line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all nations outperformed boys in reading.}\label{fig:score-differences}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/score-differences-1} \caption[The chart above depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018]{The chart above depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the red line represent the performances of the girls, while the scores to the left of the red line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all nations outperformed boys in reading.}\label{fig:score-differences}
 \end{figure}
 \end{Schunk}
 
@@ -248,7 +248,7 @@ conclusion, let's have a look at the variables that have been plotted.
 The red line here indicates a reference point, and all of the scores to
 the right of the red line show the scores of girls in math, reading, and
 science. Similarly, the scores on the left side of this line indicate
-the scores of boys in the three disciplines. Based on the figure
+the scores of boys in the three disciplines. Based on figure
 \ref{fig:score-differences}, because most math estimates and confidence
 intervals lie to the left of the red line, we may conclude that most
 boys outperformed girls in math. In nations such as Morocco,
@@ -266,16 +266,48 @@ Figure \ref{fig:score-differences} helps us depicts the gender gap in
 math, reading, and science for all nations and regions that took part in
 the 2018 PISA experiment.
 
-\hypertarget{maps}{%
-\section{Maps}\label{maps}}
+We gathered meaningful insights about the gender gap between girls and
+boys throughout the world from the above figure
+\ref{fig:score-differences} because this is a geographical research
+communication topic, the findings will help us better comprehend the
+score differences in the three educational disciplines using globe maps.
+Let us continue to investigate and discover patterns and correlations
+using this, map visualisation. To illustrate the gender gap difference
+between girls and boys throughout the world, we utilize the
+\texttt{map\_data} function to get the latitude and longitude
+coordinates needed to construct a map for our data. We connect these
+latitude and longitude coordinates to our PISA data and render the world
+map using \texttt{geom\_polygon} function wrapped within
+\texttt{ggplot2}.
 
 \begin{Schunk}
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/ggplot-maps-1} \caption[Maps]{Maps}\label{fig:ggplot-maps}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/ggplot-maps-1} \caption[Maps that show the gender gap in math, reading, and science results between girls and boys throughout the world]{Maps that show the gender gap in math, reading, and science results between girls and boys throughout the world. The diverging colour scale makes it possible to interpret the range of scores and the also helps us intrepret the gender gap difference among these students across the globe. The legend for each discipline enables interpretation of the score differential for each subject across all maps. A positive score for a country indicates that girls outperformed boys in that country, whereas a negative score for a country difference indicates that boys outperformed girls in that country.The reading scores are all positive, suggesting that girls outperform boys globally in the year 2018.}\label{fig:ggplot-maps}
 \end{figure}
 \end{Schunk}
 
-Figure \ref{fig:ggplot-maps}
+In the graphic \ref{fig:ggplot-maps}, we have used maps to show the
+gender gap difference between girls and boys in math, reading, and
+science in 2018. Map visualization aids in the comprehension of large
+volumes of data at a look and in a more efficient manner. Increases the
+ability to compare outcomes across many geographies at a glance. In the
+illustration, we see both positive and negative score difference scale
+ranges in all three maps. A positive country score indicates that girls
+outperformed boys in that country, whereas a negative country score
+shows that boys outscored girls in that country. Observing the legends
+of these maps further helps us deduce the large gender discrepancy
+between girls and boys. Looking at these three maps together, we can see
+that the most gender difference can be seen in math and reading scores,
+where most boys around the world outperform girls in the subject of
+mathematics, whereas all positive reading scores indicate that all girls
+around the world outperformed boys in reading in 2018. Furthermore,
+there is less of a gender disparity in science scores. Furthermore, the
+separate diverging scale for each subject aids in the interpretation of
+the gender gap score transferred to different nations. It also assists
+us in identifying the nations that took part in the PISA experiment. The
+grey colour for different geographic locations across the maps in figure
+\ref{fig:ggplot-maps} indicates that these regions were not a part of
+the PISA experiment in year 2018.
 
 \hypertarget{socioeconomic-factors-analysis}{%
 \section{Socioeconomic Factors
