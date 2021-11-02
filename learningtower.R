@@ -524,16 +524,18 @@ tv_plot <- tv_math_data %>%
        y = "Average Mathematics Score")
 
 
-## ----tv-plot, fig.cap ="The impact of television on student performance is a contentious issue, however in this graph, we have examined the effects of television on student performance using statistical methods. The counties are arranged according to the slope of the linear model fitted for the math average score against the various levels of television. We can observe that television has the greatest influence on performance in a select countries, such as Lebanon, whilst it has the least impact in Slovenia. The confidence interval suggests that there is an uncertainty of the scores when a household does not own a television in the majority of the nations that participated in the PISA experiment in the year 2018", fig.height=27, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----tv-plot, fig.cap ="The impact of television on student performance is a contentious issue, however in this graph, we have examined the effects of television on student performance using statistical methods. The counties are arranged according to the slope of the linear model fitted for the math average score against the various levels of television. We can observe that television has the greatest influence on performance in a select countries, such as Lebanon, whilst it has the least impact in Slovenia. The confidence interval suggests that there is an uncertainty of the scores when a household does not own a television in the majority of the nations that participated in the PISA experiment in the year 2018", fig.height=21, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
 tv_plot
 
 
 ## -----------------------------------------------------------------------------
+z_star_95 <- qnorm(0.975) 
+
 book_math_read_sci_data <- student_country_data %>% 
-  group_by(country_name, book) %>% 
+  group_by(country_name, book)  %>% 
   dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE), 
-                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE), 
-                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>% 
+                   bk_lower = weighted.mean(math, w = stu_wgt, na.rm = TRUE) - z_star_95 * (sd(math, na.rm = TRUE)) / sqrt(length(math)), 
+                   bk_upper = weighted.mean(math, w = stu_wgt, na.rm = TRUE) + z_star_95 * (sd(math, na.rm = TRUE)) / sqrt(length(math)))  %>% 
   dplyr::mutate(book = recode_factor(book, 
                                      "0-10" = "0-10",
                                      "11-25" = "11-25", 
@@ -543,8 +545,7 @@ book_math_read_sci_data <- student_country_data %>%
                                      "more than 500" = "500+",
                                      .ordered = TRUE)) %>% 
   na.omit() %>% 
-  rename(Number_of_Books = book) %>% 
-  dplyr::select(Number_of_Books, math_avg, read_avg, sci_avg)
+  rename(Number_of_Books = book)
 
 linear_model <- function(y, x){
   coef(lm(y ~ x))[2]
@@ -556,14 +557,18 @@ book_plot <- book_math_read_sci_data %>%
   mutate(slope = linear_model(math_avg, Number_of_Books)) %>%
   ungroup() %>%
   mutate(country_name = fct_reorder(country_name, slope)) %>%
-  ggplot(aes(x=Number_of_Books, y=math_avg)) + geom_point() + 
+  ggplot(aes(x=Number_of_Books, y=math_avg)) + 
+  geom_point(size=1.8) +
   geom_line(aes(group = country_name)) +
-  facet_wrap(~country_name, ncol = 5) +
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1))
+  geom_errorbar(aes(ymin = bk_lower, ymax = bk_upper, group = country_name),
+                width=0.18, colour="darkred", alpha=0.3, size=1.53) +
+  facet_wrap(~country_name, ncol = 5, scales = "free") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(x = "Possession of Books",
+       y = "Average Mathematics Score")
 
 
-
-## ----book-plot, fig.cap ="Book Plot", fig.height=21, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----book-plot, fig.cap ="Books are man's best friend. In this graph, we're looking at the influence that the number of books each family has. This graph shows that the more the quantity of books that a households owns, the greater the effect is observed in the student average math scores. We find that countries such as the Dominican Republic and Panama have a lower influence of books when compared to Luxembourg and Hungary.", fig.height=21, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
 book_plot
 
 
