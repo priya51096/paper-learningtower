@@ -395,7 +395,7 @@ qualification for both the mother and father using the
 \end{Schunk}
 
 The figure \ref{fig:qual-plot} depicts the impact of mothers' and
-fathers' qualifications on student academic performance. The figure
+fathers' qualifications on students academic performance. The figure
 \ref{fig:qual-plot} allows us to deduce a very important and remarkable
 insight in which we see a constant increase in the students' academic
 performance when both mother and father qualifications shift towards
@@ -413,16 +413,45 @@ and father's qualifications have a significant influence on the
 student's academic performance, with the more educated the parent, the
 more likely their offspring are to perform well academically.
 
-\hypertarget{tv-plots}{%
-\subsection{TV Plots}\label{tv-plots}}
+Television is one of humanity's greatest inventions; it is one of the
+assets that has had a significant impact and influence on humans. In
+this segment of the article, we investigate the influence of television
+in many countries, as well as whether this technology has a significant
+impact on students' academic performance. The television variables that
+are recorded in the student dataset is a factor variable that records
+whether or not the students participating in this study have a
+television and, if they do, the quantity of televisions per family is
+recorded via the PISA survey. Furthermore, because we are interested in
+researching the impact of these television on the students' scores, we
+have re factored the television variables and designated four levels: No
+TV, 1 TV, 2 TVs, or 3+TVs. We are also interested in visualising the
+confidence intervals for each of these levels in order to determine the
+uncertainty of the results at each level. We begin with initially
+creating a data.frame that is grouped by nation and the number of
+television stations in each country. We fitted a linear model to the
+math average and television categories for each country in the 2018 PISA
+data. And finally plot the television impact as per the slope.
 
 \begin{Schunk}
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/tv-plot-1} \caption[TV Plot]{TV Plot}\label{fig:tv-plot}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/tv-plot-1} \caption[The impact of television on student performance is a contentious issue, however in this graph, we have examined the effects of television on student performance using statistical methods]{The impact of television on student performance is a contentious issue, however in this graph, we have examined the effects of television on student performance using statistical methods. The counties are arranged according to the slope of the linear model fitted for the math average score against the various levels of television. We can observe that television has the greatest influence on performance in a select countries, such as Lebanon, whilst it has the least impact in Slovenia. The confidence interval suggests that there is an uncertainty of the scores when a household does not own a television in the majority of the nations that participated in the PISA experiment in the year 2018}\label{fig:tv-plot}
 \end{figure}
 \end{Schunk}
 
-Figure \ref{fig:tv-plot}
+In the figure \ref{fig:tv-plot}, we can see highly striking patterns as
+well as a significant influence of television on student academic
+performance. We have arranged the nations in the figure
+\ref{fig:tv-plot} according to the slope of math average scores fitted
+against the different levels of television described previously.
+Slovenia, the Netherlands, Switzerland, Hungary, and Poland have a lower
+influence of television on student performance, whereas Portugal,
+Panama, Peru, and Lebanon have a rising tendency and therefore a larger
+impact of television on student performance. Furthermore, the confidence
+interval plotted in the figure \ref{fig:tv-plot} show that there is a
+lot of uncertainty in the level of scores when a household does not
+possess a TV in the majority of the countries. Furthermore, when the
+slope of television increases in countries, the confidence interval of
+such countries becomes narrower.
 
 \hypertarget{book-plot}{%
 \subsection{Book Plot}\label{book-plot}}

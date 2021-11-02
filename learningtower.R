@@ -483,12 +483,14 @@ father_qual_math + mother_qual_math
 
 
 ## -----------------------------------------------------------------------------
+z_star_95 <- qnorm(0.975) 
+
 tv_math_data <- student_country_data %>% 
   group_by(country_name, television) %>% 
-  dplyr::summarise(math_avg = weighted.mean(math, 
-                                            w = stu_wgt, 
-                                            na.rm = TRUE)) %>% 
-dplyr::mutate(television = recode_factor(television,
+  dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE), 
+                   lower = weighted.mean(math, w = stu_wgt, na.rm = TRUE) - z_star_95 * (sd(math, na.rm = TRUE)) / sqrt(length(math)), 
+                   upper = weighted.mean(math, w = stu_wgt, na.rm = TRUE) + z_star_95 * (sd(math, na.rm = TRUE)) / sqrt(length(math))) %>% 
+  dplyr::mutate(television = recode_factor(television,
                  "0" = "No TV",
                  "1" = "1 TVs",
                  "2" = "2 Tvs",
@@ -496,13 +498,11 @@ dplyr::mutate(television = recode_factor(television,
                 .ordered = TRUE)) %>%
   na.omit() %>% 
   dplyr::select(television, 
-                math_avg)
+                math_avg, 
+                lower, 
+                upper)
 
-z_star_95 <- qnorm(0.975)
 
-tv_conf_intervals <- tv_math_data %>% 
-  summarise(lower = math_avg - z_star_95 * (sd(math_avg) / sqrt(79)),
-            upper = math_avg + z_star_95 * (sd(math_avg) / sqrt(79)))
 
 linear_model <- function(y, x){
   coef(lm(y ~ x))[2]
@@ -513,13 +513,18 @@ tv_plot <- tv_math_data %>%
   mutate(slope = linear_model(math_avg, television)) %>%
   ungroup() %>%
   mutate(country_name = fct_reorder(country_name, slope)) %>%
-  ggplot(aes(x=television, y=math_avg)) + geom_point() + 
+  ggplot(aes(x=television, y=math_avg)) + 
+  geom_point(size=1.8) +
   geom_line(aes(group = country_name)) +
-  facet_wrap(~country_name, ncol = 7) +
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) 
+  geom_errorbar(aes(ymin = lower, ymax = upper, group = country_name),
+                width=0.18, colour="orange", alpha=0.3, size=1.53) +
+  facet_wrap(~country_name, ncol = 5, scales = "free") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
+  labs(x = "Possession of Television",
+       y = "Average Mathematics Score")
 
 
-## ----tv-plot, fig.cap ="TV Plot", fig.height=21, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----tv-plot, fig.cap ="The impact of television on student performance is a contentious issue, however in this graph, we have examined the effects of television on student performance using statistical methods. The counties are arranged according to the slope of the linear model fitted for the math average score against the various levels of television. We can observe that television has the greatest influence on performance in a select countries, such as Lebanon, whilst it has the least impact in Slovenia. The confidence interval suggests that there is an uncertainty of the scores when a household does not own a television in the majority of the nations that participated in the PISA experiment in the year 2018", fig.height=27, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
 tv_plot
 
 
