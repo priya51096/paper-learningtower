@@ -614,7 +614,7 @@ internet_plot <- int_math_read_sci_data %>%
          y = "Average Mathematics Score")
 
 
-## ----compint-plot, fig.cap ="Qualification Plots",  fig.pos = "H", out.width="100%", layout="l-body"----
+## ----compint-plot, fig.cap ="Computers and the Internet are two of the most important inventions in the history of technology. In this figure, we observe the impact of owning a computer and having access to the internet on 15-year-old students all over the world. A remarkable finding from the plot is that all nations have higher scores in student performance when they own a computer and have access to the internet.",  fig.pos = "H", out.width="100%", layout="l-body"----
 computer_plot + internet_plot
 
 
@@ -941,11 +941,8 @@ labs(title = "Indonesia Science Scores",
   theme_bw()
 
 
-## ----bs-plot, eval = knitr::is_latex_output(), fig.cap ="Bootstrap", fig.pos = "H", fig.width = 20, fig.height=18, out.width="100%"----
-math_aus_plot + read_aus_plot + sci_aus_plot/
-math_nz_plot + read_nz_plot + sci_nz_plot/
-math_qat_plot + read_qat_plot + sci_qat_plot/
-math_ind_plot + read_ind_plot + sci_ind_plot
+## ----bs-plot, fig.cap ="Bootstrap", fig.pos = "H", fig.width = 20, fig.height=18, out.width="100%"----
+math_aus_plot + read_aus_plot + sci_aus_plot + math_nz_plot + read_nz_plot + sci_nz_plot + math_qat_plot + read_qat_plot + sci_qat_plot + math_ind_plot + read_ind_plot + sci_ind_plot + plot_layout(ncol = 3)
 
 
 ## ----anim-plot, eval = knitr::is_html_output(), fig.cap ="Bootstrap Animation", fig.pos = "H", out.width="100%", layout="l-body-outset"----

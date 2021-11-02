@@ -473,7 +473,7 @@ As a result, in this section, we have seen the gender gap scores and striking tr
 # Socioeconomic Factors Analysis 
 
 
-Socioeconomic status is an economic and sociological complete measure of a person's work experience, economic access to resources, and social standing in relation to others. Do these socioeconomic factors influence students' academic performance? In this section, we will investigate if different socioeconomic factors owned by a family have a significant impact on a student's academic performance. The student dataset in the `learningtower` package is made up of scores from triennial testing of 15-year-olds throughout the world. This dataset also includes information about their parents' education, family wealth, gender, and ownership of computers, internet, cars, books, rooms, desks, and dishwashers. In this section, we will mainly explore intriguing figures and derive some fascinating aspects of the influence of a few socioeconomic factors on student performance in math, reading, and science. Before we go on to our socioeconomic determinants and their impact on students, figure \@ref(fig:corr-plot) shows how the math, reading, and science scores are strongly positively related to one another.
+Socioeconomic status is an economic and sociological complete measure of a person's work experience, economic access to resources, and social standing in relation to others. Do these socioeconomic factors influence students' academic performance? In this section, we will investigate if different socioeconomic factors owned by a family have a significant impact on a student's academic performance. The student dataset in the `learningtower` package is made up of scores from triennial testing of 15-year-olds throughout the world. This dataset also includes information about their parents' education, family wealth, gender, and ownership of computers, internet, cars, books, rooms, desks, and dishwashers. In this section, we will mainly explore intriguing figures and derive some fascinating aspects of the influence of a few socioeconomic factors on student performance in math, reading, and science. Before we go on to our socioeconomic determinants and their impact on students, figure \@ref(fig:corr-plot) shows how the math, reading, and science scores are strongly positively related to one another. 
 
 ```{r}
 p1 <- ggplot(data = student_country, 
@@ -762,6 +762,8 @@ computer_plot + internet_plot
 In the figure \@ref(fig:compint-plot), we see some absolutely fascinating and astonishing insights that might help education policymakers make decisions. This data allows us to conclude that students who own a computer and have access to the internet consistently outperform students who do not own a computer or have access to the internet at all. Interestingly, we regard these as actionable information for all countries participating in the PISA study in 2018. No country was exempt from this findings. Thus, a 15-year-old student's access to a computer and the internet is unquestionably has significant positive influence on their academic performance.
 
 # Temoral Trend Australia 
+
+In this section of analysis, we will look at the temporal trends noticed in Australia. The release of PISA results in 2018 also led several headlines on the decline in scores recorded in Australia. In this section, we will determine whether this decrease is indeed significant or whether there are any other aspects to consider when comparing country rankings. To better comprehend Australia's scores and trends since 2000, the developers of the `learningtower` package, feel it is appropriate to illustrate the temporal trend of Australia in comparison to a few other nations. We evaluate these nations' ratings using a statistical procedure bootstrap with replacement, which resamples a single dataset to generate a large number of simulated samples. In this situation, we have decided to apply this strategy to all selected nations whose scores are compared to Australia's. In this context, we have chosen three additional countries: New Zealand, Qatar, and Indonesia. Using these three countries, the score of Australia will be compared throughout all years since the PISA experiment was implemented.
 
 ```{r}
 student_all <- load_student("all")
@@ -1089,13 +1091,13 @@ labs(title = "Indonesia Science Scores",
   theme_bw()
 ```
 
-```{r bs-plot, eval = knitr::is_latex_output(), fig.cap ="Bootstrap", fig.pos = "H", fig.width = 20, fig.height=18, out.width="100%"}
-math_aus_plot + read_aus_plot + sci_aus_plot/
-math_nz_plot + read_nz_plot + sci_nz_plot/
-math_qat_plot + read_qat_plot + sci_qat_plot/
-math_ind_plot + read_ind_plot + sci_ind_plot
+```{r bs-plot, fig.cap ="Bootstrap", fig.pos = "H", fig.width = 20, fig.height=18, out.width="100%"}
+math_aus_plot + read_aus_plot + sci_aus_plot + math_nz_plot + read_nz_plot + sci_nz_plot + math_qat_plot + read_qat_plot + sci_qat_plot + math_ind_plot + read_ind_plot + sci_ind_plot + plot_layout(ncol = 3)
 ```
 
+In the figure \@ref(fig:bs-plot)
+
+Taking a deeper look at the figure \@ref(fig:bs-plot) and comparing the Australia scores to those of New Zealand, Qatar, and Indonesia, we can conclude that New Zealand and Australia have followed a similar trajectory in the areas of math, reading, and science throughout the years. Whereas if you observe Australia with respect to Qatar, we notice the changing scales of their scores in all three plots of math, reading, and science and we infer that Australia performs is much better than Qatar in PISA but we see an increasing pattern in the scores for Qatar and a decreasing pattern for Australia. To deepen our understanding of the topic, we compare Indonesia's results to those of Australia. In Indonesia, there is occasionally a growing and decreasing trend over the years. However, if we closely examine the average maths, reading and science score, we can see that the highest score for Indonesia or even Qatar is initially a very low score, and this increases further. However, Australia's performance in the PISA was initially a top achievement, and it has since dropped by a few points.Though the temporal trend of Australia displays a declining tendency, this is due to the fact that Australia initially performed very well in the PISA experiment and has only decreased it scores by a few points each year, remaining in one of the top scores of the PISA research until the year 2018. As a result, while Australian performance has declined over time, the country has remained on the list of top scores countries for all of the years this PISA research has been done. Using a similar notion, we conclude that countries with lower initial PISA results have a tendency to increase their score each time the PISA exam is taken. Countries that have previously established a standard with great score results may witness a decreasing tredn in the scores but optimally  the scores have either a decrease or increase by a few points only thus not making tehe the decling trend a significant measure of performnace. In addition, to help you understand this better, we have a animation that explains how performance can only be compared among scales and not based on scores or any other characteristics.
 
 # Animations
 
