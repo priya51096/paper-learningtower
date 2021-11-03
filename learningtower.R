@@ -949,16 +949,6 @@ math_aus_plot + read_aus_plot + sci_aus_plot + math_nz_plot + read_nz_plot + sci
 #> student_country_anim <- left_join(student_all,
 #>                                   countrycode,
 #>                                   by = "country") %>%
-#>   dplyr::filter(country_name %in% c("Australia",
-#>                                     "Finland",
-#>                                     "United States",
-#>                                     "Peru",
-#>                                     "Qatar",
-#>                                     "Morocco",
-#>                                     "Indonesia",
-#>                                     "Brazil",
-#>                                     "Thailand",
-#>                                     "Singapore")) %>%
 #>   group_by(year) %>%
 #>   ungroup() %>%
 #>   dplyr::select(year, country_name, math, read, science, stu_wgt) %>%
@@ -969,21 +959,20 @@ math_aus_plot + read_aus_plot + sci_aus_plot + math_nz_plot + read_nz_plot + sci
 #> dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
 #>                    read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
 #>                    sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>%
-#> ungroup() %>%
-#> rename(`Country Name` = country_name)
+#> ungroup()
 #> 
-#> student_country_anim_avg$year <- as.numeric(student_country_anim_avg$year)
+#> student_country_anim_avg$year <- as.integer(student_country_anim_avg$year)
+#> 
 #> 
 #> #animate
 #> ggplot(student_country_anim_avg,
 #>        aes(math_avg, sci_avg,
-#>            color = `Country Name`)) +
-#>   geom_point(size = 6.3, alpha = 0.54) +
-#>   scale_size(range = c(2, 12)) +
-#>   theme_bw() +
-#>   transition_time(year) +
-#>   ease_aes('linear') +
-#>   labs(title = "Animation",
+#>            color = country_name, )) +
+#>   geom_text(aes(label = country_name),
+#>             check_overlap = TRUE) +
+#>   theme(legend.position = "none") +
+#>   transition_time(year)   +
+#>   labs(title = 'Year: {frame_time}',
 #>        x = "Average Maths Scores",
 #>        y = "Average Science Scores")
 
