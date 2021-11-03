@@ -14,8 +14,8 @@ library(learningtower)
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
-library(patchwork)
 library(viridis)
+library(patchwork)
 library(plotly)
 library(ggbeeswarm)
 library(gganimate)
@@ -130,8 +130,7 @@ read_diff_conf_intervals <- boot_ests_read %>%
 
 read_plot <- ggplot(read_diff_conf_intervals, 
                     aes(diff, country_name, 
-                        col = "#d95f02")) +
-  scale_colour_brewer(palette = "Dark2") +
+                        col = "#b14d01")) +
   geom_point() + geom_errorbar(aes(xmin = lower, xmax = upper)) +
   geom_vline(xintercept = 0, color = "#969696") +
   labs(y = "",
@@ -140,7 +139,7 @@ read_plot <- ggplot(read_diff_conf_intervals,
   theme(legend.position="none") +
   annotate("text", x = 20, y = 1, label = "Girls") +
   scale_x_continuous(breaks = pretty(math_diff_conf_intervals$diff), 
-                     labels = abs(pretty(math_diff_conf_intervals$diff))) 
+                     labels = abs(pretty(math_diff_conf_intervals$diff)))
 
 
 ## -----------------------------------------------------------------------------
@@ -201,7 +200,7 @@ sci_plot <- ggplot(sci_diff_conf_intervals,
                      labels = abs(pretty(math_diff_conf_intervals$diff)))
 
 
-## ----score-differences, fig.cap ="The chart above depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the grey line represent the performances of the girls, while the scores to the left of the grey line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all nations outperformed boys in reading.", fig.width=12, fig.height=16, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----score-differences, fig.cap ="The chart above depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the grey line represent the performances of the girls, while the scores to the left of the grey line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all countries outperformed boys in reading.", fig.width=12, fig.height=16, fig.pos = "H", out.width="100%", layout="l-body"----
 math_plot + read_plot + sci_plot
 
 
@@ -253,14 +252,6 @@ math_world_data <- math_world_data %>%
          Maths = diff) %>% 
   mutate(Maths = round(Maths, digits = 2))
 
-math_map_plot <- ggplot(math_world_data, 
-                        aes(x = long, y = lat, group = group)) +
-                  geom_polygon(aes(fill= Maths,  
-                                   label = Country)) +
-                  theme_map() +
-                  labs(title = "World Map displaying Maths Scores Difference") +
-                  scale_fill_viridis(option = "D")
-
 
 ## -----------------------------------------------------------------------------
 # Maps in R - Reading Maps
@@ -295,15 +286,6 @@ read_world_data <- read_world_data %>%
   mutate(Reading = round(Reading, digits = 2))
 
 
-read_map_plot <- ggplot(read_world_data, 
-                        aes(x = long, y = lat, group = group)) +
-                  geom_polygon(aes(fill= Reading, 
-                                   label = Country)) +
-                  theme_map() +
-                  labs(title = "World Map displaying Reading Scores Difference")  +
-                  scale_fill_viridis(option = "C")
-
-
 ## -----------------------------------------------------------------------------
 sci_map_data <- sci_diff_conf_intervals %>% 
   dplyr::mutate(country_name = case_when(
@@ -334,15 +316,6 @@ sci_world_data <- sci_world_data %>%
   rename(Country = country_name, 
          Science = diff)  %>% 
   mutate(Science = round(Science, digits = 2))
-
-
-sci_map_plot <- ggplot(sci_world_data, 
-                        aes(x = long, y = lat, group = group)) +
-                  geom_polygon(aes(fill= Science, 
-                                   label = Country)) +
-                  theme_map() +
-                  labs(title = "World Map displaying Science Scores Difference")  +
-                  scale_fill_distiller(palette   = "G")
 
 math_dat <- math_world_data %>% 
   dplyr::select(Country, Maths, lat, long, group)
@@ -376,7 +349,7 @@ mrs_maps <- ggplot(math_read_sci_dat_wider,
   scale_fill_distiller(palette = "Spectral")
 
 
-## ----plotly-maps, fig.cap="Interactive maps showing the gender gap in math, reading, and science results between girls and boys across the world. The interactive aspect of the map allows one to move their cursor around the global map, which displays the country name as well as the gender gap scores between girls and boys. A positive score for a country indicates that girls outperformed boys in that country, whereas a negative score for a country difference indicates that boys outperformed girls in that country. The diverging colour scale makes it possible to interpret the range of scores and the also helps us intrepret the gender gap difference among these students across the globe. The reading scores all have positive values, indicating that girls outperform boys across the world in the year 2018.", fig.pos="H", fig.height=4, fig.width=12, out.width="100%", layout="l-body", include=knitr::is_html_output(), eval=knitr::is_html_output()----
+## ----plotly-maps, fig.cap="Interactive maps showing the gender gap in math, reading, and science results between girls and boys across the world. The interactive aspect of the map allows one to move their cursor around the global map, which displays the country name as well as the gender gap scores between girls and boys. A positive score for a country indicates that girls outperformed boys in that country, whereas a negative score for a country difference indicates that boys outperformed girls in that country. The diverging colour scale makes it possible to interpret the range of scores and the also helps us intrepret the gender gap difference among these students across the globe. The reading scores all have positive values, indicating that girls outperform boys across the world in the year 2018.", fig.pos="H", fig.height=12, fig.width=18, out.width="100%", layout="l-body", include=knitr::is_html_output(), eval=knitr::is_html_output()----
 #> ggplotly(mrs_maps)
 
 
@@ -500,7 +473,7 @@ father_qual_math <- ggplot(father_qual_math_read_sci_data,
          title = "Maths Scores and Father's Qualification")
 
 
-## ----qual-plot, fig.cap ="The influence of parents' education on their children's academic success. When the parents have attained higher levels of education, the figure shows a significant increase in scores and an increase in the median of scores for each category. When compared to the parents who have lesser levels of education qualifications. Parents upper secondary education or equivalent qualifications children tend to scoree higer in weighted average math scores.", fig.width= 16, fig.height= 8, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----qual-plot, fig.cap ="The impact of parents' education on their children's academic progress is depicted in this graph. When the parents have greater levels of education, we see a considerable rise in scores and an increase in the median of scores for each category, as shown in the figure. In comparison to parents with lower levels of education qualifications. Parents who have tend to have upper secondary qualification or equivalent credentials their children are more likely to perform better in academics when compared with parent having lesser levels of qualifications.", fig.width= 15, fig.height= 8, fig.pos = "H", out.width="100%", layout="l-body"----
 father_qual_math + mother_qual_math
 
 
@@ -539,14 +512,14 @@ tv_plot <- tv_math_data %>%
   geom_point(size=1.8) +
   geom_line(aes(group = country_name)) +
   geom_errorbar(aes(ymin = lower, ymax = upper, group = country_name),
-                width=0.18, colour="orange", alpha=0.3, size=1.53) +
+                width=0.25, colour="#7f0000", alpha=0.45, size=1.53) +
   facet_wrap(~country_name, ncol = 5, scales = "free") +
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
   labs(x = "Possession of Television",
        y = "Average Mathematics Score")
 
 
-## ----tv-plot, fig.cap ="The impact of television on student performance is a contentious issue, however in this graph, we have examined the effects of television on student performance using statistical methods. The counties are arranged according to the slope of the linear model fitted for the math average score against the various levels of television. We can observe that television has the greatest influence on performance in a select countries, such as Lebanon, whilst it has the least impact in Slovenia. The confidence interval suggests that there is an uncertainty of the scores when a household does not own a television in the majority of the nations that participated in the PISA experiment in the year 2018", fig.height=21, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----tv-plot, fig.cap ="The impact of television on student performance is a contentious issue, however in this figure, we examine the effects of television on student performance using statistical methods. The counties are arranged according to the slope of the linear model fitted for the math average score against the various levels of television. We observe that television has the greatest influence on performance in a select countries, such as Lebanon, whilst it has the least impact in Slovenia. The confidence interval suggests that there is an uncertainty of the scores when a household does not own a television in the majority of the nations that participated in the PISA experiment in the year 2018.", fig.height=21, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
 tv_plot
 
 
@@ -583,14 +556,14 @@ book_plot <- book_math_read_sci_data %>%
   geom_point(size=1.8) +
   geom_line(aes(group = country_name)) +
   geom_errorbar(aes(ymin = bk_lower, ymax = bk_upper, group = country_name),
-                width=0.18, colour="darkred", alpha=0.3, size=1.53) +
+                width=0.18, colour="#00441b", alpha=0.45, size=1.53) +
   facet_wrap(~country_name, ncol = 5, scales = "free") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
   labs(x = "Possession of Books",
        y = "Average Mathematics Score")
 
 
-## ----book-plot, fig.cap ="Books are man's best friend. In this graph, we're looking at the influence that the number of books each family has. This graph shows that the more the quantity of books that a households owns, the greater the effect is observed in the student average math scores. We find that countries such as the Dominican Republic and Panama have a lower influence of books when compared to Luxembourg and Hungary.", fig.height=21, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----book-plot, fig.cap ="The influence of books on students' lives at an early age is vital to their development. In this graph, we examine the impact of the amount of books owned by each family. This graph indicates that the higher the number of books owned by a home, the greater the influence on student average math results. When compared to Luxembourg and Hungary, we discover that nations such as the Dominican Republic and Panama have a little lesser effect of books.", fig.height=25, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
 book_plot
 
 
@@ -620,7 +593,8 @@ computer_plot <- comp_math_read_sci_data %>%
               alpha = .45) +
     theme(legend.position = "none") +
     labs(x = "Possession of Computer",
-         y = "Average Mathematics Score")
+         y = "Average Mathematics Score", 
+         title = "Impact of Computers on Average Math Scores")
 
 
 internet_plot <- int_math_read_sci_data %>%
@@ -633,10 +607,11 @@ internet_plot <- int_math_read_sci_data %>%
               alpha = .45) +
     theme(legend.position = "none") +
     labs(x = "Access to Internet",
-         y = "Average Mathematics Score")
+         y = "Average Mathematics Score", 
+         title = "Impact of Internet on Average Math Scores")
 
 
-## ----compint-plot, fig.cap ="Computers and the Internet are two of the most important inventions in the history of technology. In this figure, we observe the impact of owning a computer and having access to the internet on 15-year-old students all over the world. A remarkable finding from the plot is that all nations have higher scores in student performance when they own a computer and have access to the internet.",  fig.pos = "H", out.width="100%", layout="l-body"----
+## ----compint-plot, fig.cap ="Computers and the Internet are two of the most important inventions in the history of technology. In this figure, we observe the impact of owning a computer and having access to the internet on 15-year-old students all over the world. A remarkable finding from the plot is that all nations have higher scores in student performance when they own a computer and have access to the internet.", fig.width= 15, fig.height= 8, fig.pos = "H", out.width="100%", layout="l-body"----
 computer_plot + internet_plot
 
 
@@ -967,7 +942,7 @@ labs(title = "Indonesia Science Scores",
 math_aus_plot + read_aus_plot + sci_aus_plot + math_nz_plot + read_nz_plot + sci_nz_plot + math_qat_plot + read_qat_plot + sci_qat_plot + math_ind_plot + read_ind_plot + sci_ind_plot + plot_layout(ncol = 3)
 
 
-## ----anim-plot, eval = knitr::is_html_output(), fig.cap ="Bootstrap Animation", fig.pos = "H", out.width="100%", layout="l-body-outset"----
+## ----anim-plot, eval = knitr::is_html_output(), fig.pos = "H", out.width="100%", layout="l-body-outset"----
 #> student_country_anim <- left_join(student_all,
 #>                                   countrycode,
 #>                                   by = "country") %>%
