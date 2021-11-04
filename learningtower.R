@@ -75,7 +75,7 @@ math_plot <- ggplot(math_diff_conf_intervals,
                     aes(diff, country_name, 
                         col = score_class)) +
   scale_colour_brewer(palette = "Dark2") +
-  geom_point() + geom_errorbar(aes(xmin = lower, xmax = upper)) +
+  geom_point() + geom_errorbar(aes(xmin = lower, xmax = upper), , width=0) +
   geom_vline(xintercept = 0, color = "#969696") +
   labs(y = "",
   x = "Maths Scores Girls - Boys", 
@@ -131,7 +131,7 @@ read_diff_conf_intervals <- boot_ests_read %>%
 read_plot <- ggplot(read_diff_conf_intervals, 
                     aes(diff, country_name, 
                         col = "#b14d01")) +
-  geom_point() + geom_errorbar(aes(xmin = lower, xmax = upper)) +
+  geom_point() + geom_errorbar(aes(xmin = lower, xmax = upper), width=0) +
   geom_vline(xintercept = 0, color = "#969696") +
   labs(y = "",
   x = "Reading Scores Girls - Boys", 
@@ -188,7 +188,7 @@ sci_plot <- ggplot(sci_diff_conf_intervals,
                     aes(diff, country_name, 
                         col = score_class)) +
   scale_colour_brewer(palette = "Dark2") +
-  geom_point() + geom_errorbar(aes(xmin = lower, xmax = upper)) +
+  geom_point() + geom_errorbar(aes(xmin = lower, xmax = upper), width=0) +
   geom_vline(xintercept = 0, color = "#969696") +
   labs(y = "",
   x = "Science Scores Girls - Boys", 
@@ -511,7 +511,7 @@ tv_plot <- tv_math_data %>%
   ggplot(aes(x=television, y=math_avg)) + 
   geom_point(size=1.8) +
   geom_line(aes(group = country_name)) +
-  geom_errorbar(aes(ymin = lower, ymax = upper, group = country_name),
+  geom_errorbar(aes(ymin = lower, ymax = upper, group = country_name, width=0),
                 width=0.25, colour="#7f0000", alpha=0.45, size=1.53) +
   facet_wrap(~country_name, ncol = 5, scales = "free") +
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
@@ -555,7 +555,7 @@ book_plot <- book_math_read_sci_data %>%
   ggplot(aes(x=Number_of_Books, y=math_avg)) + 
   geom_point(size=1.8) +
   geom_line(aes(group = country_name)) +
-  geom_errorbar(aes(ymin = bk_lower, ymax = bk_upper, group = country_name),
+  geom_errorbar(aes(ymin = bk_lower, ymax = bk_upper, group = country_name, width=0),
                 width=0.18, colour="#00441b", alpha=0.45, size=1.53) +
   facet_wrap(~country_name, ncol = 5, scales = "free") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
@@ -616,330 +616,102 @@ computer_plot + internet_plot
 
 
 ## -----------------------------------------------------------------------------
-student_all <- load_student("all")
+# Load student data, and filter to country, cache a copy of the data
+# to save downloading every time paper is knitted
 
+if (!file.exists("data/student_all.rda")) {
+  student_all <- load_student("all")
+  save(student_all, file="data/student_all.rda")
+} else {
+  load("data/student_all.rda")
+}
 
-
-student_country_aus <- left_join(student_all,
+# Give countries their name, subset to four, and select only variables needed
+student_country <- left_join(student_all,
                                   countrycode,
                                   by = "country") %>% 
-  dplyr::filter(country_name == "Australia") %>%
-  group_by(year) %>%
-  ungroup() %>% 
+  dplyr::filter(country_name %in% 
+                  c("Australia", 
+                    "New Zealand", 
+                    "Qatar", 
+                    "Indonesia", 
+                    "Singapore", 
+                    "Germany")) %>% 
   dplyr::select(year, country_name, math, read, science, stu_wgt) %>% 
-  na.omit() %>% 
-  ungroup()
+  na.omit() %>%
+  pivot_longer(c(math, read, science), names_to = "subject", values_to = "score")
+
+# Compute the bootstrap confidence intervals, and cache result
+if (!file.exists("data/all_bs_cf.rda")) {
+  all_bootstrap <- map_dfr(1:100, ~{
+    student_country %>%
+    group_by(country_name, #year, 
+             subject) %>%
+    #sample_n(size = n(), replace = TRUE) %>%
+    mutate(year = sample(year, replace=FALSE)) %>%
+    group_by(country_name, year, 
+             subject) %>%
+    dplyr::summarise(
+      avg = weighted.mean(score, w = stu_wgt, na.rm = TRUE), .groups = "drop") %>% 
+    #ungroup() %>%
+    mutate(boot_id = .x)
+  })
+
+  all_bootstrap_ci <- all_bootstrap %>%
+    group_by(country_name, year, 
+             subject) %>% 
+    summarise(
+      lower = min(avg), # sort(avg)[5],
+      upper = max(avg), #sort(avg)[95], 
+      .groups = "drop") 
+
+  # compute original estimate of average and join
+  all_avg <- student_country %>%
+    group_by(country_name, year, subject) %>% 
+    summarise(
+      avg = weighted.mean(score, 
+                          w = stu_wgt, na.rm = TRUE), 
+      .groups = "drop")   
+  
+  all_bs_cf <- left_join(all_avg,
+                      all_bootstrap_ci,
+                      by = c("country_name", 
+                             "year", 
+                             "subject"))
+
+  save(all_bs_cf, file="data/all_bs_cf.rda")
+
+} else {
+  load("data/all_bs_cf.rda")
+}
 
 
-student_country_nz <- left_join(student_all,
-                                  countrycode,
-                                  by = "country") %>% 
-  dplyr::filter(country_name == "New Zealand") %>%
-  group_by(year) %>%
-  ungroup() %>% 
-  dplyr::select(year, country_name, math, read, science, stu_wgt) %>% 
-  na.omit() %>% 
-  ungroup()
 
-
-student_country_qat <- left_join(student_all,
-                                  countrycode,
-                                  by = "country") %>% 
-  dplyr::filter(country_name == "Qatar") %>%
-  group_by(year) %>%
-  ungroup() %>% 
-  dplyr::select(year, country_name, math, read, science, stu_wgt) %>% 
-  na.omit() %>% 
-  ungroup()
-
-
-
-student_country_ind <- left_join(student_all,
-                                  countrycode,
-                                  by = "country") %>% 
-  dplyr::filter(country_name == "Indonesia") %>%
-  group_by(year) %>%
-  ungroup() %>% 
-  dplyr::select(year, country_name, math, read, science, stu_wgt) %>% 
-  na.omit() %>% 
-  ungroup()
-
-
-
-## -----------------------------------------------------------------------------
-
-aus_bootstrap <- map_dfr(1:100, ~{
-student_country_aus %>%
-sample_n(size = n(), replace = TRUE) %>%
-group_by(country_name, year) %>%
-dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
-                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
-                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>% 
-ungroup() %>%
-mutate(boot_id = .x)
-})
-
-
-aus_bootsrap_conf_intervlas <- aus_bootstrap %>%
-group_by(country_name, year) %>% 
-summarise(
-lower_math_avg = sort(math_avg)[5],
-upper_math_avg = sort(math_avg)[95], 
-lower_read_avg = sort(read_avg)[5],
-upper_read_avg = sort(read_avg)[95],
-lower_sci_avg = sort(sci_avg)[5],
-upper_sci_avg = sort(sci_avg)[95])
-
-aus_bs_cf <- left_join(aus_bootstrap,
-                      aus_bootsrap_conf_intervlas,
-                      by = c("year", "country_name"))
-
-math_aus_plot <- ggplot(
-  data = aus_bs_cf, 
-  aes(x= year, 
-      y = math_avg)) +
+## ----bs-plot, fig.cap ="Temporal trends in math, reading and science for a selection of countries. Line indicates average score across years, and the orange band is the permutation confidence interval assuming that there is no trend. ", fig.pos = "H", fig.width = 5, fig.height=12, out.width="70%", layout="l-body"----
+all_bs_cf <- all_bs_cf %>%
+  mutate(year = as.numeric(as.character(year)),
+         country_name = factor(country_name, 
+                 levels = c("Singapore", 
+                          "Australia", 
+                          "New Zealand", 
+                          "Germany",
+                          "Qatar", 
+                          "Indonesia")))
+ggplot(data = all_bs_cf, 
+  aes(x = year, 
+      y = avg)) +
+  geom_ribbon(aes(x = year,
+                    ymin = lower,
+                    ymax = upper), 
+              colour = "orange", fill = "orange", 
+              alpha = 0.8) +
   geom_point(alpha = 0.1) +
-geom_errorbar(aes(x= year,
-ymin = lower_math_avg,
-ymax = upper_math_avg)) +
-labs(title = "Australia Maths Scores", 
-     x = "Year", 
-     y = "Maths Average Score") +
-  theme_bw()
+  geom_line() +
+  facet_grid(country_name~subject) +
+  labs(
+     x = "", 
+     y = "Score") 
 
-read_aus_plot <- ggplot(
-  data = aus_bs_cf, 
-  aes(x= year, 
-      y = read_avg)) +
-  geom_point(alpha = 0.1) +
-geom_errorbar(aes(x= year,
-ymin = lower_read_avg,
-ymax = upper_read_avg)) +
-labs(title = "Australia Reading Scores", 
-     x = "Year", 
-     y = "Reading Average Score") +
-  theme_bw()
-
-sci_aus_plot <- ggplot(
-  data = aus_bs_cf, 
-  aes(x= year, 
-      y = sci_avg)) +
-  geom_point(alpha = 0.1) +
-geom_errorbar(aes(x= year,
-ymin = lower_sci_avg,
-ymax = upper_sci_avg)) +
-labs(title = "Australia Science Scores", 
-     x = "Year", 
-     y = "Science Average Score") +
-  theme_bw()
-
-
-## -----------------------------------------------------------------------------
-
-nz_bootstrap <- map_dfr(1:100, ~{
-student_country_nz %>%
-sample_n(size = n(), replace = TRUE) %>%
-group_by(country_name, year) %>%
-dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
-                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
-                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>% 
-ungroup() %>%
-mutate(boot_id = .x)
-})
-
-
-nz_bootsrap_conf_intervlas <- nz_bootstrap %>%
-group_by(country_name, year) %>% 
-summarise(
-lower_math_avg = sort(math_avg)[5],
-upper_math_avg = sort(math_avg)[95], 
-lower_read_avg = sort(read_avg)[5],
-upper_read_avg = sort(read_avg)[95],
-lower_sci_avg = sort(sci_avg)[5],
-upper_sci_avg = sort(sci_avg)[95])
-
-nz_bs_cf <- left_join(nz_bootstrap,
-                      nz_bootsrap_conf_intervlas,
-                      by = c("year", "country_name"))
-
-math_nz_plot <- ggplot(
-  data = nz_bs_cf, 
-  aes(x= year, 
-      y = math_avg)) +
-  geom_point(alpha = 0.1) +
-geom_errorbar(aes(x= year,
-ymin = lower_math_avg,
-ymax = upper_math_avg)) +
-labs(title = "New Zealand Maths Scores", 
-     x = "Year", 
-     y = "Maths Average Score") +
-  theme_bw()
-
-read_nz_plot <- ggplot(
-  data = nz_bs_cf, 
-  aes(x= year, 
-      y = read_avg)) +
-  geom_point(alpha = 0.1) +
-geom_errorbar(aes(x= year,
-ymin = lower_read_avg,
-ymax = upper_read_avg)) +
-labs(title = "New Zealand Reading Scores", 
-     x = "Year", 
-     y = "Reading Average Score") +
-  theme_bw()
-
-sci_nz_plot <- ggplot(
-  data = nz_bs_cf, 
-  aes(x= year, 
-      y = sci_avg)) +
-  geom_point(alpha = 0.1) +
-geom_errorbar(aes(x= year,
-ymin = lower_sci_avg,
-ymax = upper_sci_avg)) +
-labs(title = "New Zealand Science Scores", 
-     x = "Year", 
-     y = "Science Average Score") +
-  theme_bw()
-
-
-## -----------------------------------------------------------------------------
-#qat boostrap
-qat_bootstrap <- map_dfr(1:100, ~{
-student_country_qat %>%
-sample_n(size = n(), replace = TRUE) %>%
-group_by(country_name, year) %>%
-dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
-                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
-                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>% 
-ungroup() %>%
-mutate(boot_id = .x)
-})
-
-
-qat_bootsrap_conf_intervlas <- qat_bootstrap %>%
-group_by(country_name, year) %>% 
-summarise(
-lower_math_avg = sort(math_avg)[5],
-upper_math_avg = sort(math_avg)[95], 
-lower_read_avg = sort(read_avg)[5],
-upper_read_avg = sort(read_avg)[95],
-lower_sci_avg = sort(sci_avg)[5],
-upper_sci_avg = sort(sci_avg)[95])
-
-qat_bs_cf <- left_join(qat_bootstrap,
-                      qat_bootsrap_conf_intervlas,
-                      by = c("year", "country_name"))
-
-math_qat_plot <- ggplot(
-  data = qat_bs_cf, 
-  aes(x= year, 
-      y = math_avg)) +
-  geom_point(alpha = 0.1) +
-geom_errorbar(aes(x= year,
-ymin = lower_math_avg,
-ymax = upper_math_avg)) +
-labs(title = "Qatar Maths Scores", 
-     x = "Year", 
-     y = "Maths Average Score") +
-  theme_bw()
-
-read_qat_plot <- ggplot(
-  data = qat_bs_cf, 
-  aes(x= year, 
-      y = read_avg)) +
-  geom_point(alpha = 0.1) +
-geom_errorbar(aes(x= year,
-ymin = lower_read_avg,
-ymax = upper_read_avg)) +
-labs(title = "Qatar Reading Scores", 
-     x = "Year", 
-     y = "Reading Average Score") +
-  theme_bw()
-
-sci_qat_plot <- ggplot(
-  data = qat_bs_cf, 
-  aes(x= year, 
-      y = sci_avg)) +
-  geom_point(alpha = 0.1) +
-geom_errorbar(aes(x= year,
-ymin = lower_sci_avg,
-ymax = upper_sci_avg)) +
-labs(title = "Qatar Science Scores", 
-     x = "Year", 
-     y = "Science Average Score") +
-  theme_bw()
-
-
-## -----------------------------------------------------------------------------
-#ind boostrap
-ind_bootstrap <- map_dfr(1:100, ~{
-student_country_ind %>%
-sample_n(size = n(), replace = TRUE) %>%
-group_by(country_name, year) %>%
-dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
-                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
-                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>% 
-ungroup() %>%
-mutate(boot_id = .x)
-})
-
-
-ind_bootsrap_conf_intervlas <- ind_bootstrap %>%
-group_by(country_name, year) %>% 
-summarise(
-lower_math_avg = sort(math_avg)[5],
-upper_math_avg = sort(math_avg)[95], 
-lower_read_avg = sort(read_avg)[5],
-upper_read_avg = sort(read_avg)[95],
-lower_sci_avg = sort(sci_avg)[5],
-upper_sci_avg = sort(sci_avg)[95])
-
-ind_bs_cf <- left_join(ind_bootstrap,
-                      ind_bootsrap_conf_intervlas,
-                      by = c("year", "country_name"))
-
-math_ind_plot <- ggplot(
-  data = ind_bs_cf, 
-  aes(x= year, 
-      y = math_avg)) +
-  geom_point(alpha = 0.1) +
-geom_errorbar(aes(x= year,
-ymin = lower_math_avg,
-ymax = upper_math_avg)) +
-labs(title = "Indonesia Maths Scores", 
-     x = "Year", 
-     y = "Maths Average Score") +
-  theme_bw()
-
-read_ind_plot <- ggplot(
-  data = ind_bs_cf, 
-  aes(x= year, 
-      y = read_avg)) +
-  geom_point(alpha = 0.1) +
-geom_errorbar(aes(x= year,
-ymin = lower_read_avg,
-ymax = upper_read_avg)) +
-labs(title = "Indonesia Reading Scores", 
-     x = "Year", 
-     y = "Reading Average Score") +
-  theme_bw()
-
-sci_ind_plot <- ggplot(
-  data = ind_bs_cf, 
-  aes(x= year, 
-      y = sci_avg)) +
-  geom_point(alpha = 0.1) +
-geom_errorbar(aes(x= year,
-ymin = lower_sci_avg,
-ymax = upper_sci_avg)) +
-labs(title = "Indonesia Science Scores", 
-     x = "Year", 
-     y = "Science Average Score") +
-  theme_bw()
-
-
-## ----bs-plot, fig.cap ="Bootstrap", fig.pos = "H", fig.width = 20, fig.height=18, out.width="100%"----
-math_aus_plot + read_aus_plot + sci_aus_plot + math_nz_plot + read_nz_plot + sci_nz_plot + math_qat_plot + read_qat_plot + sci_qat_plot + math_ind_plot + read_ind_plot + sci_ind_plot + plot_layout(ncol = 3)
 
 
 ## ----anim-plot, eval = knitr::is_html_output(), fig.pos = "H", out.width="100%", layout="l-body-outset"----
