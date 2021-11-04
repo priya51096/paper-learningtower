@@ -21,23 +21,31 @@ library(ggbeeswarm)
 library(gganimate)
 
 
-## ----gendergap, fig.height = 14, fig.width = 6, fig.align = "center", fig.pos="H"----
+## ----gendergap----------------------------------------------------------------
 
-student_2018 <- load_student("2018")
+# Get the 2018 student data
+if (!file.exists("data/student_2018.rda")) {
+  student_2018 <- load_student("2018")
+  save(student_2018, file = "data/student_2018.rda")
+} else {
+  load("data/student_2018.rda")
+}
 data(countrycode, package = "learningtower")
 
-student_country <- left_join(student_2018, countrycode, by = "country")
+# Load the country names, and join
+student_country <- left_join(student_2018, 
+                             countrycode, by = "country")
 
-
-#removing na values
+# Drop missing values
 math_pisa_2018_data <- student_country %>% 
   filter(!is.na(gender), !is.na(math), !is.na(stu_wgt))
 
-
-#avg math scores and diff 
+# Compute average math scores and gender diff 
+if (!file.exists("data/math_diff_conf_intervals.rda")) {
 math_diff_df <- math_pisa_2018_data %>%
   group_by(gender, country_name) %>% 
-  summarise(avg = weighted.mean(math, stu_wgt)) %>%
+  summarise(avg = weighted.mean(math, stu_wgt),
+            .groups = "drop") %>%
   ungroup() %>%
   pivot_wider(country_name, 
               names_from = gender,
@@ -45,162 +53,221 @@ math_diff_df <- math_pisa_2018_data %>%
 mutate(diff = female - male, 
        country_name = fct_reorder(country_name, diff))
 
-
-#Bootstrap
+# Compute bootstrap samples 
 set.seed(2020)
 boot_ests_math <- map_dfr(1:100, ~{
   math_pisa_2018_data %>%
   group_by(country_name, gender) %>%
   sample_n(size = n(), replace = TRUE) %>%
-  summarise(avg = weighted.mean(math, stu_wgt), .groups = "drop") %>%
-  ungroup() %>%
-  pivot_wider(country_name, names_from = gender, values_from = avg) %>%
-  mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
+  summarise(avg = weighted.mean(math, stu_wgt), 
+            .groups = "drop") %>%
+  pivot_wider(country_name, 
+              names_from = gender, 
+              values_from = avg) %>%
+  mutate(diff = female - male, 
+         country_name = fct_reorder(country_name, diff)) %>%
   mutate(boot_id = .x) 
 })
 
-#Confidence Intervals
+# Compute bootstrap confidence intervals
 math_diff_conf_intervals <- boot_ests_math %>%
   group_by(country_name) %>%
   summarise(lower = sort(diff)[5],
-  upper = sort(diff)[95])%>%
+            upper = sort(diff)[95], 
+            .groups = "drop") %>%
   left_join(math_diff_df, by = "country_name") %>%
   mutate(country_name = fct_reorder(country_name, diff)) %>%
-  mutate(score_class = case_when(lower < 0 & upper < 0 ~ "red", 
-                           lower < 0 & upper > 0 ~ "blue",
-                           lower > 0 & upper > 0 ~ "green"))
+  mutate(score_class = factor(case_when(
+    lower < 0 & upper <= 0 ~ "boys", 
+    lower < 0 & upper >= 0 ~ "nodiff",
+    lower >= 0 & upper > 0 ~ "girls"),
+      levels = c("boys", "nodiff", "girls")))
 
-#Math Plot
+  save(math_diff_conf_intervals,
+       file="data/math_diff_conf_intervals.rda")
+
+} else {
+  load("data/math_diff_conf_intervals.rda")
+}
+
+# Plot math
 math_plot <- ggplot(math_diff_conf_intervals, 
                     aes(diff, country_name, 
                         col = score_class)) +
-  scale_colour_brewer(palette = "Dark2") +
-  geom_point() + geom_errorbar(aes(xmin = lower, xmax = upper), , width=0) +
+  scale_colour_manual("",  
+      values = c("boys"="#3288bd", 
+                 "nodiff"="#969696", 
+                 "girls"="#f46d43")) +
+  geom_point() + 
+  geom_errorbar(aes(xmin = lower, xmax = upper), width=0) +
   geom_vline(xintercept = 0, color = "#969696") +
   labs(y = "",
-  x = "Maths Scores Girls - Boys", 
-  title = "Maths") +
+  x = "", 
+  title = "math"
+  ) +
   theme(legend.position="none") + 
-  annotate("text", x = 10.5, y = 1, label = "Girls") +
-  annotate("text", x = -10.5, y = 1, label = "Boys") +
-  scale_x_continuous(breaks = pretty(math_diff_conf_intervals$diff), 
-                     labels = abs(pretty(math_diff_conf_intervals$diff)))
+  annotate("text", x = 50, y = 1, label = "Girls") +
+  annotate("text", x = -50, y = 1, label = "Boys") +
+  scale_x_continuous(limits = c(-70, 70), 
+                     breaks = seq(-60, 60, 20),
+                     labels = abs(seq(-60, 60, 20)))
 
 
 ## -----------------------------------------------------------------------------
-#removing na values
+# Subset data and drop missing values
 read_pisa_2018_data <- student_country %>%  
   filter(!is.na(gender)) %>% 
   filter(!is.na(read)) %>% 
   filter(!is.na(stu_wgt)) 
 
-#avg math scores and diff 
+# Compute average math scores and gender diff 
+if (!file.exists("data/read_diff_conf_intervals.rda")) {
 read_diff_df <- read_pisa_2018_data %>%
   group_by(gender, country_name) %>%
-  summarise(avg = weighted.mean(read, stu_wgt), .groups = "drop") %>%
+  summarise(avg = weighted.mean(read, stu_wgt), 
+            .groups = "drop") %>%
   ungroup() %>%
   pivot_wider(country_name, names_from = gender,
   values_from = avg) %>%
   mutate(diff = female - male,
   country_name = fct_reorder(country_name, diff))
 
-#Bootstrap
+# Compute bootstrap samples 
 boot_ests_read <- map_dfr(1:100, ~{
   read_pisa_2018_data %>%
   group_by(country_name, gender) %>%
   sample_n(size = n(), replace = TRUE) %>%
-  summarise(avg = weighted.mean(read, stu_wgt)) %>%
+  summarise(avg = weighted.mean(read, stu_wgt), 
+            .groups = "drop") %>%
   ungroup() %>%
   pivot_wider(country_name, names_from = gender, values_from = avg) %>%
   mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
   mutate(boot_id = .x)
 })
 
-#CI
+# Compute bootstrap confidence intervals
 read_diff_conf_intervals <- boot_ests_read %>%
   group_by(country_name) %>%
   summarise(lower = sort(diff)[5],
-  upper = sort(diff)[95])%>%
+            upper = sort(diff)[95], 
+            .groups = "drop")%>%
   left_join(read_diff_df, by = "country_name") %>%
   mutate(country_name = fct_reorder(country_name, diff)) %>%
-  mutate(score_class = case_when(lower < 0 & upper < 0 ~ "red", 
-                           lower < 0 & upper > 0 ~ "blue",
-                           lower > 0 & upper > 0 ~ "green"))
+  mutate(score_class = factor(case_when(
+    lower < 0 & upper <= 0 ~ "boys", 
+    lower < 0 & upper >= 0 ~ "nodiff",
+    lower >= 0 & upper > 0 ~ "girls"),
+      levels = c("boys", "nodiff", "girls")))
 
+  save(read_diff_conf_intervals,
+       file="data/read_diff_conf_intervals.rda")
+
+} else {
+  load("data/read_diff_conf_intervals.rda")
+}
 
 read_plot <- ggplot(read_diff_conf_intervals, 
                     aes(diff, country_name, 
-                        col = "#b14d01")) +
-  geom_point() + geom_errorbar(aes(xmin = lower, xmax = upper), width=0) +
+                        col = score_class)) +
+  scale_colour_manual("",  
+      values = c("boys"="#3288bd", 
+                 "nodiff"="#969696", 
+                 "girls"="#f46d43")) +
+  geom_point() + 
+  geom_errorbar(aes(xmin = lower, xmax = upper), width=0) +
   geom_vline(xintercept = 0, color = "#969696") +
   labs(y = "",
-  x = "Reading Scores Girls - Boys", 
-  title = "Reading") +
+  x = "", 
+  title = "Reading"
+  ) +
   theme(legend.position="none") +
-  annotate("text", x = 20, y = 1, label = "Girls") +
-  scale_x_continuous(breaks = pretty(math_diff_conf_intervals$diff), 
-                     labels = abs(pretty(math_diff_conf_intervals$diff)))
+  annotate("text", x = 50, y = 1, label = "Girls") +
+  annotate("text", x = -50, y = 1, label = "Boys") +
+  scale_x_continuous(limits = c(-70, 70), 
+                     breaks = seq(-60, 60, 20),
+                     labels = abs(seq(-60, 60, 20)))
 
 
 ## -----------------------------------------------------------------------------
-#removing na values
+# Subset data and drop missing values
 sci_pisa_2018_data <- student_country %>% 
   filter(!is.na(gender)) %>% 
   filter(!is.na(science)) %>% 
   filter(!is.na(stu_wgt)) 
 
-#avg math scores and diff 
+# Compute average math scores and gender diff 
+if (!file.exists("data/sci_diff_conf_intervals.rda")) {
 sci_diff_df <- sci_pisa_2018_data %>%
   group_by(gender, country_name) %>%
-  summarise(avg = weighted.mean(science, stu_wgt), .groups = "drop") %>%
+  summarise(avg = weighted.mean(science, stu_wgt), 
+            .groups = "drop") %>%
   ungroup() %>%
   pivot_wider(country_name, names_from = gender,
   values_from = avg) %>%
   mutate(diff = female - male,
   country_name = fct_reorder(country_name, diff))
 
-
-#Bootstrap
+# Compute bootstrap samples 
 boot_ests_sci <- map_dfr(1:100, ~{
   sci_pisa_2018_data %>%
   group_by(country_name, gender) %>%
   sample_n(size = n(), replace = TRUE) %>%
-  summarise(avg = weighted.mean(science, stu_wgt)) %>%
+  summarise(avg = weighted.mean(science, stu_wgt),
+    .groups = "drop") %>%
   ungroup() %>%
-  pivot_wider(country_name, names_from = gender, values_from = avg) %>%
+  pivot_wider(country_name, 
+              names_from = gender, 
+              values_from = avg) %>%
   mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
   mutate(boot_id = .x)
 })
 
-#Bootstrap using R: Part 3
+# Compute bootstrap confidence intervals
 sci_diff_conf_intervals <- boot_ests_sci %>%
   group_by(country_name) %>%
-  summarise(lower = sort(diff)[5],
-  upper = sort(diff)[95])%>%
+  summarise(
+    lower = sort(diff)[5],
+    upper = sort(diff)[95],
+    .groups = "drop")%>%
   left_join(sci_diff_df, by = "country_name") %>%
   mutate(country_name = fct_reorder(country_name, diff)) %>%
-  mutate(score_class = case_when(lower < 0 & upper < 0 ~ "red", 
-                           lower < 0 & upper > 0 ~ "blue",
-                           lower > 0 & upper > 0 ~ "green"))
+  mutate(score_class = factor(case_when(
+    lower < 0 & upper <= 0 ~ "boys", 
+    lower < 0 & upper >= 0 ~ "nodiff",
+    lower >= 0 & upper > 0 ~ "girls"),
+      levels = c("boys", "nodiff", "girls")))
+
+  save(sci_diff_conf_intervals,
+       file="data/sci_diff_conf_intervals.rda")
+
+} else {
+  load("data/sci_diff_conf_intervals.rda")
+}
 
 
 sci_plot <- ggplot(sci_diff_conf_intervals, 
                     aes(diff, country_name, 
                         col = score_class)) +
-  scale_colour_brewer(palette = "Dark2") +
-  geom_point() + geom_errorbar(aes(xmin = lower, xmax = upper), width=0) +
+  scale_colour_manual("",  
+      values = c("boys"="#3288bd", 
+                 "nodiff"="#969696", 
+                 "girls"="#f46d43")) +
+  geom_point() + 
+  geom_errorbar(aes(xmin = lower, xmax = upper), width=0) +
   geom_vline(xintercept = 0, color = "#969696") +
   labs(y = "",
-  x = "Science Scores Girls - Boys", 
-  title = "Science") +
+  x = "", 
+  title = "Science"
+  ) +
   theme(legend.position="none") + 
-  annotate("text", x = 10, y = 1, label = "Girls") +
-  annotate("text", x = -5, y = 1, label = "Boys") +
-  scale_x_continuous(breaks = pretty(math_diff_conf_intervals$diff), 
-                     labels = abs(pretty(math_diff_conf_intervals$diff)))
+  annotate("text", x = 50, y = 1, label = "Girls") +
+  annotate("text", x = -50, y = 1, label = "Boys") +
+  scale_x_continuous(limits = c(-70, 70), 
+                     breaks = seq(-60, 60, 20),
+                     labels = abs(seq(-60, 60, 20)))
 
 
-## ----score-differences, fig.cap ="The chart above depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the grey line represent the performances of the girls, while the scores to the left of the grey line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all countries outperformed boys in reading.", fig.width=12, fig.height=16, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----score-differences, fig.cap ="The chart above depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the grey line represent the performances of the girls, while the scores to the left of the grey line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all countries outperformed boys in reading.", fig.width=12, fig.height=12, fig.pos = "H", out.width="100%", layout="l-body"----
 math_plot + read_plot + sci_plot
 
 
@@ -249,8 +316,8 @@ math_world_data <- full_join(math_map_data,
 
 math_world_data <- math_world_data %>% 
   rename(Country = country_name, 
-         Maths = diff) %>% 
-  mutate(Maths = round(Maths, digits = 2))
+         math = diff) %>% 
+  mutate(math = round(math, digits = 2))
 
 
 ## -----------------------------------------------------------------------------
@@ -318,7 +385,7 @@ sci_world_data <- sci_world_data %>%
   mutate(Science = round(Science, digits = 2))
 
 math_dat <- math_world_data %>% 
-  dplyr::select(Country, Maths, lat, long, group)
+  dplyr::select(Country, math, lat, long, group)
 
 read_dat <- read_world_data %>% 
   dplyr::select(Country, Reading, lat, long, group)
@@ -447,7 +514,7 @@ mother_qual_math <- ggplot(mother_qual_math_read_sci_data,
       plot.title = element_text(size=11)) +
     labs(y = "Average Mathematics Score",
          x = "Mother's Qualification",
-         title = "Maths Scores and Mother's Qualification")
+         title = "math Scores and Mother's Qualification")
 
 father_qual_math <- ggplot(father_qual_math_read_sci_data, 
        aes(x=`Father's Education`,
@@ -470,7 +537,7 @@ father_qual_math <- ggplot(father_qual_math_read_sci_data,
       plot.title = element_text(size=11)) +
     labs(y = "Average Mathematics Score",
          x = "Father's Qualification",
-         title = "Maths Scores and Father's Qualification")
+         title = "math Scores and Father's Qualification")
 
 
 ## ----qual-plot, fig.cap ="The impact of parents' education on their children's academic progress is depicted in this graph. When the parents have greater levels of education, we see a considerable rise in scores and an increase in the median of scores for each category, as shown in the figure. In comparison to parents with lower levels of education qualifications. Parents who have tend to have upper secondary qualification or equivalent credentials their children are more likely to perform better in academics when compared with parent having lesser levels of qualifications.", fig.width= 15, fig.height= 8, fig.pos = "H", out.width="100%", layout="l-body"----
@@ -742,6 +809,6 @@ ggplot(data = all_bs_cf,
 #>   theme(legend.position = "none") +
 #>   transition_time(year)   +
 #>   labs(title = 'Year: {frame_time}',
-#>        x = "Average Maths Scores",
+#>        x = "Average math Scores",
 #>        y = "Average Science Scores")
 

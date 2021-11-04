@@ -42,7 +42,7 @@ it currently includes over
 \href{https://www.oecd.org/pisa/aboutpisa/pisa-participants.htm}{80
 nations}. \citep{pisa} The PISA study, conducted every three years,
 provides comparative statistics on 15-year-olds' performance in reading,
-maths, and science. This paper describes how to utilize the
+math, and science. This paper describes how to utilize the
 \texttt{learningtower} package, which offers OECD PISA datasets from
 2000 to 2018 in an easy-to-use format. This dataset comprises
 information on their test results and other socioeconomic factors, as
@@ -54,7 +54,7 @@ participating in the program.
 
 PISA assesses the extent to which children approaching the end of
 compulsory school have learned some of the information and abilities
-required for full participation in modern society, notably in maths,
+required for full participation in modern society, notably in math,
 reading, and science. The examination focuses on reading, mathematics,
 science, and problem solving. It also assesses students capacity to
 replicate information and extrapolate from what they have learned and
@@ -125,7 +125,7 @@ called \texttt{learningtower}, which contains all of the PISA scores
 from the years 2000 to 2018.
 
 \hypertarget{data-compilation}{%
-\section{Data Compilation}\label{data-compilation}}
+\section{Data compilation}\label{data-compilation}}
 
 Each developer at the ROpenSci OzUnconf was assigned to curate a
 specific year of the PISA study. Data on the participating students and
@@ -167,7 +167,7 @@ such as
 Signs: Australia's slipping student scores will lead to greater income
 inequality''} and
 \href{https://www.smh.com.au/education/in-china-nicholas-studied-maths-20-hours-a-week-in-australia-it-s-three-20191203-p53ggv.html}{``In
-China, Nicholas studied maths 20 hours a week. In Australia, it's
+China, Nicholas studied math 20 hours a week. In Australia, it's
 three''}. That's when several academics from Australia, New Zealand, and
 Indonesia decided to make things easier by providing easy access to PISA
 scores as part of the \href{https://ozunconf19.ropensci.org/}{ROpenSci
@@ -208,8 +208,8 @@ COVID-19 problems, OECD member nations and associates decided to
 postpone the PISA 2021 evaluation to 2022 and the PISA 2024 assessment
 to 2025.
 
-\hypertarget{example-analysis}{%
-\section{Example Analysis}\label{example-analysis}}
+\hypertarget{example-analyses}{%
+\section{Example analyses}\label{example-analyses}}
 
 In this section we will illustrate how the \CRANpkg{learningtower}
 package can be utilized to answer some research questions by applying
@@ -232,7 +232,7 @@ some noteworthy trends that Australia has observed as a result of its
 participation in the PISA experiment.
 
 \hypertarget{gender-analysis}{%
-\section{Gender Analysis}\label{gender-analysis}}
+\section{Gender analysis}\label{gender-analysis}}
 
 Gender gaps have always been a topic of interest among researchers, and
 when it comes to PISA data and scores of 15-year-old students around the
@@ -241,7 +241,7 @@ meaningful insights in the field of education for various education
 policymakers around the world. Based on the 2018 PISA results, let us
 see if there is a major gender disparity between girls and boys
 throughout the world in mathematics, reading, and science. To begin, we
-will create a `data.frame' that stores the weighted average maths score
+will create a `data.frame' that stores the weighted average math score
 for each nation as well as the various regions of the countries grouped
 by country and gender, in order to create this \texttt{data.frame} and
 represent data in the tidy format we use the \CRANpkg{tidyverse}
@@ -320,7 +320,7 @@ girls in that country. The diverging spectral color scale and the legend
 of these maps makes it possible for us to deduce and identify regions
 across the globe showing large gender discrepancy between girls and
 boys, we can see that the most gender difference can be seen in the
-reading and maths scores, where most boys around the world outperform
+reading and math scores, where most boys around the world outperform
 girls in the subject of mathematics, whereas all positive reading scores
 indicate that all girls around the world outperformed boys in reading in
 2018. We see that there is less of a gender disparity seen in the
@@ -337,9 +337,8 @@ of girls in reading. The fewer gender disparity evident in science
 scores, and the majority of boys perform better than girls in
 mathematics.
 
-\hypertarget{socioeconomic-factors-analysis}{%
-\section{Socioeconomic Factors
-Analysis}\label{socioeconomic-factors-analysis}}
+\hypertarget{socioeconomic-factors}{%
+\section{Socioeconomic factors}\label{socioeconomic-factors}}
 
 Socioeconomic status is an economic and sociological complete measure of
 a person's work experience, economic access to resources, and social
@@ -603,7 +602,7 @@ about an increasing pattern seen in the scores for Qatar and a
 decreasing pattern for Australia. To deepen our understanding of the
 topic, we compare Indonesia's results to those of Australia. In
 Indonesia, there is occasionally a growing and decreasing trend over the
-years. However, if on closely examining the average maths, reading and
+years. However, if on closely examining the average math, reading and
 science score, we see that the highest score for Indonesia or even for
 Qatar is initially a very low score, and this increases further.
 However, Australia's performance in the PISA was initially a top
