@@ -267,7 +267,7 @@ sci_plot <- ggplot(sci_diff_conf_intervals,
                      labels = abs(seq(-60, 60, 20)))
 
 
-## ----score-differences, fig.cap ="The chart above depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the grey line represent the performances of the girls, while the scores to the left of the grey line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all countries outperformed boys in reading.", fig.width=12, fig.height=12, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----score-differences, fig.cap ="The chart above depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the grey line represent the performances of the girls, while the scores to the left of the grey line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all countries outperformed boys in reading.", fig.width=11, fig.height=11, fig.pos = "H", out.width="100%", layout="l-body"----
 math_plot + read_plot + sci_plot
 
 
@@ -437,9 +437,7 @@ p2 <- ggplot(data = student_country,
   geom_hex() + 
   labs(x = "Math Scores", 
        y = "Science Scores") +
-  theme(legend.position = "bottom", 
-        legend.box = "horizontal", 
-        legend.text=element_text(size=7.2))
+  theme(legend.position = "none")
 
 p3 <- ggplot(data = student_country, 
              aes(x = read, y = science)) +
@@ -474,9 +472,6 @@ dplyr::mutate(father_educ = recode_factor(father_educ,
   na.omit() %>%
   rename(`Father's Education` = father_educ)
 
-
-
-
 mother_qual_math_read_sci_data <- student_country_data %>%
   group_by(country_name, mother_educ) %>%
   dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
@@ -491,7 +486,6 @@ dplyr::mutate(mother_educ = recode_factor(mother_educ,
                 .ordered = TRUE)) %>%
   na.omit() %>%
   rename(`Mother's Education` = mother_educ)
-
 
 mother_qual_math <- ggplot(mother_qual_math_read_sci_data, 
        aes(x=`Mother's Education`,
@@ -549,22 +543,31 @@ z_star_95 <- qnorm(0.975)
 
 tv_math_data <- student_country_data %>% 
   group_by(country_name, television) %>% 
-  dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE), 
-                   lower = weighted.mean(math, w = stu_wgt, na.rm = TRUE) - z_star_95 * (sd(math, na.rm = TRUE)) / sqrt(length(math)), 
-                   upper = weighted.mean(math, w = stu_wgt, na.rm = TRUE) + z_star_95 * (sd(math, na.rm = TRUE)) / sqrt(length(math))) %>% 
-  dplyr::mutate(television = recode_factor(television,
-                 "0" = "No TV",
-                 "1" = "1 TVs",
-                 "2" = "2 Tvs",
-                 "3+" = "3+ TVs", 
-                .ordered = TRUE)) %>%
+  dplyr::summarise(math_avg = 
+                     weighted.mean(math, 
+                                   w = stu_wgt, 
+                                   na.rm = TRUE), 
+                   lower = weighted.mean(math, 
+                      w = stu_wgt, na.rm = TRUE) - 
+                      z_star_95 * (sd(math, na.rm = TRUE)) /
+                      sqrt(length(math)), 
+                   upper = weighted.mean(math, 
+                      w = stu_wgt, na.rm = TRUE) + 
+                      z_star_95 * (sd(math, na.rm = TRUE)) /
+                     sqrt(length(math)), 
+                   .groups = "drop") %>% 
+  #dplyr::mutate(television = recode_factor(television,
+  #               "0" = "No TV",
+  #               "1" = "1 TVs",
+  #               "2" = "2 Tvs",
+  #               "3+" = "3+ TVs", 
+  #              .ordered = TRUE)) %>%
   na.omit() %>% 
-  dplyr::select(television, 
+  dplyr::select(country_name, 
+                television, 
                 math_avg, 
                 lower, 
                 upper)
-
-
 
 linear_model <- function(y, x){
   coef(lm(y ~ x))[2]
@@ -575,14 +578,16 @@ tv_plot <- tv_math_data %>%
   mutate(slope = linear_model(math_avg, television)) %>%
   ungroup() %>%
   mutate(country_name = fct_reorder(country_name, slope)) %>%
-  ggplot(aes(x=television, y=math_avg)) + 
+  ggplot(aes(x=as.numeric(television), y=math_avg)) + 
+  geom_ribbon(aes(ymin = lower, ymax = upper),
+                colour="orange", fill = "orange", 
+              alpha=0.45) +
   geom_point(size=1.8) +
-  geom_line(aes(group = country_name)) +
-  geom_errorbar(aes(ymin = lower, ymax = upper, group = country_name, width=0),
-                width=0.25, colour="#7f0000", alpha=0.45, size=1.53) +
-  facet_wrap(~country_name, ncol = 5, scales = "free") +
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
-  labs(x = "Possession of Television",
+  geom_line() +
+  facet_wrap(~country_name, ncol = 8, scales = "free") +
+#  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
+  theme(axis.text = element_blank()) +
+  labs(x = "Number of TVs",
        y = "Average Mathematics Score")
 
 
@@ -595,19 +600,26 @@ z_star_95 <- qnorm(0.975)
 
 book_math_read_sci_data <- student_country_data %>% 
   group_by(country_name, book)  %>% 
-  dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE), 
-                   bk_lower = weighted.mean(math, w = stu_wgt, na.rm = TRUE) - z_star_95 * (sd(math, na.rm = TRUE)) / sqrt(length(math)), 
-                   bk_upper = weighted.mean(math, w = stu_wgt, na.rm = TRUE) + z_star_95 * (sd(math, na.rm = TRUE)) / sqrt(length(math)))  %>% 
+  dplyr::summarise(math_avg = 
+            weighted.mean(math, 
+              w = stu_wgt, na.rm = TRUE), 
+           bk_lower = weighted.mean(math, 
+              w = stu_wgt, na.rm = TRUE) - 
+              z_star_95 * (sd(math, na.rm = TRUE)) /
+              sqrt(length(math)), 
+           bk_upper = weighted.mean(math, 
+              w = stu_wgt, na.rm = TRUE) + 
+              z_star_95 * (sd(math, na.rm = TRUE)) /
+              sqrt(length(math)), .groups = "drop")  %>% 
   dplyr::mutate(book = recode_factor(book, 
-                                     "0-10" = "0-10",
-                                     "11-25" = "11-25", 
-                                     "26-100" = "26-100",
-                                     "101-200" = "101-200",
-                                     "201-500" = "201-500",
-                                     "more than 500" = "500+",
+                                     "0-10" = "1",
+                                     "11-25" = "2", 
+                                     "26-100" = "3",
+                                     "101-200" = "4",
+                                     "201-500" = "5",
+                                     "more than 500" = "6",
                                      .ordered = TRUE)) %>% 
-  na.omit() %>% 
-  rename(Number_of_Books = book)
+  na.omit() 
 
 linear_model <- function(y, x){
   coef(lm(y ~ x))[2]
@@ -616,21 +628,21 @@ linear_model <- function(y, x){
 
 book_plot <- book_math_read_sci_data %>%
   group_by(country_name) %>%
-  mutate(slope = linear_model(math_avg, Number_of_Books)) %>%
+  mutate(slope = linear_model(math_avg, book)) %>%
   ungroup() %>%
   mutate(country_name = fct_reorder(country_name, slope)) %>%
-  ggplot(aes(x=Number_of_Books, y=math_avg)) + 
+  ggplot(aes(x=as.numeric(book), y=math_avg)) + 
+  geom_ribbon(aes(ymin = bk_lower, ymax = bk_upper),
+                colour="orange", fill="orange", alpha=0.45) +
   geom_point(size=1.8) +
   geom_line(aes(group = country_name)) +
-  geom_errorbar(aes(ymin = bk_lower, ymax = bk_upper, group = country_name, width=0),
-                width=0.18, colour="#00441b", alpha=0.45, size=1.53) +
-  facet_wrap(~country_name, ncol = 5, scales = "free") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-  labs(x = "Possession of Books",
+  facet_wrap(~country_name, ncol = 8, scales = "free") +
+  theme(axis.text = element_blank()) +
+  labs(x = "Number of Books",
        y = "Average Mathematics Score")
 
 
-## ----book-plot, fig.cap ="The influence of books on students' lives at an early age is vital to their development. In this graph, we examine the impact of the amount of books owned by each family. This graph indicates that the higher the number of books owned by a home, the greater the influence on student average math results. When compared to Luxembourg and Hungary, we discover that nations such as the Dominican Republic and Panama have a little lesser effect of books.", fig.height=25, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----book-plot, fig.cap ="Impact of the number of books on average math score. This graph indicates that the higher the number of books owned by a home, the greater the influence on student average math results. When compared to Luxembourg and Hungary, we discover that nations such as the Dominican Republic and Panama have a little lesser effect of books.", fig.height=25, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
 book_plot
 
 
