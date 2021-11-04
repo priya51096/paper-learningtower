@@ -954,9 +954,16 @@ student_country_anim <- left_join(student_all,
 
 student_country_anim_avg <- student_country_anim %>%
 group_by(country_name, year) %>%
-dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
-                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
-                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>%
+dplyr::summarise(math_avg = 
+                   weighted.mean(math, w = stu_wgt, 
+                                 na.rm = TRUE),
+                 read_avg = 
+                   weighted.mean(read, w = stu_wgt, 
+                                 na.rm = TRUE),
+                 sci_avg  =  
+                   weighted.mean(science, w = stu_wgt, 
+                                 na.rm = TRUE), 
+                 .groups = "drop") %>%
 ungroup()
 
 student_country_anim_avg$year <- as.integer(student_country_anim_avg$year)

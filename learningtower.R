@@ -591,7 +591,7 @@ tv_plot <- tv_math_data %>%
        y = "Average Mathematics Score")
 
 
-## ----tv-plot, fig.cap ="The impact of television on student performance is a contentious issue, however in this figure, we examine the effects of television on student performance using statistical methods. The counties are arranged according to the slope of the linear model fitted for the math average score against the various levels of television. We observe that television has the greatest influence on performance in a select countries, such as Lebanon, whilst it has the least impact in Slovenia. The confidence interval suggests that there is an uncertainty of the scores when a household does not own a television in the majority of the nations that participated in the PISA experiment in the year 2018.", fig.height=21, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----tv-plot, fig.cap ="Relationship between number of TVs in a household and average math scores across countries. Number of TVs ranges from 0 to 3+. The orange bands indicate 95% standard confidence intervals. The impact of television on student performance is a contentious issue. It is interesting that in some countries (e.g. Morocco, Panama) the effect appears to be positive, but in others (e.g. Poland, Germany) there is a decline in average math scores.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
 tv_plot
 
 
@@ -613,11 +613,11 @@ book_math_read_sci_data <- student_country_data %>%
               sqrt(length(math)), .groups = "drop")  %>% 
   dplyr::mutate(book = recode_factor(book, 
                                      "0-10" = "1",
-                                     "11-25" = "2", 
-                                     "26-100" = "3",
-                                     "101-200" = "4",
-                                     "201-500" = "5",
-                                     "more than 500" = "6",
+                                     "11-25" = "11", 
+                                     "26-100" = "26",
+                                     "101-200" = "101",
+                                     "201-500" = "201",
+                                     "more than 500" = "500",
                                      .ordered = TRUE)) %>% 
   na.omit() 
 
@@ -642,7 +642,7 @@ book_plot <- book_math_read_sci_data %>%
        y = "Average Mathematics Score")
 
 
-## ----book-plot, fig.cap ="Impact of the number of books on average math score. This graph indicates that the higher the number of books owned by a home, the greater the influence on student average math results. When compared to Luxembourg and Hungary, we discover that nations such as the Dominican Republic and Panama have a little lesser effect of books.", fig.height=25, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----book-plot, fig.cap ="Impact of the number of books on average math score. Number of books ranges from 0 to 500+. 95% standard confidence bands shown in orange. Math scores generally increase as the number of books increases. Averages for some countries at the higher number of books are less reliable, and hence the decline reflects more that there are few households with this many books than a true decline.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
 book_plot
 
 
@@ -804,9 +804,16 @@ ggplot(data = all_bs_cf,
 #> 
 #> student_country_anim_avg <- student_country_anim %>%
 #> group_by(country_name, year) %>%
-#> dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
-#>                    read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
-#>                    sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>%
+#> dplyr::summarise(math_avg =
+#>                    weighted.mean(math, w = stu_wgt,
+#>                                  na.rm = TRUE),
+#>                  read_avg =
+#>                    weighted.mean(read, w = stu_wgt,
+#>                                  na.rm = TRUE),
+#>                  sci_avg  =
+#>                    weighted.mean(science, w = stu_wgt,
+#>                                  na.rm = TRUE),
+#>                  .groups = "drop") %>%
 #> ungroup()
 #> 
 #> student_country_anim_avg$year <- as.integer(student_country_anim_avg$year)
