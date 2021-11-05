@@ -1,4 +1,4 @@
-\begin{thebibliography}{15}
+\begin{thebibliography}{16}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -113,5 +113,11 @@ H.~Wickham, R.~François, L.~Henry, and K.~Müller.
 \newblock \emph{dplyr: A Grammar of Data Manipulation}, 2021.
 \newblock URL \url{https://CRAN.R-project.org/package=dplyr}.
 \newblock R package version 1.0.7.
+
+\bibitem[Yutani(2021)]{gghighlight}
+H.~Yutani.
+\newblock \emph{gghighlight: Highlight Lines and Points in 'ggplot2'}, 2021.
+\newblock URL \url{https://CRAN.R-project.org/package=gghighlight}.
+\newblock R package version 0.3.2.
 
 \end{thebibliography}

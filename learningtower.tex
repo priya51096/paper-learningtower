@@ -570,64 +570,56 @@ influence on their academic performance.
 \section{Temporal trend}\label{temporal-trend}}
 
 In this section of analysis, we look at the temporal trends noticed in
-Australia. The release of PISA results in 2018 also led several
-headlines on the decline in scores recorded in Australia. In this
-section, we will determine whether this decrease is indeed significant
-or whether there are any other aspects to consider when comparing
-country rankings. To better comprehend Australia's scores and trends
-since 2000, the developers of the \CRANpkg{learningtower} package, feel
-it is appropriate to illustrate the temporal trend of Australia in
-comparison to a few other nations. We evaluate these nations' ratings
-using a statistical procedure bootstrap with replacement using the
-\texttt{map\_dfr} function which resamples a single dataset to generate
-a large number of simulated samples. In this situation, we have decided
-to apply this strategy to a few selected countries whose scores are
-compared to Australia's. In this context, we have chosen three
-additional countries: New Zealand, Qatar, and Indonesia. Using these
-three countries, the score of Australia will be compared throughout all
-years since the PISA experiment was implemented.
+Australia. The release of PISA results in 2018 led to several headlines
+on the decline in scores recorded in Australia. In this section, we will
+determine whether this decrease is indeed significant or whether there
+are any other aspects to consider when comparing country rankings. To
+better comprehend Australia's scores and trends since 2000, the
+developers of the \CRANpkg{learningtower} package, feel it is
+appropriate to illustrate the temporal trend of Australia in comparison
+to a few other nations. We evaluate these countries performance using a
+statistical procedure bootstrapping using the \texttt{map\_dfr} function
+which resamples a single dataset to generate a large number of simulated
+samples. We will compare the results of these bootstrap samples across
+all the years they participated in PISA and highlight a few countries
+with help of \CRANpkg{gghighlight} \citep{gghighlight} performance to
+compare with Australia's
 
 \begin{Schunk}
 \begin{figure}[H]
-\includegraphics[width=0.7\linewidth]{learningtower_files/figure-latex/bs-plot-1} \caption[Temporal trends in math, reading and science for a selection of countries]{Temporal trends in math, reading and science for a selection of countries. Line indicates average score across years, and the orange band is the permutation confidence interval assuming that there is no trend. }\label{fig:bs-plot}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/bs-plot-1} \caption[Temporal patterns in math, reading, and science in a variety of countries]{Temporal patterns in math, reading, and science in a variety of countries. The highlighted countries in the chart help us infer Australia's performance in contrast to the other countries; we can see that Australia's scores have always been among the highest in the PISA survey throughout all years.}\label{fig:bs-plot}
 \end{figure}
 \end{Schunk}
 
 Taking a deeper look at the figure \ref{fig:bs-plot} and comparing the
-Australia scores to those of New Zealand, Qatar, and Indonesia, we
-conclude that New Zealand and Australia follow a similar trajectory in
-the areas of math, reading, and science scores throughout all the years.
-Whereas on observing Australia's scores with respect to Qatar's, we
-notice the changing scales of their scores in all three plots of math,
-reading, and science and we infer that Australia's performance has been
-is much better than Qatar's across all the years but one could argue
-about an increasing pattern seen in the scores for Qatar and a
-decreasing pattern for Australia. To deepen our understanding of the
-topic, we compare Indonesia's results to those of Australia. In
-Indonesia, there is occasionally a growing and decreasing trend over the
-years. However, if on closely examining the average math, reading and
-science score, we see that the highest score for Indonesia or even for
-Qatar is initially a very low score, and this increases further.
-However, Australia's performance in the PISA was initially a top
-achievement, and it has only drops by a few points. Though the temporal
-trend of Australia displays a declining tendency, this is due to the
-fact that Australia initially performed very well in the PISA experiment
-and has only decreased it scores by a few points each year, remaining in
-one of the top scores of the PISA research until the year 2018. As a
-result, we infer that Australian's performance has declined over time
-but the country has remained on the list of top scores countries for all
-of the years this PISA research has been done. Using a similar notion,
-we conclude that countries with lower initial PISA results have a
-tendency to increase their score each time the PISA exam is taken whilst
-countries that have previously established a standard with great score
-results may witness a decreasing trend in the scores but optimally the
-scores has decrease by a few points only thus not making the the
-declining trend a significant measure of performance. In addition, to
-understand this better, we have a animation plotted using
-\CRANpkg{gganimate} \citep{gganimate} the that explains how performance
-can only be compared among scales and not based on scores or any other
-characteristics with respect to several other countries that
-participated in the PISA experiment.
+Australia scores to a few of the selected countries, we notice the
+changing scales of their scores in all three plots of math, reading, and
+science and we infer that Australia's performance has been is much
+better than than majority of the countries. To deepen our understanding
+of the topic, we compare Indonesia's, Qatar's or Peru's results to those
+of Australia and observe and increasing pattern for all of them but
+Australia. On closer examination we witness that the highest score for
+Indonesia, Qatar or Peru are initially low scores and this increases
+further. However, Australia's performance in the PISA was initially a
+top achievement, and it has only drops by a few points. Though the
+temporal trend of Australia displays a declining tendency, this is due
+to the fact that Australia initially performed very well in the PISA
+experiment and has only decreased it scores by a few points each year,
+remaining in one of the top scores of the PISA research until the year
+2018. As a result, we infer that Australian's performance has declined
+over time but the country has remained on the list of top scores
+countries for all of the years this PISA research has been done. Using a
+similar notion, we conclude that countries with lower initial PISA
+results have a tendency to increase their score each time the PISA exam
+is taken whilst countries that have previously established a standard
+with great score results like Australia may witness a decreasing trend
+in the scores but optimally the scores has decrease by a few points only
+thus not making the the declining trend a significant measure of
+performance. In addition, to understand this better, we have a animation
+plotted using \CRANpkg{gganimate} \citep{gganimate} the that explains
+how performance can only be compared among scales and not based on
+scores or any other characteristics with respect to several other
+countries that participated in the PISA experiment.
 
 \bibliography{learningtower.bib}
 

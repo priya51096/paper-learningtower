@@ -5,45 +5,45 @@ The style file: abbrvnat.bst
 Database file #1: learningtower.bib
 Warning--I'm ignoring viridis's extra "doi" field
 --line 241 of file learningtower.bib
-You've used 15 entries,
+You've used 16 entries,
             2773 wiz_defined-function locations,
-            669 strings with 7153 characters,
-and the built_in function-call counts, 7369 in all, are:
-= -- 614
-> -- 651
-< -- 11
-+ -- 222
-- -- 204
-* -- 638
-:= -- 1230
-add.period$ -- 62
-call.type$ -- 15
-change.case$ -- 99
-chr.to.int$ -- 12
-cite$ -- 30
-duplicate$ -- 271
-empty$ -- 413
-format.name$ -- 235
-if$ -- 1447
+            674 strings with 7299 characters,
+and the built_in function-call counts, 7659 in all, are:
+= -- 642
+> -- 661
+< -- 12
++ -- 226
+- -- 207
+* -- 655
+:= -- 1278
+add.period$ -- 66
+call.type$ -- 16
+change.case$ -- 102
+chr.to.int$ -- 13
+cite$ -- 32
+duplicate$ -- 288
+empty$ -- 438
+format.name$ -- 239
+if$ -- 1505
 int.to.chr$ -- 4
 int.to.str$ -- 1
 missing$ -- 7
-newline$ -- 100
-num.names$ -- 60
-pop$ -- 197
+newline$ -- 106
+num.names$ -- 64
+pop$ -- 203
 preamble$ -- 1
-purify$ -- 98
+purify$ -- 101
 quote$ -- 0
-skip$ -- 257
+skip$ -- 270
 stack$ -- 0
-substring$ -- 42
-swap$ -- 30
+substring$ -- 44
+swap$ -- 32
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 150
+type$ -- 161
 warning$ -- 0
-while$ -- 46
+while$ -- 49
 width$ -- 0
-write$ -- 222
+write$ -- 236
 (There was 1 warning)

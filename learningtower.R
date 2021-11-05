@@ -766,30 +766,70 @@ if (!file.exists("data/all_bs_cf.rda")) {
 
 
 
-## ----bs-plot, fig.cap ="Temporal trends in math, reading and science for a selection of countries. Line indicates average score across years, and the orange band is the permutation confidence interval assuming that there is no trend. ", fig.pos = "H", fig.width = 5, fig.height=12, out.width="70%", layout="l-body"----
+## ----bs-plot, fig.cap ="Temporal patterns in math, reading, and science in a variety of countries. The highlighted countries in the chart help us infer Australia's performance in contrast to the other countries; we can see that Australia's scores have always been among the highest in the PISA survey throughout all years.", fig.height=18, fig.width=15, fig.pos = "H", out.width="100%", layout="l-body"----
 all_bs_cf <- all_bs_cf %>%
   mutate(year = as.numeric(as.character(year)),
-         country_name = factor(country_name,
-                 levels = c("Singapore",
-                          "Australia",
-                          "New Zealand",
-                          "Germany",
-                          "Qatar",
-                          "Indonesia")))
-ggplot(data = all_bs_cf,
-  aes(x = year,
+         country_name = factor(country_name))
+                 # levels = c("Singapore",
+                 #          "Australia",
+                 #          "New Zealand",
+                 #          "Germany",
+                 #          "Qatar",
+                 #          "Indonesia"))
+
+
+country_names_highlight <- c("Australia", 
+                             "Germany", 
+                             "Peru", 
+                             "Qatar", 
+                             "Belgium", 
+                             "Brazil", 
+                             "Denmark", 
+                             "Greece",
+                             "Thailand", 
+                             "Singapore", 
+                             "Canada", 
+                             "Portugal")
+
+math_all_bs_cf_plot <- all_bs_cf %>% 
+  dplyr::filter(subject == "math") %>% 
+  ggplot(aes(x = year, 
       y = avg)) +
-  geom_ribbon(aes(x = year,
-                    ymin = lower,
-                    ymax = upper),
-              colour = "orange", fill = "orange",
-              alpha = 0.8) +
-  geom_point(alpha = 0.1) +
-  geom_line() +
-  facet_grid(country_name~subject) +
+  geom_point(alpha = 0.45) +
+  geom_line(aes(group = country_name)) +
+  gghighlight::gghighlight(country_name %in% country_names_highlight) +
   labs(
+    title = "Maths",
+     x = "",
+     y = "Score") 
+
+
+read_all_bs_cf_plot <- all_bs_cf %>% 
+  dplyr::filter(subject == "read") %>% 
+  ggplot(aes(x = year, 
+      y = avg)) +
+  geom_point(alpha = 0.45) +
+  geom_line(aes(group = country_name)) +
+  gghighlight::gghighlight(country_name %in% country_names_highlight) +
+  labs(
+    title = "Reading",
+     x = "",
+     y = "Score") 
+
+sci_all_bs_cf_plot <- all_bs_cf %>% 
+  dplyr::filter(subject == "science") %>% 
+  ggplot(aes(x = year, 
+      y = avg)) +
+  geom_point(alpha = 0.45) +
+  geom_line(aes(group = country_name)) +
+  gghighlight::gghighlight(country_name %in% country_names_highlight) +
+  labs(
+    title = "Science",
      x = "",
      y = "Score")
+
+
+math_all_bs_cf_plot + read_all_bs_cf_plot + sci_all_bs_cf_plot
 
 
 
@@ -816,18 +856,31 @@ ggplot(data = all_bs_cf,
 #>                  .groups = "drop") %>%
 #> ungroup()
 #> 
-#> student_country_anim_avg$year <- as.integer(student_country_anim_avg$year)
+#> data_cont <- countrycode::codelist %>%
+#>   dplyr::select(cowc, continent, country.name.en) %>%
+#>   rename(country_name = country.name.en)
 #> 
+#> student_anim_data <- left_join(student_country_anim_avg,
+#>                                data_cont,
+#>                                by = "country_name") %>%
+#>   dplyr::select(-cowc)
+#> 
+#> student_anim_data$year <- as.numeric(as.character(student_anim_data$year))
+#> 
+#> student_anim_data$year <- round(as.numeric(student_anim_data$year), 0)
 #> 
 #> #animate
-#> ggplot(student_country_anim_avg,
+#> gif <- ggplot(student_anim_data,
 #>        aes(math_avg, sci_avg,
-#>            color = country_name, )) +
+#>            color = continent)) +
 #>   geom_text(aes(label = country_name),
 #>             check_overlap = TRUE) +
-#>   theme(legend.position = "none") +
+#>   theme(legend.position = "none",
+#>         axis.line = element_blank(),) +
 #>   transition_time(year)   +
 #>   labs(title = 'Year: {frame_time}',
-#>        x = "Average math Scores",
+#>        x = "Average Math Scores",
 #>        y = "Average Science Scores")
+#> 
+#> animate(gif, fps = 1.9)
 
