@@ -33,52 +33,52 @@ if (!file.exists("data/student_2018.rda")) {
 data(countrycode, package = "learningtower")
 
 # Load the country names, and join
-student_country <- left_join(student_2018, 
+student_country <- left_join(student_2018,
                              countrycode, by = "country")
 
 # Drop missing values
-math_pisa_2018_data <- student_country %>% 
+math_pisa_2018_data <- student_country %>%
   filter(!is.na(gender), !is.na(math), !is.na(stu_wgt))
 
-# Compute average math scores and gender diff 
+# Compute average math scores and gender diff
 if (!file.exists("data/math_diff_conf_intervals.rda")) {
 math_diff_df <- math_pisa_2018_data %>%
-  group_by(gender, country_name) %>% 
+  group_by(gender, country_name) %>%
   summarise(avg = weighted.mean(math, stu_wgt),
             .groups = "drop") %>%
   ungroup() %>%
-  pivot_wider(country_name, 
+  pivot_wider(country_name,
               names_from = gender,
               values_from = avg) %>%
-mutate(diff = female - male, 
+mutate(diff = female - male,
        country_name = fct_reorder(country_name, diff))
 
-# Compute bootstrap samples 
+# Compute bootstrap samples
 set.seed(2020)
 boot_ests_math <- map_dfr(1:100, ~{
   math_pisa_2018_data %>%
   group_by(country_name, gender) %>%
   sample_n(size = n(), replace = TRUE) %>%
-  summarise(avg = weighted.mean(math, stu_wgt), 
+  summarise(avg = weighted.mean(math, stu_wgt),
             .groups = "drop") %>%
-  pivot_wider(country_name, 
-              names_from = gender, 
+  pivot_wider(country_name,
+              names_from = gender,
               values_from = avg) %>%
-  mutate(diff = female - male, 
+  mutate(diff = female - male,
          country_name = fct_reorder(country_name, diff)) %>%
-  mutate(boot_id = .x) 
+  mutate(boot_id = .x)
 })
 
 # Compute bootstrap confidence intervals
 math_diff_conf_intervals <- boot_ests_math %>%
   group_by(country_name) %>%
   summarise(lower = sort(diff)[5],
-            upper = sort(diff)[95], 
+            upper = sort(diff)[95],
             .groups = "drop") %>%
   left_join(math_diff_df, by = "country_name") %>%
   mutate(country_name = fct_reorder(country_name, diff)) %>%
   mutate(score_class = factor(case_when(
-    lower < 0 & upper <= 0 ~ "boys", 
+    lower < 0 & upper <= 0 ~ "boys",
     lower < 0 & upper >= 0 ~ "nodiff",
     lower >= 0 & upper > 0 ~ "girls"),
       levels = c("boys", "nodiff", "girls")))
@@ -91,40 +91,40 @@ math_diff_conf_intervals <- boot_ests_math %>%
 }
 
 # Plot math
-math_plot <- ggplot(math_diff_conf_intervals, 
-                    aes(diff, country_name, 
+math_plot <- ggplot(math_diff_conf_intervals,
+                    aes(diff, country_name,
                         col = score_class)) +
-  scale_colour_manual("",  
-      values = c("boys"="#3288bd", 
-                 "nodiff"="#969696", 
+  scale_colour_manual("",
+      values = c("boys"="#3288bd",
+                 "nodiff"="#969696",
                  "girls"="#f46d43")) +
-  geom_point() + 
+  geom_point() +
   geom_errorbar(aes(xmin = lower, xmax = upper), width=0) +
   geom_vline(xintercept = 0, color = "#969696") +
   labs(y = "",
-  x = "", 
-  title = "math"
+  x = "",
+  title = "Math"
   ) +
-  theme(legend.position="none") + 
+  theme(legend.position="none") +
   annotate("text", x = 50, y = 1, label = "Girls") +
   annotate("text", x = -50, y = 1, label = "Boys") +
-  scale_x_continuous(limits = c(-70, 70), 
+  scale_x_continuous(limits = c(-70, 70),
                      breaks = seq(-60, 60, 20),
                      labels = abs(seq(-60, 60, 20)))
 
 
 ## -----------------------------------------------------------------------------
 # Subset data and drop missing values
-read_pisa_2018_data <- student_country %>%  
-  filter(!is.na(gender)) %>% 
-  filter(!is.na(read)) %>% 
-  filter(!is.na(stu_wgt)) 
+read_pisa_2018_data <- student_country %>%
+  filter(!is.na(gender)) %>%
+  filter(!is.na(read)) %>%
+  filter(!is.na(stu_wgt))
 
-# Compute average math scores and gender diff 
+# Compute average math scores and gender diff
 if (!file.exists("data/read_diff_conf_intervals.rda")) {
 read_diff_df <- read_pisa_2018_data %>%
   group_by(gender, country_name) %>%
-  summarise(avg = weighted.mean(read, stu_wgt), 
+  summarise(avg = weighted.mean(read, stu_wgt),
             .groups = "drop") %>%
   ungroup() %>%
   pivot_wider(country_name, names_from = gender,
@@ -132,12 +132,12 @@ read_diff_df <- read_pisa_2018_data %>%
   mutate(diff = female - male,
   country_name = fct_reorder(country_name, diff))
 
-# Compute bootstrap samples 
+# Compute bootstrap samples
 boot_ests_read <- map_dfr(1:100, ~{
   read_pisa_2018_data %>%
   group_by(country_name, gender) %>%
   sample_n(size = n(), replace = TRUE) %>%
-  summarise(avg = weighted.mean(read, stu_wgt), 
+  summarise(avg = weighted.mean(read, stu_wgt),
             .groups = "drop") %>%
   ungroup() %>%
   pivot_wider(country_name, names_from = gender, values_from = avg) %>%
@@ -149,12 +149,12 @@ boot_ests_read <- map_dfr(1:100, ~{
 read_diff_conf_intervals <- boot_ests_read %>%
   group_by(country_name) %>%
   summarise(lower = sort(diff)[5],
-            upper = sort(diff)[95], 
+            upper = sort(diff)[95],
             .groups = "drop")%>%
   left_join(read_diff_df, by = "country_name") %>%
   mutate(country_name = fct_reorder(country_name, diff)) %>%
   mutate(score_class = factor(case_when(
-    lower < 0 & upper <= 0 ~ "boys", 
+    lower < 0 & upper <= 0 ~ "boys",
     lower < 0 & upper >= 0 ~ "nodiff",
     lower >= 0 & upper > 0 ~ "girls"),
       levels = c("boys", "nodiff", "girls")))
@@ -166,40 +166,40 @@ read_diff_conf_intervals <- boot_ests_read %>%
   load("data/read_diff_conf_intervals.rda")
 }
 
-read_plot <- ggplot(read_diff_conf_intervals, 
-                    aes(diff, country_name, 
+read_plot <- ggplot(read_diff_conf_intervals,
+                    aes(diff, country_name,
                         col = score_class)) +
-  scale_colour_manual("",  
-      values = c("boys"="#3288bd", 
-                 "nodiff"="#969696", 
+  scale_colour_manual("",
+      values = c("boys"="#3288bd",
+                 "nodiff"="#969696",
                  "girls"="#f46d43")) +
-  geom_point() + 
+  geom_point() +
   geom_errorbar(aes(xmin = lower, xmax = upper), width=0) +
   geom_vline(xintercept = 0, color = "#969696") +
   labs(y = "",
-  x = "", 
+  x = "",
   title = "Reading"
   ) +
   theme(legend.position="none") +
   annotate("text", x = 50, y = 1, label = "Girls") +
   annotate("text", x = -50, y = 1, label = "Boys") +
-  scale_x_continuous(limits = c(-70, 70), 
+  scale_x_continuous(limits = c(-70, 70),
                      breaks = seq(-60, 60, 20),
                      labels = abs(seq(-60, 60, 20)))
 
 
 ## -----------------------------------------------------------------------------
 # Subset data and drop missing values
-sci_pisa_2018_data <- student_country %>% 
-  filter(!is.na(gender)) %>% 
-  filter(!is.na(science)) %>% 
-  filter(!is.na(stu_wgt)) 
+sci_pisa_2018_data <- student_country %>%
+  filter(!is.na(gender)) %>%
+  filter(!is.na(science)) %>%
+  filter(!is.na(stu_wgt))
 
-# Compute average math scores and gender diff 
+# Compute average math scores and gender diff
 if (!file.exists("data/sci_diff_conf_intervals.rda")) {
 sci_diff_df <- sci_pisa_2018_data %>%
   group_by(gender, country_name) %>%
-  summarise(avg = weighted.mean(science, stu_wgt), 
+  summarise(avg = weighted.mean(science, stu_wgt),
             .groups = "drop") %>%
   ungroup() %>%
   pivot_wider(country_name, names_from = gender,
@@ -207,7 +207,7 @@ sci_diff_df <- sci_pisa_2018_data %>%
   mutate(diff = female - male,
   country_name = fct_reorder(country_name, diff))
 
-# Compute bootstrap samples 
+# Compute bootstrap samples
 boot_ests_sci <- map_dfr(1:100, ~{
   sci_pisa_2018_data %>%
   group_by(country_name, gender) %>%
@@ -215,8 +215,8 @@ boot_ests_sci <- map_dfr(1:100, ~{
   summarise(avg = weighted.mean(science, stu_wgt),
     .groups = "drop") %>%
   ungroup() %>%
-  pivot_wider(country_name, 
-              names_from = gender, 
+  pivot_wider(country_name,
+              names_from = gender,
               values_from = avg) %>%
   mutate(diff = female - male, country_name = fct_reorder(country_name, diff)) %>%
   mutate(boot_id = .x)
@@ -232,7 +232,7 @@ sci_diff_conf_intervals <- boot_ests_sci %>%
   left_join(sci_diff_df, by = "country_name") %>%
   mutate(country_name = fct_reorder(country_name, diff)) %>%
   mutate(score_class = factor(case_when(
-    lower < 0 & upper <= 0 ~ "boys", 
+    lower < 0 & upper <= 0 ~ "boys",
     lower < 0 & upper >= 0 ~ "nodiff",
     lower >= 0 & upper > 0 ~ "girls"),
       levels = c("boys", "nodiff", "girls")))
@@ -245,24 +245,24 @@ sci_diff_conf_intervals <- boot_ests_sci %>%
 }
 
 
-sci_plot <- ggplot(sci_diff_conf_intervals, 
-                    aes(diff, country_name, 
+sci_plot <- ggplot(sci_diff_conf_intervals,
+                    aes(diff, country_name,
                         col = score_class)) +
-  scale_colour_manual("",  
-      values = c("boys"="#3288bd", 
-                 "nodiff"="#969696", 
+  scale_colour_manual("",
+      values = c("boys"="#3288bd",
+                 "nodiff"="#969696",
                  "girls"="#f46d43")) +
-  geom_point() + 
+  geom_point() +
   geom_errorbar(aes(xmin = lower, xmax = upper), width=0) +
   geom_vline(xintercept = 0, color = "#969696") +
   labs(y = "",
-  x = "", 
+  x = "",
   title = "Science"
   ) +
-  theme(legend.position="none") + 
+  theme(legend.position="none") +
   annotate("text", x = 50, y = 1, label = "Girls") +
   annotate("text", x = -50, y = 1, label = "Boys") +
-  scale_x_continuous(limits = c(-70, 70), 
+  scale_x_continuous(limits = c(-70, 70),
                      breaks = seq(-60, 60, 20),
                      labels = abs(seq(-60, 60, 20)))
 
@@ -289,11 +289,11 @@ theme_map <- function(...) {
 
 
 ## -----------------------------------------------------------------------------
-math_map_data <- math_diff_conf_intervals  %>% 
+math_map_data <- math_diff_conf_intervals  %>%
   dplyr::mutate(country_name = case_when(
                 country_name == "Brunei Darussalam" ~ "Brunei",
                 country_name == "United Kingdom" ~ "UK",
-                country_name %in% c("Macau SAR China", "B-S-J-Z (China)", 
+                country_name %in% c("Macau SAR China", "B-S-J-Z (China)",
                                     "Hong Kong SAR China") ~ "China",
                 country_name == "Korea" ~ "South Korea",
                 country_name == "North Macedonia" ~ "Macedonia",
@@ -305,28 +305,28 @@ math_map_data <- math_diff_conf_intervals  %>%
                 country_name == "United States" ~ "USA",
                 TRUE ~ as.character(country_name)))
 
-world_map <- map_data("world") %>% 
-  filter(region != "Antarctica") %>% 
-  fortify() %>% 
+world_map <- map_data("world") %>%
+  filter(region != "Antarctica") %>%
+  fortify() %>%
   rename(country_name = region)
 
 math_world_data <- full_join(math_map_data,
                         world_map,
-                        by = "country_name") 
+                        by = "country_name")
 
-math_world_data <- math_world_data %>% 
-  rename(Country = country_name, 
-         math = diff) %>% 
+math_world_data <- math_world_data %>%
+  rename(Country = country_name,
+         math = diff) %>%
   mutate(math = round(math, digits = 2))
 
 
 ## -----------------------------------------------------------------------------
 # Maps in R - Reading Maps
-read_map_data <- read_diff_conf_intervals %>% 
+read_map_data <- read_diff_conf_intervals %>%
   dplyr::mutate(country_name = case_when(
                 country_name == "Brunei Darussalam" ~ "Brunei",
                 country_name == "United Kingdom" ~ "UK",
-                country_name %in% c("Macau SAR China", "B-S-J-Z (China)", 
+                country_name %in% c("Macau SAR China", "B-S-J-Z (China)",
                                     "Hong Kong SAR China") ~ "China",
                 country_name == "Korea" ~ "South Korea",
                 country_name == "North Macedonia" ~ "Macedonia",
@@ -338,27 +338,27 @@ read_map_data <- read_diff_conf_intervals %>%
                 country_name == "United States" ~ "USA",
                 TRUE ~ as.character(country_name)))
 
-world_map <- map_data("world") %>% 
-  filter(region != "Antarctica") %>% 
-  fortify() %>% 
+world_map <- map_data("world") %>%
+  filter(region != "Antarctica") %>%
+  fortify() %>%
   rename(country_name = region)
 
 read_world_data <- full_join(read_map_data,
                         world_map,
-                        by = "country_name") 
+                        by = "country_name")
 
-read_world_data <- read_world_data %>% 
-  rename(Country = country_name, 
-         Reading = diff) %>% 
+read_world_data <- read_world_data %>%
+  rename(Country = country_name,
+         Reading = diff) %>%
   mutate(Reading = round(Reading, digits = 2))
 
 
 ## -----------------------------------------------------------------------------
-sci_map_data <- sci_diff_conf_intervals %>% 
+sci_map_data <- sci_diff_conf_intervals %>%
   dplyr::mutate(country_name = case_when(
                 country_name == "Brunei Darussalam" ~ "Brunei",
                 country_name == "United Kingdom" ~ "UK",
-                country_name %in% c("Macau SAR China", "B-S-J-Z (China)", 
+                country_name %in% c("Macau SAR China", "B-S-J-Z (China)",
                                     "Hong Kong SAR China") ~ "China",
                 country_name == "Korea" ~ "South Korea",
                 country_name == "North Macedonia" ~ "Macedonia",
@@ -370,43 +370,43 @@ sci_map_data <- sci_diff_conf_intervals %>%
                 country_name == "United States" ~ "USA",
                 TRUE ~ as.character(country_name)))
 
-world_map <- map_data("world") %>% 
-  filter(region != "Antarctica") %>% 
-  fortify() %>% 
+world_map <- map_data("world") %>%
+  filter(region != "Antarctica") %>%
+  fortify() %>%
   rename(country_name = region)
 
 sci_world_data <- full_join(sci_map_data,
                         world_map,
-                        by = "country_name") 
+                        by = "country_name")
 
-sci_world_data <- sci_world_data %>% 
-  rename(Country = country_name, 
-         Science = diff)  %>% 
+sci_world_data <- sci_world_data %>%
+  rename(Country = country_name,
+         Science = diff)  %>%
   mutate(Science = round(Science, digits = 2))
 
-math_dat <- math_world_data %>% 
+math_dat <- math_world_data %>%
   dplyr::select(Country, math, lat, long, group)
 
-read_dat <- read_world_data %>% 
+read_dat <- read_world_data %>%
   dplyr::select(Country, Reading, lat, long, group)
 
-sci_dat <- sci_world_data %>% 
+sci_dat <- sci_world_data %>%
   dplyr::select(Country, Science, lat, long, group)
 
 math_read_dat <- left_join(math_dat,
-                           read_dat, 
+                           read_dat,
                            by = c("Country","lat", "long", "group"))
 
 math_read_sci_dat <- left_join(math_read_dat,
-                           sci_dat, 
+                           sci_dat,
                            by = c("Country","lat", "long", "group"))
 
-math_read_sci_dat_wider <- math_read_sci_dat %>% 
+math_read_sci_dat_wider <- math_read_sci_dat %>%
     pivot_longer(cols = c(2,6,7), names_to = "subjects")
 
-mrs_maps <- ggplot(math_read_sci_dat_wider, 
-       aes(x = long, 
-           y = lat, 
+mrs_maps <- ggplot(math_read_sci_dat_wider,
+       aes(x = long,
+           y = lat,
            group = group)) +
   geom_polygon(aes(fill= value,
                    label = Country)) +
@@ -425,24 +425,24 @@ mrs_maps
 
 
 ## -----------------------------------------------------------------------------
-p1 <- ggplot(data = student_country, 
+p1 <- ggplot(data = student_country,
              aes(x = math, y = read)) +
-  geom_hex() + 
-  labs(x = "Math Scores", 
+  geom_hex() +
+  labs(x = "Math Scores",
        y = "Reading Scores") +
   theme(legend.position="none")
 
-p2 <- ggplot(data = student_country, 
+p2 <- ggplot(data = student_country,
              aes(x = math, y = science)) +
-  geom_hex() + 
-  labs(x = "Math Scores", 
+  geom_hex() +
+  labs(x = "Math Scores",
        y = "Science Scores") +
   theme(legend.position = "none")
 
-p3 <- ggplot(data = student_country, 
+p3 <- ggplot(data = student_country,
              aes(x = read, y = science)) +
-  geom_hex() + 
-  labs(x = "Reading Scores", 
+  geom_hex() +
+  labs(x = "Reading Scores",
        y = "Science Scores") +
   theme(legend.position="none")
 
@@ -476,7 +476,7 @@ mother_qual_math_read_sci_data <- student_country_data %>%
   group_by(country_name, mother_educ) %>%
   dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
                    read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
-                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>% 
+                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>%
 dplyr::mutate(mother_educ = recode_factor(mother_educ,
                 "less than ISCED1" = "Early Childhood",
                 "ISCED 1" = "Primary",
@@ -487,22 +487,22 @@ dplyr::mutate(mother_educ = recode_factor(mother_educ,
   na.omit() %>%
   rename(`Mother's Education` = mother_educ)
 
-mother_qual_math <- ggplot(mother_qual_math_read_sci_data, 
+mother_qual_math <- ggplot(mother_qual_math_read_sci_data,
        aes(x=`Mother's Education`,
            y=math_avg,
            col=`Mother's Education`)) +
-  geom_quasirandom(size = 1.7, 
+  geom_quasirandom(size = 1.7,
              cex = 3) +
-  geom_line(aes(group = country_name), 
+  geom_line(aes(group = country_name),
             size=0.5, alpha=.36) +
   scale_fill_viridis(discrete = TRUE,
                      option = "A",
                       alpha=0.2) +
-    stat_summary(fun.y = median, 
-                 fun.ymin = median, 
+    stat_summary(fun.y = median,
+                 fun.ymin = median,
                  fun.ymax = median,
-                 geom = "crossbar", 
-                 width = 0.5, 
+                 geom = "crossbar",
+                 width = 0.5,
                  col = "black") +
   theme(legend.position="none",
       plot.title = element_text(size=11)) +
@@ -510,22 +510,22 @@ mother_qual_math <- ggplot(mother_qual_math_read_sci_data,
          x = "Mother's Qualification",
          title = "math Scores and Mother's Qualification")
 
-father_qual_math <- ggplot(father_qual_math_read_sci_data, 
+father_qual_math <- ggplot(father_qual_math_read_sci_data,
        aes(x=`Father's Education`,
            y=math_avg,
            col=`Father's Education`)) +
-  geom_quasirandom(size = 1.7, 
+  geom_quasirandom(size = 1.7,
              cex = 3) +
-  geom_line(aes(group = country_name), 
+  geom_line(aes(group = country_name),
             size=0.5, alpha=.36) +
   scale_fill_viridis(discrete = TRUE,
                      option = "A",
                       alpha=0.2) +
-    stat_summary(fun.y = median, 
-                 fun.ymin = median, 
+    stat_summary(fun.y = median,
+                 fun.ymin = median,
                  fun.ymax = median,
-                 geom = "crossbar", 
-                 width = 0.5, 
+                 geom = "crossbar",
+                 width = 0.5,
                  col = "black") +
   theme(legend.position="none",
       plot.title = element_text(size=11)) +
@@ -539,34 +539,34 @@ father_qual_math + mother_qual_math
 
 
 ## -----------------------------------------------------------------------------
-z_star_95 <- qnorm(0.975) 
+z_star_95 <- qnorm(0.975)
 
-tv_math_data <- student_country_data %>% 
-  group_by(country_name, television) %>% 
-  dplyr::summarise(math_avg = 
-                     weighted.mean(math, 
-                                   w = stu_wgt, 
-                                   na.rm = TRUE), 
-                   lower = weighted.mean(math, 
-                      w = stu_wgt, na.rm = TRUE) - 
+tv_math_data <- student_country_data %>%
+  group_by(country_name, television) %>%
+  dplyr::summarise(math_avg =
+                     weighted.mean(math,
+                                   w = stu_wgt,
+                                   na.rm = TRUE),
+                   lower = weighted.mean(math,
+                      w = stu_wgt, na.rm = TRUE) -
                       z_star_95 * (sd(math, na.rm = TRUE)) /
-                      sqrt(length(math)), 
-                   upper = weighted.mean(math, 
-                      w = stu_wgt, na.rm = TRUE) + 
+                      sqrt(length(math)),
+                   upper = weighted.mean(math,
+                      w = stu_wgt, na.rm = TRUE) +
                       z_star_95 * (sd(math, na.rm = TRUE)) /
-                     sqrt(length(math)), 
-                   .groups = "drop") %>% 
+                     sqrt(length(math)),
+                   .groups = "drop") %>%
   #dplyr::mutate(television = recode_factor(television,
   #               "0" = "No TV",
   #               "1" = "1 TVs",
   #               "2" = "2 Tvs",
-  #               "3+" = "3+ TVs", 
+  #               "3+" = "3+ TVs",
   #              .ordered = TRUE)) %>%
-  na.omit() %>% 
-  dplyr::select(country_name, 
-                television, 
-                math_avg, 
-                lower, 
+  na.omit() %>%
+  dplyr::select(country_name,
+                television,
+                math_avg,
+                lower,
                 upper)
 
 linear_model <- function(y, x){
@@ -578,9 +578,9 @@ tv_plot <- tv_math_data %>%
   mutate(slope = linear_model(math_avg, television)) %>%
   ungroup() %>%
   mutate(country_name = fct_reorder(country_name, slope)) %>%
-  ggplot(aes(x=as.numeric(television), y=math_avg)) + 
+  ggplot(aes(x=as.numeric(television), y=math_avg)) +
   geom_ribbon(aes(ymin = lower, ymax = upper),
-                colour="orange", fill = "orange", 
+                colour="orange", fill = "orange",
               alpha=0.45) +
   geom_point(size=1.8) +
   geom_line() +
@@ -591,35 +591,35 @@ tv_plot <- tv_math_data %>%
        y = "Average Mathematics Score")
 
 
-## ----tv-plot, fig.cap ="Relationship between number of TVs in a household and average math scores across countries. Number of TVs ranges from 0 to 3+. The orange bands indicate 95% standard confidence intervals. The impact of television on student performance is a contentious issue. It is interesting that in some countries (e.g. Morocco, Panama) the effect appears to be positive, but in others (e.g. Poland, Germany) there is a decline in average math scores.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----tv-plot, fig.cap ="Relationship  between number of TVs in a household and average math scores across countries. Number of TVs ranges from 0 to 3 or more. The orange bands indicate 95 percent standard confidence intervals. The impact of television on student performance is a contentious issue. It is interesting that in some countries for example in Malta and Portugalthe effect appears to be positive, but in other countries like Poland and Germany there is a decline in average math scores.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
 tv_plot
 
 
 ## -----------------------------------------------------------------------------
-z_star_95 <- qnorm(0.975) 
+z_star_95 <- qnorm(0.975)
 
-book_math_read_sci_data <- student_country_data %>% 
-  group_by(country_name, book)  %>% 
-  dplyr::summarise(math_avg = 
-            weighted.mean(math, 
-              w = stu_wgt, na.rm = TRUE), 
-           bk_lower = weighted.mean(math, 
-              w = stu_wgt, na.rm = TRUE) - 
+book_math_read_sci_data <- student_country_data %>%
+  group_by(country_name, book)  %>%
+  dplyr::summarise(math_avg =
+            weighted.mean(math,
+              w = stu_wgt, na.rm = TRUE),
+           bk_lower = weighted.mean(math,
+              w = stu_wgt, na.rm = TRUE) -
               z_star_95 * (sd(math, na.rm = TRUE)) /
-              sqrt(length(math)), 
-           bk_upper = weighted.mean(math, 
-              w = stu_wgt, na.rm = TRUE) + 
+              sqrt(length(math)),
+           bk_upper = weighted.mean(math,
+              w = stu_wgt, na.rm = TRUE) +
               z_star_95 * (sd(math, na.rm = TRUE)) /
-              sqrt(length(math)), .groups = "drop")  %>% 
-  dplyr::mutate(book = recode_factor(book, 
+              sqrt(length(math)), .groups = "drop")  %>%
+  dplyr::mutate(book = recode_factor(book,
                                      "0-10" = "1",
-                                     "11-25" = "11", 
+                                     "11-25" = "11",
                                      "26-100" = "26",
                                      "101-200" = "101",
                                      "201-500" = "201",
                                      "more than 500" = "500",
-                                     .ordered = TRUE)) %>% 
-  na.omit() 
+                                     .ordered = TRUE)) %>%
+  na.omit()
 
 linear_model <- function(y, x){
   coef(lm(y ~ x))[2]
@@ -631,7 +631,7 @@ book_plot <- book_math_read_sci_data %>%
   mutate(slope = linear_model(math_avg, book)) %>%
   ungroup() %>%
   mutate(country_name = fct_reorder(country_name, slope)) %>%
-  ggplot(aes(x=as.numeric(book), y=math_avg)) + 
+  ggplot(aes(x=as.numeric(book), y=math_avg)) +
   geom_ribbon(aes(ymin = bk_lower, ymax = bk_upper),
                 colour="orange", fill="orange", alpha=0.45) +
   geom_point(size=1.8) +
@@ -642,51 +642,51 @@ book_plot <- book_math_read_sci_data %>%
        y = "Average Mathematics Score")
 
 
-## ----book-plot, fig.cap ="Impact of the number of books on average math score. Number of books ranges from 0 to 500+. 95% standard confidence bands shown in orange. Math scores generally increase as the number of books increases. Averages for some countries at the higher number of books are less reliable, and hence the decline reflects more that there are few households with this many books than a true decline.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----book-plot, fig.cap ="Impact of the number of books on average math score. Number of books ranges from 0 to 500 and more. 95 percent standard confidence bands shown in orange. Math scores generally increase as the number of books increases. Averages for some countries at the higher number of books are less reliable, and hence the decline reflects more that there are few households with this many books than a true decline.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
 book_plot
 
 
 ## -----------------------------------------------------------------------------
-int_math_read_sci_data <- student_country_data %>% 
-  group_by(country_name, internet) %>% 
-  dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE), 
-                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE), 
-                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>% 
-  na.omit() 
+int_math_read_sci_data <- student_country_data %>%
+  group_by(country_name, internet) %>%
+  dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
+                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
+                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>%
+  na.omit()
 
-comp_math_read_sci_data <- student_country_data %>% 
-  group_by(country_name, computer) %>% 
-  dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE), 
-                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE), 
-                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>% 
-  na.omit() 
+comp_math_read_sci_data <- student_country_data %>%
+  group_by(country_name, computer) %>%
+  dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
+                   read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
+                   sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>%
+  na.omit()
 
 
 computer_plot <- comp_math_read_sci_data %>%
-  ggplot(aes(x=computer, 
-             y= math_avg, 
+  ggplot(aes(x=computer,
+             y= math_avg,
              group = country_name)) +
     geom_point(color = "black",
                size=0.36) +
-    geom_line(size = .27, 
+    geom_line(size = .27,
               alpha = .45) +
     theme(legend.position = "none") +
     labs(x = "Possession of Computer",
-         y = "Average Mathematics Score", 
+         y = "Average Mathematics Score",
          title = "Impact of Computers on Average Math Scores")
 
 
 internet_plot <- int_math_read_sci_data %>%
-  ggplot(aes(x=internet, 
-             y= math_avg, 
+  ggplot(aes(x=internet,
+             y= math_avg,
              group = country_name )) +
     geom_point(color = "black",
                size=0.36) +
-    geom_line(size = .27, 
+    geom_line(size = .27,
               alpha = .45) +
     theme(legend.position = "none") +
     labs(x = "Access to Internet",
-         y = "Average Mathematics Score", 
+         y = "Average Mathematics Score",
          title = "Impact of Internet on Average Math Scores")
 
 
@@ -708,15 +708,15 @@ if (!file.exists("data/student_all.rda")) {
 # Give countries their name, subset to four, and select only variables needed
 student_country <- left_join(student_all,
                                   countrycode,
-                                  by = "country") %>% 
-  dplyr::filter(country_name %in% 
-                  c("Australia", 
-                    "New Zealand", 
-                    "Qatar", 
-                    "Indonesia", 
-                    "Singapore", 
-                    "Germany")) %>% 
-  dplyr::select(year, country_name, math, read, science, stu_wgt) %>% 
+                                  by = "country") %>%
+  dplyr::filter(country_name %in%
+                  c("Australia",
+                    "New Zealand",
+                    "Qatar",
+                    "Indonesia",
+                    "Singapore",
+                    "Germany")) %>%
+  dplyr::select(year, country_name, math, read, science, stu_wgt) %>%
   na.omit() %>%
   pivot_longer(c(math, read, science), names_to = "subject", values_to = "score")
 
@@ -724,38 +724,38 @@ student_country <- left_join(student_all,
 if (!file.exists("data/all_bs_cf.rda")) {
   all_bootstrap <- map_dfr(1:100, ~{
     student_country %>%
-    group_by(country_name, #year, 
+    group_by(country_name, #year,
              subject) %>%
     #sample_n(size = n(), replace = TRUE) %>%
     mutate(year = sample(year, replace=FALSE)) %>%
-    group_by(country_name, year, 
+    group_by(country_name, year,
              subject) %>%
     dplyr::summarise(
-      avg = weighted.mean(score, w = stu_wgt, na.rm = TRUE), .groups = "drop") %>% 
+      avg = weighted.mean(score, w = stu_wgt, na.rm = TRUE), .groups = "drop") %>%
     #ungroup() %>%
     mutate(boot_id = .x)
   })
 
   all_bootstrap_ci <- all_bootstrap %>%
-    group_by(country_name, year, 
-             subject) %>% 
+    group_by(country_name, year,
+             subject) %>%
     summarise(
       lower = min(avg), # sort(avg)[5],
-      upper = max(avg), #sort(avg)[95], 
-      .groups = "drop") 
+      upper = max(avg), #sort(avg)[95],
+      .groups = "drop")
 
   # compute original estimate of average and join
   all_avg <- student_country %>%
-    group_by(country_name, year, subject) %>% 
+    group_by(country_name, year, subject) %>%
     summarise(
-      avg = weighted.mean(score, 
-                          w = stu_wgt, na.rm = TRUE), 
-      .groups = "drop")   
-  
+      avg = weighted.mean(score,
+                          w = stu_wgt, na.rm = TRUE),
+      .groups = "drop")
+
   all_bs_cf <- left_join(all_avg,
                       all_bootstrap_ci,
-                      by = c("country_name", 
-                             "year", 
+                      by = c("country_name",
+                             "year",
                              "subject"))
 
   save(all_bs_cf, file="data/all_bs_cf.rda")
@@ -769,27 +769,27 @@ if (!file.exists("data/all_bs_cf.rda")) {
 ## ----bs-plot, fig.cap ="Temporal trends in math, reading and science for a selection of countries. Line indicates average score across years, and the orange band is the permutation confidence interval assuming that there is no trend. ", fig.pos = "H", fig.width = 5, fig.height=12, out.width="70%", layout="l-body"----
 all_bs_cf <- all_bs_cf %>%
   mutate(year = as.numeric(as.character(year)),
-         country_name = factor(country_name, 
-                 levels = c("Singapore", 
-                          "Australia", 
-                          "New Zealand", 
+         country_name = factor(country_name,
+                 levels = c("Singapore",
+                          "Australia",
+                          "New Zealand",
                           "Germany",
-                          "Qatar", 
+                          "Qatar",
                           "Indonesia")))
-ggplot(data = all_bs_cf, 
-  aes(x = year, 
+ggplot(data = all_bs_cf,
+  aes(x = year,
       y = avg)) +
   geom_ribbon(aes(x = year,
                     ymin = lower,
-                    ymax = upper), 
-              colour = "orange", fill = "orange", 
+                    ymax = upper),
+              colour = "orange", fill = "orange",
               alpha = 0.8) +
   geom_point(alpha = 0.1) +
   geom_line() +
   facet_grid(country_name~subject) +
   labs(
-     x = "", 
-     y = "Score") 
+     x = "",
+     y = "Score")
 
 
 

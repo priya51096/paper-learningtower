@@ -23,7 +23,7 @@ and statistical analysis. In addition, we present a few example anlaysis
 utilizing this dataset addressing some research questions regarding the
 gender gap noticed in these students', the effect of different
 socioeconomic factors on the students' performance, and we go further to
-study the Australia's PISA scores.
+study Australia's PISA scores.
 }
 
 \hypertarget{introduction}{%
@@ -273,12 +273,12 @@ indicates the scores of boys in the three disciplines. Based on figure
 \ref{fig:score-differences}, because most math estimates and confidence
 intervals lie to the left of the grey line, we may conclude that most
 boys outperformed girls in math. In nations such as Morocco,
-Netherlands, Slovenia, Poland, Bulgaria, and Greece, there is almost no
-gender difference in average math scores. When we look at the reading
-scores, we notice a really interesting detail which is all girls
-outpaced boys in reading in all countries in 2018. The highest reading
-scores were achieved by girls from Qatar, United Arab Emirates, and
-Finland. Looking further into the science plot, we see an unexpected
+Netherlands, Slovenia, Kazakhstan, Poland, Bulgaria, and Greece, there
+is almost no gender difference in average math scores. When we look at
+the reading scores, we notice a really interesting detail which is all
+girls outpaced boys in reading in all countries in 2018. The highest
+reading scores were achieved by girls from Qatar, United Arab Emirates,
+and Finland. Looking further into the science plot, we see an unexpected
 pattern here where most countries have very little gender difference in
 science scores, implying that most boys and girls perform equally well
 in science. Boys from Peru, Colombia, and regions of China perform
@@ -299,7 +299,8 @@ boys throughout the world, we utilize the \texttt{map\_data} function to
 get the latitude and longitude coordinates needed to construct a map for
 our data. We connect these latitude and longitude coordinates to our
 PISA data and render the world map using \texttt{geom\_polygon} function
-wrapped within \CRANpkg{ggplot2} \citep{ggplot2}, \CRANpkg{plotly}
+wrapped within \CRANpkg{ggplot2} \citep{ggplot2}, the intearctive
+features and placement of the plots are made using \CRANpkg{plotly}
 \citep{plotly} and \CRANpkg{patchwork} \citep{patchwork} packages in R.
 
 \begin{Schunk}
@@ -346,7 +347,7 @@ standing in relation to others. Do these socioeconomic factors influence
 students' academic performance? In this section, we will investigate if
 different socioeconomic factors owned by a family have a significant
 impact on a student's academic performance. The student dataset in the
-\CRANpkg{learningtower} package is comprises scores of 15-year-olds from
+\CRANpkg{learningtower} package comprises scores of 15-year-olds from
 triennial testing across the world. This dataset also includes
 information about their parents' education, family wealth, gender, and
 ownership of computers, internet, cars, books, rooms, desks, and
@@ -410,8 +411,9 @@ levels of education, namely early childhood, primary, lower, and
 secondary education. Furthermore, we display the weighted math average
 versus qualification colored by the refactored qualifications levels for
 both the mother and father using the \texttt{geom\_quasirandom} function
-wrapped within \CRANpkg{ggplot2} \citep{ggplot2}, \CRANpkg{viridis}
-\citep{viridis} and \CRANpkg{patchwork} \citep{patchwork}
+wrapped within \CRANpkg{ggplot2} \citep{ggplot2}, we further plot this
+with the help of \CRANpkg{viridis} \citep{viridis} and
+\CRANpkg{patchwork} \citep{patchwork} packages in R.
 
 \begin{Schunk}
 \begin{figure}[H]
@@ -426,13 +428,13 @@ insight in which we see a constant increase in the students' academic
 performance when both mother and father qualifications shift towards
 higher levels of education. The bold horizontal black lines that we see
 in each category for mother's and father's qualification here represent
-the category's median score. As the parent attains better
+the category's median score. As the parent attains higher
 qualifications, we notice an increasing trend in these medians for each
 category. Taking a closer look at the figure \ref{fig:qual-plot}, we can
 see that there is a considerable boost in scores when both the mother
 and father have upper secondary education. Furthermore, utilizing
-\texttt{the\ geom\_quasirandom} function available in the
-\CRANpkg{ggbeeswarm} \citep{ggbeeswarm}ggbeeswarm makes this plot more
+\texttt{geom\_quasirandom()} function available in the
+\CRANpkg{ggbeeswarm} \citep{ggbeeswarm} ggbeeswarm makes this plot more
 accessible and understandable by providing a way to offset points inside
 categories to prevent overplotting. Thus, we can clearly see that both
 the mother's and father's qualifications have a significant influence on
@@ -448,21 +450,21 @@ are recorded in the student dataset is a factor variable that records
 whether or not the students participating in this study have a
 television and, if they do, the quantity of televisions per family is
 recorded via the PISA survey. Furthermore, because we are interested in
-researching the impact of these television on the students' scores, we
-have re factored the television variables and designated four levels: No
-TV, 1 TV, 2 TVs, or 3+TVs. We are also interested in visualising the
-confidence intervals for each of these levels in order to determine the
-uncertainty of the results at each level. We begin with initially
-creating a \texttt{data.frame} that is grouped by country and the number
-of television per household for each country. Next we fitted a linear
-model to the math average and distinct refactored television categories
-for each country in the 2018 PISA data and finally plot the television
-impact for all countries sorted as per the slope with the help of the
-functions available in the \CRANpkg{ggplot2} \citep{ggplot2} package.
+researching the impact of these television on the students' scores, the
+television variable initially recorded has four levels: No TV, 1 TV, 2
+TVs, or 3+TVs. We are also interested in visualising the confidence
+intervals for each of these levels in order to determine the uncertainty
+of the results at each level. We begin with initially creating a
+\texttt{data.frame} that is grouped by country and the number of
+television per household for each country. Next we fit a linear model to
+the math average and distinct television categories for each country in
+the 2018 PISA data and finally plot the television impact for all
+countries sorted as per the slope with the help of the functions
+available in the \CRANpkg{ggplot2} \citep{ggplot2} package.
 
 \begin{Schunk}
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/tv-plot-1} \caption[Relationship between number of TVs in a household and average math scores across countries]{Relationship between number of TVs in a household and average math scores across countries. Number of TVs ranges from 0 to 3+. The orange bands indicate 95% standard confidence intervals. The impact of television on student performance is a contentious issue. It is interesting that in some countries (e.g. Morocco, Panama) the effect appears to be positive, but in others (e.g. Poland, Germany) there is a decline in average math scores.}\label{fig:tv-plot}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/tv-plot-1} \caption[Relationship  between number of TVs in a household and average math scores across countries]{Relationship  between number of TVs in a household and average math scores across countries. Number of TVs ranges from 0 to 3 or more. The orange bands indicate 95 percent standard confidence intervals. The impact of television on student performance is a contentious issue. It is interesting that in some countries for example in Malta and Portugalthe effect appears to be positive, but in other countries like Poland and Germany there is a decline in average math scores.}\label{fig:tv-plot}
 \end{figure}
 \end{Schunk}
 
@@ -470,19 +472,19 @@ In the figure \ref{fig:tv-plot}, we can see highly striking patterns as
 well as a significant influence of television on students' academic
 performance. We have arranged the nations in the figure
 \ref{fig:tv-plot} according to the slope of math average scores fitted
-against the different levels of television described previously.
-Slovenia, Netherlands, Switzerland, Hungary, and Poland have a lower
-influence of television on student performance, whereas Portugal,
-Panama, Peru, and Lebanon have a rising tendency and therefore a larger
-impact of television on students' performance. Furthermore, the
-confidence interval plotted in the figure \ref{fig:tv-plot} show that
-there is a lot of uncertainty in the level of scores when a household
-does not possess a TV in the majority of the countries. Taking a closer
-look at the figure \ref{fig:tv-plot} we observe that when the slope of
-television increases in countries, the confidence interval of such
-countries becomes narrower. Hence depending on your wealth and where you
-live, television can be a valuable asset. since it has a notable effect
-on a student's academic performance.
+against the different levels of television described previously. Poland,
+Germany, Slovenia, and Turkey have a lower influence of television on
+student performance, whereas Malta, Portugal, United Arab Emirates and
+Qatar have a rising tendency and therefore a larger impact of television
+on students' performance. Furthermore, the confidence interval plotted
+in the figure \ref{fig:tv-plot} show that there is a lot of uncertainty
+in the level of scores when a household does not possess a TV in the
+majority of the countries. Taking a closer look at the figure
+\ref{fig:tv-plot} we observe that when the slope of television increases
+in countries, the confidence interval of such countries becomes
+narrower. Hence depending on your wealth and where you live, television
+can be a valuable asset since it has a notable effect on a student's
+academic performance.
 
 We've always heard and read that books play an important role in early
 childhood because they assist learners develop emotional intelligence
@@ -504,7 +506,7 @@ in the \CRANpkg{ggplot2} \citep{ggplot2} package.
 
 \begin{Schunk}
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/book-plot-1} \caption[Impact of the number of books on average math score]{Impact of the number of books on average math score. Number of books ranges from 0 to 500+. 95% standard confidence bands shown in orange. Math scores generally increase as the number of books increases. Averages for some countries at the higher number of books are less reliable, and hence the decline reflects more that there are few households with this many books than a true decline.}\label{fig:book-plot}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/book-plot-1} \caption[Impact of the number of books on average math score]{Impact of the number of books on average math score. Number of books ranges from 0 to 500 and more. 95 percent standard confidence bands shown in orange. Math scores generally increase as the number of books increases. Averages for some countries at the higher number of books are less reliable, and hence the decline reflects more that there are few households with this many books than a true decline.}\label{fig:book-plot}
 \end{figure}
 \end{Schunk}
 
@@ -520,16 +522,17 @@ of data in such categories. Because ideally there are extremely few
 households that own more than 500 books. In this scenario, we also
 examine the confidence intervals of our plots to better understand the
 lower and upper bounds of the math score estimation. The confidence
-intervals in each of the categories are not particularly very broad. In
-addition, arranging the graph by slope allows us to understand the
-impact of books in different countries. Despite the fact that most
-countries have a significant influence on books per home, we can see in
-this graph that most countries have a significant impact on books per
-household. We may state that the Dominican Republic, Indonesia, and
-Panama have witnesses a slightly lower impact of owing books than the
-countries of Luxembourg, Germany, and Hungary. As a result, we may
-conclude that having a greater quantity of books in a home will
-undoubtedly benefit a student's academic performance.
+intervals in each of the categories are not particularly very broad
+except for a few countries like Dominican Republic, Philippines and
+Saudi Arabia. In addition, arranging the graph by slope allows us to
+understand the impact of books in different countries. Despite the fact
+that most countries have a significant influence on books per household,
+we can see in this graph that most countries have a significant impact
+on books per household. We may state that the Dominican Republic,
+Indonesia, and Panama have witnesses a slightly lower impact of owing
+books than the countries of Luxembourg, Germany, and Hungary. As a
+result, we may conclude that having a greater quantity of books in a
+home will undoubtedly benefit a student's academic performance.
 
 Students are becoming autonomous, adept members and researchers as they
 advance in technology and usage of computers and the internet. However,
@@ -631,7 +634,8 @@ participated in the PISA experiment.
 \address{%
 Priya Ravindra Dingorkar\\
 Monash University\\%
-Department Econometrics and Business Statistics\\ Clayton, Australia\\
+Department of Econometrics and Business Statistics\\ Clayton,
+Australia\\
 %
 \url{https://www.linkedin.com/in/priya-dingorkar/}\\%
 %
@@ -652,7 +656,8 @@ Statistics\\ Sydney, Australia\\
 \address{%
 Dianne Cook\\
 Monash University\\%
-Department Econometrics and Business Statistics\\ Clayton, Australia\\
+Department of Econometrics and Business Statistics\\ Clayton,
+Australia\\
 %
 \url{http://dicook.org/}\\%
 %
