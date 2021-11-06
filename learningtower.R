@@ -897,10 +897,10 @@ student_anim_data <- student_country_anim_avg
 student_anim_data$year <- as.numeric(as.character(student_anim_data$year))
 
 
-## ----anim-plot, fig.cap = "Animation of math and reading scores over time.", eval = knitr::is_html_output(), fig.width = 10, fig.height = 10, out.width="100%", layout="l-body-outset"----
+## ----anim-plot, fig.cap = "Animation of math and reading scores over time, with selected countries labelled. Australia has quite stable high scores over th full time period. There is quite a lot of moving of scores between years, perhaps more among lower scoring countries.", eval = knitr::is_html_output(), fig.width = 10, fig.height = 10, out.width="100%", layout="l-body-outset"----
 #> gif <- ggplot(student_anim_data,
 #>        aes(x=math_avg, y=read_avg,
-#>            color = continent)) +
+#>            color = continent, group = country_name)) +
 #>   geom_point(size=2, alpha=0.5) +
 #>   geom_text(data = filter(student_anim_data,
 #>                           country_name %in%
@@ -919,7 +919,8 @@ student_anim_data$year <- as.numeric(as.character(student_anim_data$year))
 #>                               "Colombia",
 #>                               "Chile",
 #>                               "USA")),
-#>             aes(label = country_name), size=4) +
+#>             aes(label = country_name,
+#>                 group = country_name), size=4) +
 #>   theme_minimal() +
 #>   theme(legend.position = "none",
 #>         #axis.line = element_blank(),
@@ -959,7 +960,7 @@ ggplot(student_anim_data,
                               "Colombia",
                               "Chile",
                               "USA")), 
-            aes(label = country_name), size=3, 
+            aes(label = country_name), size=2, 
             max.overlaps = 20) +
   theme(legend.position = "bottom", 
         aspect.ratio=1) +
