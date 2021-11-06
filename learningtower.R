@@ -38,12 +38,15 @@ student_country <- left_join(student_2018,
                              countrycode, by = "country")
 
 # Drop missing values
-math_pisa_2018_data <- student_country %>%
+# math_pisa_2018_data <- student_country %>%
+#   filter(!is.na(gender), !is.na(math), !is.na(stu_wgt))
+
+pisa_2018_data_complete <- student_country %>%
   filter(!is.na(gender), !is.na(math), !is.na(stu_wgt))
 
 # Compute average math scores and gender diff
 if (!file.exists("data/math_diff_conf_intervals.rda")) {
-math_diff_df <- math_pisa_2018_data %>%
+math_diff_df <- pisa_2018_data_complete %>%
   group_by(gender, country_name) %>%
   summarise(avg = weighted.mean(math, stu_wgt),
             .groups = "drop") %>%
@@ -57,7 +60,7 @@ mutate(diff = female - male,
 # Compute bootstrap samples
 set.seed(2020)
 boot_ests_math <- map_dfr(1:100, ~{
-  math_pisa_2018_data %>%
+  pisa_2018_data_complete %>%
   group_by(country_name, gender) %>%
   sample_n(size = n(), replace = TRUE) %>%
   summarise(avg = weighted.mean(math, stu_wgt),
@@ -116,14 +119,12 @@ math_plot <- ggplot(math_diff_conf_intervals,
 
 ## -----------------------------------------------------------------------------
 # Subset data and drop missing values
-read_pisa_2018_data <- student_country %>%
-  filter(!is.na(gender)) %>%
-  filter(!is.na(read)) %>%
-  filter(!is.na(stu_wgt))
+# read_pisa_2018_data <- student_country %>%
+#   filter(!is.na(gender), !is.na(read), !is.na(stu_wgt))
 
 # Compute average math scores and gender diff
 if (!file.exists("data/read_diff_conf_intervals.rda")) {
-read_diff_df <- read_pisa_2018_data %>%
+read_diff_df <- pisa_2018_data_complete %>%
   group_by(gender, country_name) %>%
   summarise(avg = weighted.mean(read, stu_wgt),
             .groups = "drop") %>%
@@ -135,7 +136,7 @@ read_diff_df <- read_pisa_2018_data %>%
 
 # Compute bootstrap samples
 boot_ests_read <- map_dfr(1:100, ~{
-  read_pisa_2018_data %>%
+  pisa_2018_data_complete %>%
   group_by(country_name, gender) %>%
   sample_n(size = n(), replace = TRUE) %>%
   summarise(avg = weighted.mean(read, stu_wgt),
@@ -191,14 +192,14 @@ read_plot <- ggplot(read_diff_conf_intervals,
 
 ## -----------------------------------------------------------------------------
 # Subset data and drop missing values
-sci_pisa_2018_data <- student_country %>%
-  filter(!is.na(gender)) %>%
-  filter(!is.na(science)) %>%
-  filter(!is.na(stu_wgt))
+# sci_pisa_2018_data <- student_country %>%
+#   filter(!is.na(gender)) %>%
+#   filter(!is.na(science)) %>%
+#   filter(!is.na(stu_wgt))
 
 # Compute average math scores and gender diff
 if (!file.exists("data/sci_diff_conf_intervals.rda")) {
-sci_diff_df <- sci_pisa_2018_data %>%
+sci_diff_df <- pisa_2018_data_complete %>%
   group_by(gender, country_name) %>%
   summarise(avg = weighted.mean(science, stu_wgt),
             .groups = "drop") %>%
@@ -210,7 +211,7 @@ sci_diff_df <- sci_pisa_2018_data %>%
 
 # Compute bootstrap samples
 boot_ests_sci <- map_dfr(1:100, ~{
-  sci_pisa_2018_data %>%
+  pisa_2018_data_complete %>%
   group_by(country_name, gender) %>%
   sample_n(size = n(), replace = TRUE) %>%
   summarise(avg = weighted.mean(science, stu_wgt),
@@ -288,34 +289,37 @@ theme_map <- function(...) {
   )
 }
 
+region2country = function(region_name){
+  country_name = case_when(
+    region_name == "Brunei Darussalam" ~ "Brunei",
+    region_name == "United Kingdom" ~ "UK",
+    region_name %in% c("Macau SAR China", "B-S-J-Z (China)",
+                        "Hong Kong SAR China") ~ "China",
+    region_name == "Korea" ~ "South Korea",
+    region_name == "North Macedonia" ~ "Macedonia",
+    region_name == "Baku (Azerbaijan)" ~ "Baku",
+    region_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
+                        "Russian Federation") ~ "Russia",
+    region_name == "Slovak Republic" ~ "Slovakia",
+    region_name == "Chinese Taipei" ~ "Taiwan",
+    region_name == "United States" ~ "USA",
+    TRUE ~ as.character(region_name))
+}
+
 
 ## -----------------------------------------------------------------------------
 math_map_data <- math_diff_conf_intervals  %>%
-  dplyr::mutate(country_name = case_when(
-                country_name == "Brunei Darussalam" ~ "Brunei",
-                country_name == "United Kingdom" ~ "UK",
-                country_name %in% c("Macau SAR China", "B-S-J-Z (China)",
-                                    "Hong Kong SAR China") ~ "China",
-                country_name == "Korea" ~ "South Korea",
-                country_name == "North Macedonia" ~ "Macedonia",
-                country_name == "Baku (Azerbaijan)" ~ "Baku",
-                country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
-                "Russian Federation") ~ "Russia",
-                country_name == "Slovak Republic" ~ "Slovakia",
-                country_name == "Chinese Taipei" ~ "Taiwan",
-                country_name == "United States" ~ "USA",
-                TRUE ~ as.character(country_name)))
+  dplyr::mutate(country_name = region2country(region_name = country_name))
 
 world_map <- map_data("world") %>%
   filter(region != "Antarctica") %>%
   fortify() %>%
   rename(country_name = region)
 
-math_world_data <- full_join(math_map_data,
-                        world_map,
-                        by = "country_name")
-
-math_world_data <- math_world_data %>%
+math_world_data <- full_join(
+  x = math_map_data,
+  y = world_map,
+  by = "country_name") %>% 
   rename(Country = country_name,
          math = diff) %>%
   mutate(math = round(math, digits = 2))
@@ -324,31 +328,17 @@ math_world_data <- math_world_data %>%
 ## -----------------------------------------------------------------------------
 # Maps in R - Reading Maps
 read_map_data <- read_diff_conf_intervals %>%
-  dplyr::mutate(country_name = case_when(
-                country_name == "Brunei Darussalam" ~ "Brunei",
-                country_name == "United Kingdom" ~ "UK",
-                country_name %in% c("Macau SAR China", "B-S-J-Z (China)",
-                                    "Hong Kong SAR China") ~ "China",
-                country_name == "Korea" ~ "South Korea",
-                country_name == "North Macedonia" ~ "Macedonia",
-                country_name == "Baku (Azerbaijan)" ~ "Baku",
-                country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
-                "Russian Federation") ~ "Russia",
-                country_name == "Slovak Republic" ~ "Slovakia",
-                country_name == "Chinese Taipei" ~ "Taiwan",
-                country_name == "United States" ~ "USA",
-                TRUE ~ as.character(country_name)))
+  dplyr::mutate(country_name = region2country(region_name = country_name))
 
 world_map <- map_data("world") %>%
   filter(region != "Antarctica") %>%
   fortify() %>%
   rename(country_name = region)
 
-read_world_data <- full_join(read_map_data,
-                        world_map,
-                        by = "country_name")
-
-read_world_data <- read_world_data %>%
+read_world_data <- full_join(
+  x = read_map_data,
+  y = world_map,
+  by = "country_name") %>% 
   rename(Country = country_name,
          Reading = diff) %>%
   mutate(Reading = round(Reading, digits = 2))
@@ -356,31 +346,17 @@ read_world_data <- read_world_data %>%
 
 ## -----------------------------------------------------------------------------
 sci_map_data <- sci_diff_conf_intervals %>%
-  dplyr::mutate(country_name = case_when(
-                country_name == "Brunei Darussalam" ~ "Brunei",
-                country_name == "United Kingdom" ~ "UK",
-                country_name %in% c("Macau SAR China", "B-S-J-Z (China)",
-                                    "Hong Kong SAR China") ~ "China",
-                country_name == "Korea" ~ "South Korea",
-                country_name == "North Macedonia" ~ "Macedonia",
-                country_name == "Baku (Azerbaijan)" ~ "Baku",
-                country_name %in% c("Moscow Region (RUS)", "Tatarstan (RUS)",
-                "Russian Federation") ~ "Russia",
-                country_name == "Slovak Republic" ~ "Slovakia",
-                country_name == "Chinese Taipei" ~ "Taiwan",
-                country_name == "United States" ~ "USA",
-                TRUE ~ as.character(country_name)))
+  dplyr::mutate(country_name = region2country(region_name = country_name))
 
 world_map <- map_data("world") %>%
   filter(region != "Antarctica") %>%
   fortify() %>%
   rename(country_name = region)
 
-sci_world_data <- full_join(sci_map_data,
-                        world_map,
-                        by = "country_name")
-
-sci_world_data <- sci_world_data %>%
+sci_world_data <- full_join(
+  x = sci_map_data,
+  y = world_map,
+  by = "country_name") %>% 
   rename(Country = country_name,
          Science = diff)  %>%
   mutate(Science = round(Science, digits = 2))
@@ -691,7 +667,7 @@ internet_plot <- int_math_read_sci_data %>%
          title = "Impact of Internet on Average Math Scores")
 
 
-## ----compint-plot, fig.cap ="Computers and the Internet are two of the most important inventions in the history of technology. In this figure, we observe the impact of owning a computer and having access to the internet on 15-year-old students all over the world. A remarkable finding from the plot is that all nations have higher scores in student performance when they own a computer and have access to the internet.", fig.width= 15, fig.height= 8, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----compint-plot, fig.cap ="Computers and the Internet are two of the most important inventions in the history of technology. In this figure, we observe the impact of owning a computer and having access to the internet on 15-year-old students all over the world. A remarkable finding from the plot is that all nations have higher scores in student performance when they own a computer and have access to the internet.", fig.width=8, fig.height=4, fig.pos = "H", out.width="100%", layout="l-body"----
 computer_plot + internet_plot
 
 
@@ -767,7 +743,7 @@ if (!file.exists("data/all_bs_cf.rda")) {
 
 
 
-## ----bs-plot, fig.cap ="Temporal patterns in math, reading, and science in a variety of countries. The highlighted countries in the chart help us infer Australia's performance in contrast to the other countries; we can see that Australia's scores have always been among the highest in the PISA survey throughout all years.", fig.height=18, fig.width=15, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----bs-plot, fig.cap ="Temporal patterns in math, reading, and science in a variety of countries. The highlighted countries in the chart help us infer Australia's performance in contrast to the other countries; we can see that Australia's scores have always been among the highest in the PISA survey throughout all years.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
 all_bs_cf <- all_bs_cf %>%
   mutate(year = as.numeric(as.character(year)),
          country_name = factor(country_name))
@@ -926,7 +902,7 @@ student_anim_data$year <- as.numeric(as.character(student_anim_data$year))
 #>         #axis.line = element_blank(),
 #>         aspect.ratio=1) +
 #>   transition_states(year,
-#>                     transition_length = 3,
+#>                     transition_length = 1,
 #>                     state_length = 1,
 #>                     wrap = FALSE)   +
 #>   scale_colour_brewer("", palette = "Dark2") +
@@ -935,7 +911,7 @@ student_anim_data$year <- as.numeric(as.character(student_anim_data$year))
 #>        y = "Reading") +
 #>   xlim(c(250, 650)) + ylim(c(300, 600))
 #> 
-#> animate(gif, fps = 1.5, end_pause = 2)
+#> animate(gif, fps = 5, end_pause = 1)
 
 
 ## ----facet-time, fig.cap = "Math and reading scores over time, with selected countries labelled. Colour indicates continent. Australia has quite stable scores over the years.", eval = knitr::is_latex_output(), fig.width = 9, fig.height = 6, out.width="100%", layout="l-body-outset"----

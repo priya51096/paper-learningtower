@@ -888,7 +888,7 @@ if (!file.exists("data/all_bs_cf.rda")) {
 
 ```
 
-```{r bs-plot, fig.cap ="Temporal patterns in math, reading, and science in a variety of countries. The highlighted countries in the chart help us infer Australia's performance in contrast to the other countries; we can see that Australia's scores have always been among the highest in the PISA survey throughout all years.", fig.height=18, fig.width=15, fig.pos = "H", out.width="100%", layout="l-body"}
+```{r bs-plot, fig.cap ="Temporal patterns in math, reading, and science in a variety of countries. The highlighted countries in the chart help us infer Australia's performance in contrast to the other countries; we can see that Australia's scores have always been among the highest in the PISA survey throughout all years.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"}
 all_bs_cf <- all_bs_cf %>%
   mutate(year = as.numeric(as.character(year)),
          country_name = factor(country_name))
@@ -1052,7 +1052,7 @@ gif <- ggplot(student_anim_data,
         #axis.line = element_blank(), 
         aspect.ratio=1) +
   transition_states(year, 
-                    transition_length = 3,
+                    transition_length = 1,
                     state_length = 1,
                     wrap = FALSE)   +
   scale_colour_brewer("", palette = "Dark2") +
@@ -1061,7 +1061,7 @@ gif <- ggplot(student_anim_data,
        y = "Reading") +
   xlim(c(250, 650)) + ylim(c(300, 600))
 
-animate(gif, fps = 1.5, end_pause = 2) 
+animate(gif, fps = 5, end_pause = 1) 
 ```
 
 
