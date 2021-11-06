@@ -925,12 +925,14 @@ student_anim_data$year <- as.numeric(as.character(student_anim_data$year))
 #>         #axis.line = element_blank(),
 #>         aspect.ratio=1) +
 #>   transition_states(year,
-#>                     transition_length = 0,
-#>                     state_length = 2)   +
+#>                     transition_length = 3,
+#>                     state_length = 1,
+#>                     wrap = FALSE)   +
 #>   scale_colour_brewer("", palette = "Dark2") +
 #>   labs(title = 'Year: {closest_state}',
 #>        x = "Math",
-#>        y = "Reading")
+#>        y = "Reading") +
+#>   xlim(c(250, 650)) + ylim(c(300, 600))
 #> 
 #> animate(gif, fps = 1.5, end_pause = 2)
 
