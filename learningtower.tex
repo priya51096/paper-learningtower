@@ -299,7 +299,7 @@ boys throughout the world, we utilize the \texttt{map\_data} function to
 get the latitude and longitude coordinates needed to construct a map for
 our data. We connect these latitude and longitude coordinates to our
 PISA data and render the world map using \texttt{geom\_polygon} function
-wrapped within \CRANpkg{ggplot2} \citep{ggplot2}, the intearctive
+wrapped within \CRANpkg{ggplot2} \citep{ggplot2}, the interactive
 features and placement of the plots are made using \CRANpkg{plotly}
 \citep{plotly} and \CRANpkg{patchwork} \citep{patchwork} packages in R.
 
@@ -405,14 +405,14 @@ the impact of parents qualification we first create \texttt{data.frames}
 that are categorized by the various countries and regions and grouped by
 the father's and mother's qualification. We next compute the weighted
 mean average of math scores while accounting for student weights.
-Furthermore, we refactored the parents qualification variable based on
+Furthermore, we re-factored the parents qualification variable based on
 the multiple levels of classification, dividing it into four unique
 levels of education, namely early childhood, primary, lower, and
 secondary education. Furthermore, we display the weighted math average
-versus qualification colored by the refactored qualifications levels for
-both the mother and father using the \texttt{geom\_quasirandom} function
-wrapped within \CRANpkg{ggplot2} \citep{ggplot2}, we further plot this
-with the help of \CRANpkg{viridis} \citep{viridis} and
+versus qualification colored by the re factored qualifications levels
+for both the mother and father using the \texttt{geom\_quasirandom}
+function wrapped within \CRANpkg{ggplot2} \citep{ggplot2}, we further
+plot this with the help of \CRANpkg{viridis} \citep{viridis} and
 \CRANpkg{patchwork} \citep{patchwork} packages in R.
 
 \begin{Schunk}
@@ -579,11 +579,11 @@ developers of the \CRANpkg{learningtower} package, feel it is
 appropriate to illustrate the temporal trend of Australia in comparison
 to a few other nations. We evaluate these countries performance using a
 statistical procedure bootstrapping using the \texttt{map\_dfr} function
-which resamples a single dataset to generate a large number of simulated
-samples. We will compare the results of these bootstrap samples across
-all the years they participated in PISA and highlight a few countries
-with help of \CRANpkg{gghighlight} \citep{gghighlight} performance to
-compare with Australia's
+which re-samples a single dataset to generate a large number of
+simulated samples. We will compare the results of these bootstrap
+samples across all the years they participated in PISA and highlight a
+few countries with help of \CRANpkg{gghighlight} \citep{gghighlight}
+performance to compare with Australia's
 
 \begin{Schunk}
 \begin{figure}[H]
@@ -620,6 +620,17 @@ plotted using \CRANpkg{gganimate} \citep{gganimate} the that explains
 how performance can only be compared among scales and not based on
 scores or any other characteristics with respect to several other
 countries that participated in the PISA experiment.
+
+\begin{Schunk}
+\begin{figure}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/facet-time-1} \caption[Math and reading scores over time, with selected countries labelled]{Math and reading scores over time, with selected countries labelled. Colour indicates continent. Australia has quite stable scores over the years.}\label{fig:facet-time}
+\end{figure}
+\end{Schunk}
+
+\hypertarget{discussion}{%
+\section{Discussion}\label{discussion}}
+
+Some things to say here
 
 \bibliography{learningtower.bib}
 

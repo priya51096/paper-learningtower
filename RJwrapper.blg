@@ -1,10 +1,10 @@
-This is BibTeX, Version 0.99d (TeX Live 2021/W32TeX)
+This is BibTeX, Version 0.99d (TeX Live 2020)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: RJwrapper.aux
 The style file: abbrvnat.bst
 Database file #1: learningtower.bib
 Warning--I'm ignoring viridis's extra "doi" field
---line 241 of file learningtower.bib
+--line 121 of file learningtower.bib
 You've used 16 entries,
             2773 wiz_defined-function locations,
             674 strings with 7299 characters,
