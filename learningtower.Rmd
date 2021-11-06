@@ -1059,7 +1059,8 @@ gif <- ggplot(student_anim_data,
   labs(title = 'Year: {closest_state}',
        x = "Math",
        y = "Reading") +
-  xlim(c(250, 650)) + ylim(c(300, 600))
+  xlim(c(250, 650)) + ylim(c(300, 600)) +
+  enter_fade() + exit_fade()
 
 animate(gif, fps = 5, end_pause = 1) 
 ```
