@@ -19,6 +19,7 @@ library(patchwork)
 library(plotly)
 library(ggbeeswarm)
 library(gganimate)
+library(ggrepel)
 
 
 ## ----gendergap----------------------------------------------------------------
@@ -833,54 +834,135 @@ math_all_bs_cf_plot + read_all_bs_cf_plot + sci_all_bs_cf_plot
 
 
 
-## ----anim-plot, eval = knitr::is_html_output(), fig.pos = "H", out.width="100%", layout="l-body-outset"----
-#> student_country_anim <- left_join(student_all,
-#>                                   countrycode,
-#>                                   by = "country") %>%
-#>   group_by(year) %>%
-#>   ungroup() %>%
-#>   dplyr::select(year, country_name, math, read, science, stu_wgt) %>%
-#>   na.omit()
-#> 
-#> student_country_anim_avg <- student_country_anim %>%
-#> group_by(country_name, year) %>%
-#> dplyr::summarise(math_avg =
-#>                    weighted.mean(math, w = stu_wgt,
-#>                                  na.rm = TRUE),
-#>                  read_avg =
-#>                    weighted.mean(read, w = stu_wgt,
-#>                                  na.rm = TRUE),
-#>                  sci_avg  =
-#>                    weighted.mean(science, w = stu_wgt,
-#>                                  na.rm = TRUE),
-#>                  .groups = "drop") %>%
-#> ungroup()
-#> 
-#> data_cont <- countrycode::codelist %>%
-#>   dplyr::select(cowc, continent, country.name.en) %>%
-#>   rename(country_name = country.name.en)
-#> 
-#> student_anim_data <- left_join(student_country_anim_avg,
-#>                                data_cont,
-#>                                by = "country_name") %>%
-#>   dplyr::select(-cowc)
-#> 
-#> student_anim_data$year <- as.numeric(as.character(student_anim_data$year))
-#> 
-#> student_anim_data$year <- round(as.numeric(student_anim_data$year), 0)
-#> 
-#> #animate
+## -----------------------------------------------------------------------------
+student_country_anim <- left_join(student_all,
+                                  countrycode,
+                                  by = "country") %>%
+  group_by(year) %>%
+  ungroup() %>%
+  dplyr::select(year, country, country_name, 
+                math, read, science, stu_wgt) %>%
+  na.omit()
+
+student_country_anim_avg <- student_country_anim %>%
+  group_by(country_name, year) %>%
+  dplyr::summarise(math_avg =
+                   weighted.mean(math, w = stu_wgt,
+                                 na.rm = TRUE),
+                 read_avg =
+                   weighted.mean(read, w = stu_wgt,
+                                 na.rm = TRUE),
+                 sci_avg  =
+                   weighted.mean(science, w = stu_wgt,
+                                 na.rm = TRUE),
+                 countrycode = country[1],
+                 .groups = "drop") %>%
+  select(country_name, countrycode, year, math_avg, read_avg, sci_avg)
+
+# Need to fix some country names: may be different data
+# collections per year, but need some consistency in names
+student_country_anim_avg <-
+  student_country_anim_avg %>%
+  mutate(country_name = fct_recode(country_name,
+      "Argentina" = "Argentina (Ciudad Autónoma de Buenos)",
+      "Hong Kong" = "Hong Kong SAR China",
+      "China, Macau" = "Macau SAR China",
+      "China, Shanghai" = "Shanghai-China",
+      "China, B-S-J-G" = "B-S-J-G (China)",
+      "China, B-S-J-Z" = "B-S-J-Z (China)",
+      "Azerbaijan" = "Baku (Azerbaijan)",
+      "India, Himachal Pradesh" = "Himachal Pradesh-India",
+      "India, Tamil Nadu" = "Tamil Nadu-India",
+      "USA, Massachusetts" = "Massachusettes (USA)",
+      "USA, North Carolina" = "North Carolina (USA)",
+      "USA, Puerto Rico" = "Puerto Rico (USA)",
+      "USA" = "United States",
+      "Venezuela" = "Miranda-Venezuela",
+      "Russia, Moscow" = "Moscow Region (RUS)",
+      "Russia, Perm" = "Perm(Russian Federation)",
+      "Russia, Tatarstan" = "Tatarstan (RUS)",
+      "Spain, regional" = "Spain (Regions)"))
+
+# Add continent
+country_continent <-
+  read_csv("data/country_continent.csv") %>%
+  select(iso3, continent)
+
+student_country_anim_avg <- left_join(student_country_anim_avg, 
+     select(country_continent, iso3, continent), 
+     by = c("countrycode"="iso3"))
+
+student_anim_data <- student_country_anim_avg
+
+student_anim_data$year <- as.numeric(as.character(student_anim_data$year))
+
+
+## ----anim-plot, fig.cap = "Animation of math and reading scores over time.", eval = knitr::is_html_output(), fig.width = 10, fig.height = 10, out.width="100%", layout="l-body-outset"----
 #> gif <- ggplot(student_anim_data,
-#>        aes(math_avg, sci_avg,
+#>        aes(x=math_avg, y=read_avg,
 #>            color = continent)) +
-#>   geom_text(aes(label = country_name),
-#>             check_overlap = TRUE) +
+#>   geom_point(size=2, alpha=0.5) +
+#>   geom_text(data = filter(student_anim_data,
+#>                           country_name %in%
+#>                             c("Australia",
+#>                               "New Zealand",
+#>                               "Indonesia",
+#>                               "Qatar",
+#>                               "Singapore",
+#>                               "Germany",
+#>                               "Malaysia",
+#>                               "Finland",
+#>                               "Canada",
+#>                               "Germany",
+#>                               "Thailand",
+#>                               "Brazil",
+#>                               "Colombia",
+#>                               "Chile",
+#>                               "USA")),
+#>             aes(label = country_name), size=4) +
+#>   theme_minimal() +
 #>   theme(legend.position = "none",
-#>         axis.line = element_blank(),) +
-#>   transition_time(year)   +
-#>   labs(title = 'Year: {frame_time}',
-#>        x = "Average Math Scores",
-#>        y = "Average Science Scores")
+#>         #axis.line = element_blank(),
+#>         aspect.ratio=1) +
+#>   transition_states(year,
+#>                     transition_length = 0,
+#>                     state_length = 2)   +
+#>   scale_colour_brewer("", palette = "Dark2") +
+#>   labs(title = 'Year: {closest_state}',
+#>        x = "Math",
+#>        y = "Reading")
 #> 
-#> animate(gif, fps = 1.9)
+#> animate(gif, fps = 1.5, end_pause = 2)
+
+
+## ----facet-time, fig.cap = "Math and reading scores over time, with selected countries labelled. Colour indicates continent. Australia has quite stable scores over the years.", eval = knitr::is_latex_output(), fig.width = 9, fig.height = 6, out.width="100%", layout="l-body-outset"----
+ggplot(student_anim_data,
+       aes(x=math_avg, y=read_avg,
+           color = continent)) +
+  geom_point(size=2, alpha=0.5) +
+  geom_text_repel(data = filter(student_anim_data,
+                          country_name %in%
+                            c("Australia", 
+                              "New Zealand",
+                              "Indonesia", 
+                              "Qatar",
+                              "Singapore",
+                              "Germany",
+                              "Malaysia",
+                              "Finland",
+                              "Canada",
+                              "Germany",
+                              "Thailand",
+                              "Brazil",
+                              "Colombia",
+                              "Chile",
+                              "USA")), 
+            aes(label = country_name), size=3, 
+            max.overlaps = 20) +
+  theme(legend.position = "bottom", 
+        aspect.ratio=1) +
+  facet_wrap(~year, ncol=4) +
+  scale_colour_brewer("", palette = "Dark2") +
+  labs(x = "Math",
+       y = "Reading")
 
