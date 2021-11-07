@@ -1028,7 +1028,7 @@ gif <- ggplot(student_anim_data,
        aes(x=math_avg, y=read_avg,
            color = continent, group = country_name)) +
   geom_point(size=2, alpha=0.5) +
-  geom_text(data = filter(student_anim_data,
+  geom_label(data = filter(student_anim_data,
                           country_name %in%
                             c("Australia", 
                               "New Zealand",
