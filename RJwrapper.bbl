@@ -1,4 +1,4 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{17}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -58,6 +58,14 @@ O.~for Economic~Cooperation and Development.
 \newblock \emph{{viridis} - Colorblind-Friendly Color Maps for R}, 2021.
 \newblock URL \url{https://sjmgarnier.github.io/viridis/}.
 \newblock R package version 0.6.2.
+
+\bibitem[O'Hara-Wild et~al.(2021)O'Hara-Wild, Kobakian, Zhang, and
+  Cook]{rjtools}
+M.~O'Hara-Wild, S.~Kobakian, H.~S. Zhang, and D.~Cook.
+\newblock \emph{rjtools: Tools for Preparing, Checking, and Submitting Articles
+  to the R Journal}, 2021.
+\newblock URL \url{https://github.com/rjournal/rjtools}.
+\newblock R package version 0.0.0.9002.
 
 \bibitem[Pedersen(2020)]{patchwork}
 T.~L. Pedersen.

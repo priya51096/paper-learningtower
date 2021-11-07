@@ -873,12 +873,12 @@ student_anim_data <- student_country_anim_avg
 student_anim_data$year <- as.numeric(as.character(student_anim_data$year))
 
 
-## ----anim-plot, fig.cap = "Animation of math and reading scores over time, with selected countries labelled. Australia has quite stable high scores over th full time period. There is quite a lot of moving of scores between years, perhaps more among lower scoring countries.", eval = knitr::is_html_output(), fig.width = 10, fig.height = 10, out.width="100%", layout="l-body-outset"----
+## ----anim-plot, fig.cap = "Animation of math and reading scores over time, with selected countries labelled. Australia has a quite stable high scores over the full time period. There is quite a lot of moving of scores between years, perhaps more among lower scoring countries.", eval = knitr::is_html_output(), fig.width = 10, fig.height = 10, out.width="100%", layout="l-body-outset"----
 #> gif <- ggplot(student_anim_data,
 #>        aes(x=math_avg, y=read_avg,
 #>            color = continent, group = country_name)) +
 #>   geom_point(size=2, alpha=0.5) +
-#>   geom_text(data = filter(student_anim_data,
+#>   geom_label(data = filter(student_anim_data,
 #>                           country_name %in%
 #>                             c("Australia",
 #>                               "New Zealand",
@@ -909,7 +909,8 @@ student_anim_data$year <- as.numeric(as.character(student_anim_data$year))
 #>   labs(title = 'Year: {closest_state}',
 #>        x = "Math",
 #>        y = "Reading") +
-#>   xlim(c(250, 650)) + ylim(c(300, 600))
+#>   xlim(c(250, 650)) + ylim(c(300, 600)) +
+#>   enter_fade() + exit_fade()
 #> 
 #> animate(gif, fps = 5, end_pause = 1)
 
