@@ -17,39 +17,6 @@ O.~for Economic~Cooperation and Development.
 \newblock URL \url{https://www.oecd.org/education/1841854.pdf}.
 \newblock Accessed: 2021-11-03.
 
-\bibitem[for Economic~Cooperation and Development(2014)]{pisabook}
-O.~for Economic~Cooperation and Development.
-\newblock \emph{What is PISA?}
-\newblock OECDiLibrary, 2014.
-\newblock ISBN 978-92-64-20878-0.
-\newblock URL
-  \url{https://www.oecd-ilibrary.org/content/component/9789264208780-5-en}.
-
-\bibitem[for Economic~Cooperation and Development(2021{\natexlab{a}})]{oecd}
-O.~for Economic~Cooperation and Development.
-\newblock \emph{About OECD}, 2021{\natexlab{a}}.
-\newblock URL \url{https://www.oecd.org/about/}.
-\newblock Accessed: 2021-11-03.
-
-\bibitem[for Economic~Cooperation and Development(2021{\natexlab{b}})]{pisa}
-O.~for Economic~Cooperation and Development.
-\newblock \emph{About PISA}, 2021{\natexlab{b}}.
-\newblock URL \url{https://www.oecd.org/pisa/}.
-\newblock Accessed: 2021-11-03.
-
-\bibitem[for Economic~Cooperation and Development(2021{\natexlab{c}})]{scaling}
-O.~for Economic~Cooperation and Development.
-\newblock \emph{Scaling PISA data}, 2021{\natexlab{c}}.
-\newblock URL
-  \url{https://www.oecd.org/pisa/data/pisa2018technicalreport/Ch.09-Scaling-PISA-Data.pdf}.
-\newblock Accessed: 2021-11-03.
-
-\bibitem[for Economic~Cooperation and Development(2021{\natexlab{d}})]{test}
-O.~for Economic~Cooperation and Development.
-\newblock \emph{About the PISA Test}, 2021{\natexlab{d}}.
-\newblock URL \url{https://www.oecd.org/pisa/test/}.
-\newblock Accessed: 2021-11-03.
-
 \bibitem[{Garnier} et~al.(2021){Garnier}, {Simon}, {Ross}, {Noam}, {Rudis},
   {Robert}, {Camargo}, Pedro, {Sciaini}, {Marco}, {Scherer}, and
   {Cédric}]{viridis}
@@ -66,6 +33,44 @@ M.~O'Hara-Wild, S.~Kobakian, H.~S. Zhang, and D.~Cook.
   to the R Journal}, 2021.
 \newblock URL \url{https://github.com/rjournal/rjtools}.
 \newblock R package version 0.0.0.9002.
+
+\bibitem[{Organization for Economic Cooperation and
+  Development}(2014)]{pisabook}
+{Organization for Economic Cooperation and Development}.
+\newblock \emph{What is PISA?}
+\newblock OECDiLibrary, 2014.
+\newblock ISBN 978-92-64-20878-0.
+\newblock URL
+  \url{https://www.oecd-ilibrary.org/content/component/9789264208780-5-en}.
+
+\bibitem[{Organization for Economic Cooperation and
+  Development}(2021{\natexlab{a}})]{oecd}
+{Organization for Economic Cooperation and Development}.
+\newblock \emph{About OECD}, 2021{\natexlab{a}}.
+\newblock URL \url{https://www.oecd.org/about/}.
+\newblock Accessed: 2021-11-03.
+
+\bibitem[{Organization for Economic Cooperation and
+  Development}(2021{\natexlab{b}})]{pisa}
+{Organization for Economic Cooperation and Development}.
+\newblock \emph{About PISA}, 2021{\natexlab{b}}.
+\newblock URL \url{https://www.oecd.org/pisa/}.
+\newblock Accessed: 2021-11-03.
+
+\bibitem[{Organization for Economic Cooperation and
+  Development}(2021{\natexlab{c}})]{scaling}
+{Organization for Economic Cooperation and Development}.
+\newblock \emph{Scaling PISA data}, 2021{\natexlab{c}}.
+\newblock URL
+  \url{https://www.oecd.org/pisa/data/pisa2018technicalreport/Ch.09-Scaling-PISA-Data.pdf}.
+\newblock Accessed: 2021-11-03.
+
+\bibitem[{Organization for Economic Cooperation and
+  Development}(2021{\natexlab{d}})]{test}
+{Organization for Economic Cooperation and Development}.
+\newblock \emph{About the PISA Test}, 2021{\natexlab{d}}.
+\newblock URL \url{https://www.oecd.org/pisa/test/}.
+\newblock Accessed: 2021-11-03.
 
 \bibitem[Pedersen(2020)]{patchwork}
 T.~L. Pedersen.

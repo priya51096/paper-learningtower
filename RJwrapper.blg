@@ -7,34 +7,34 @@ Warning--I'm ignoring viridis's extra "doi" field
 --line 241 of file learningtower.bib
 You've used 17 entries,
             2773 wiz_defined-function locations,
-            679 strings with 7524 characters,
-and the built_in function-call counts, 8114 in all, are:
-= -- 681
-> -- 700
+            680 strings with 7579 characters,
+and the built_in function-call counts, 7789 in all, are:
+= -- 651
+> -- 645
 < -- 12
-+ -- 239
-- -- 219
-* -- 697
-:= -- 1353
++ -- 224
+- -- 204
+* -- 657
+:= -- 1308
 add.period$ -- 70
 call.type$ -- 17
-change.case$ -- 108
+change.case$ -- 103
 chr.to.int$ -- 14
 cite$ -- 34
 duplicate$ -- 306
 empty$ -- 464
-format.name$ -- 252
-if$ -- 1594
+format.name$ -- 227
+if$ -- 1524
 int.to.chr$ -- 4
 int.to.str$ -- 1
 missing$ -- 7
 newline$ -- 112
 num.names$ -- 68
-pop$ -- 214
+pop$ -- 209
 preamble$ -- 1
-purify$ -- 107
+purify$ -- 102
 quote$ -- 0
-skip$ -- 286
+skip$ -- 271
 stack$ -- 0
 substring$ -- 46
 swap$ -- 34
