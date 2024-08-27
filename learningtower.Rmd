@@ -1,5 +1,6 @@
 ---
 title: "learningtower: an R package for Exploring Standardised Test Scores Across the Globe"
+date: "`r Sys.Date()`"
 abstract: >
   Reproducibility is a key aspect of data analysis. Furthermore, it adds context to scientific results, increasing public confidence and laying the groundwork for future study. The Programme for International Student Assessment (PISA) is a well-known open data set that is freely available. This data has the ability to provide meaningful results and insights that can help with various decisions in the fields of education and research. This experiment has a direct influence on society for the benefit of people's lives. In this article, we introduce the `learningtower` package, which provides a user-friendly easy accessibility to a subset of variables from PISA data gathered by the Organization for Economic Cooperation and Development (OECD) from 2000 to 2018. This dataset is well suited for data exploration, visualisation and various analytical and statistical analysis. In addition, we present a few example analysis utilizing this dataset addressing some research questions regarding the gender gap noticed in these students, the effect of different socioeconomic factors on the students' performance, and we go further to study Australia's PISA scores.
 draft: true
@@ -30,7 +31,7 @@ type: package
 # csl: "rjournal.csl"
 creative_commons: CC BY
 output: 
-  rjtools::rjournal_web_article
+  rjtools::rjournal_article
     # css: "rjournal.css"
 header-includes:
     \usepackage{float}
@@ -57,6 +58,7 @@ library(plotly)
 library(ggbeeswarm)
 library(gganimate)
 library(ggrepel)
+library(maps)
 ```
 
 # Introduction
@@ -89,7 +91,7 @@ The \CRANpkg{learningtower} package primarily comprised of three datasets: `stud
 
 \CRANpkg{learningtower} developers are committed to providing R users with data to analyse PISA results every three years. Our package's future enhancements include updating the package every time additional PISA scores are announced. Note that, in order to account for post COVID-19 problems, OECD member nations and associates decided to postpone the PISA 2021 evaluation to 2022 and the PISA 2024 assessment to 2025.
 
-# Example analyses
+# Example analysis
 
 In this section we will illustrate how the \CRANpkg{learningtower} package can be utilized to answer some research questions by applying various methodologies and statistical computations on the \CRANpkg{learningtower} datasets.
 
