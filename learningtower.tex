@@ -57,7 +57,7 @@ We will utilize the 2018 PISA data and scores for illustrative purposes througho
 Gender gaps have always been a topic of interest among researchers, and when it comes to PISA data and scores of 15-year-old students around the world, uncovering patterns based on their gender would help gain meaningful insights in the field of education for various education policymakers around the world. Based on the 2018 PISA results, let us see if there is a major gender disparity between girls and boys throughout the world in mathematics, reading, and science. To begin, we will create a `data.frame' that stores the weighted average math score for each nation as well as the various regions of the countries grouped by country and gender, in order to create this \texttt{data.frame} and represent data in the tidy format we use the \CRANpkg{tidyverse} (Wickham et al. 2019) and \CRANpkg{dplyr} (Wickham et al. 2021) R packages. \href{https://www.oecd.org/pisa/data/2015-technical-report/PISA-2015-Technical-Report-Chapter-8-Survey-Weighting.pdf}{Survey weights} are critical and must be used in the analysis to guarantee that each sampled student accurately represents the total number of pupils in the PISA population. In addition, we compute the gender difference between the two averages. To demonstrate the variability in the mean estimate, we use bootstrap sampling with replacement using the \texttt{map\_dfr} function on the data and compute the same mean difference estimate. For each country, the empirical 90 percent confidence intervals are presented. The same process is used for reading and science test scores.
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/score-differences-1} \caption{The chart above depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the grey line represent the performances of the girls, while the scores to the left of the grey line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all countries outperformed boys in reading.}\label{fig:score-differences}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/score-differences-1} \caption{The gender gap difference in 15-year-olds' in math, reading, and science results in 2018, with bootstrapped 95\% errors. The scores to the right of the grey line (green) represent the performances of the girls, while the scores to the left of the grey line (purple) represent the performances of the boys. The gender gap is not universal in math and science, but on average in reading, girls from all countries outperformed boys.}\label{fig:score-differences}
 \end{figure}
 
 Figure \ref{fig:score-differences} illustrates the global disparities in mean math, reading, and science outcomes, before we get to the plot conclusion, let's have a look at the variables that have been plotted. The grey line here indicates a reference point, and all of the scores to the right of the grey line show the scores of girls in math, reading, and science. Similarly, the scores on the left side of this grey line indicate the scores of boys in the three disciplines. Based on figure \ref{fig:score-differences}, because most math estimates and confidence intervals lie to the left of the grey line, we may conclude that most boys outperformed girls in math. In nations such as Morocco, Netherlands, Slovenia, Kazakhstan, Poland, Bulgaria, and Greece, there is almost no gender difference in average math scores. When we look at the reading scores, we notice a remarkable trend in that all girls outpaced boys in reading in all countries in 2018. The highest reading scores were achieved by girls from Qatar, United Arab Emirates, and Finland. Looking further into the science plot, we see an unexpected pattern here where most countries have very little gender difference in science scores, implying that most boys and girls perform equally well in science. Boys from Peru, Colombia, and regions of China perform well in science and girls from Qatar, the United Arab Emirates, and Jordan are the top scores for science. Figure \ref{fig:score-differences} helps us to depict the gender gap in math, reading, and science for all nations and regions that took part in the 2018 PISA experiment.
@@ -76,7 +76,7 @@ In Figure \ref{fig:ggplot-maps}, we have shown the gender gap difference between
 Socioeconomic status is an economic and sociological complete measure of a person's work experience, economic access to resources, and social standing in relation to others. Do these socioeconomic factors influence students' academic performance? In this section, we will investigate if different socioeconomic factors owned by a family have a significant impact on a student's academic performance. The student dataset in the \CRANpkg{learningtower} package contains scores of 15-year-olds from triennial testing across the world. This dataset also includes information about their parents' education, family wealth, gender, and ownership of computers, internet, cars, books, rooms, desks, and dishwashers. In this section, we will mainly explore some fascinating aspects of the influence of a few socioeconomic factors on student performance in math, reading, and science. Before we go on to our socioeconomic determinants and their impact on students, figure \ref{fig:corr-plot} shows how the math, reading, and science scores are strongly positively correlated to one another.
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{figures/hexbin} \caption{The hexagon binned pairs plot displays the relationship between math, reading, and science scores for all PISA countries that participated in the experiment in 2018. This scatterplot shows that all three subjects have a significant and positive correlation with one another.}\label{fig:corr-plot}
+\includegraphics[width=1\linewidth]{figures/hexbin} \caption{The hexagon binned pairs plot displays the relationship between math, reading, and science scores for all PISA countries that participated in the experiment in 2018. This scatterplot shows that all three subjects have a significant and positive correlation with each another. The pattern is so regular that it indicates the data is simulated. The documentation confirms this, that the public data is privatised by simulating scores from the fitted model.}\label{fig:corr-plot}
 \end{figure}
 
 We plotted all three scores against each other using the \texttt{geom\_hex()} function available under the \CRANpkg{ggplot2} (Wickham 2016) package in R. The figure \ref{fig:corr-plot} help us us reveal the relationship between these three subjects allowing us to deduce that math, science, and reading scores are positively and significantly correlated with one another. This strong correlation structure implies that an analysis between an desired socioeconomic factor and one of the subject scores (e.g.~math) should hold similar conclusion if the subject score is replaced with another one (e.g.~science). Thus, we decided to show the effect of socioeconomic variables on average math scores in 2018. Let us further explore the impact of a selection of socioeconomic factors on the students' score.
@@ -98,7 +98,7 @@ Parents qualification is a vital element of childhood development. As previously
 To determine the impact of the parents' qualification we first create data framaes that are categorized by the various countries and regions and grouped by the father's and mother's qualification. We next compute the weighted average of math scores while accounting for student survey weights. Furthermore, we re-factored the parents qualification variable based on the multiple levels of classification, dividing it into four unique levels of education, namely early childhood, primary, lower, and secondary education. Furthermore, we display the weighted math average versus qualification colored by the re factored qualifications levels for both the mother and father using the \texttt{geom\_quasirandom} function wrapped within \CRANpkg{ggplot2} (Wickham 2016), we further plot this with the help of \CRANpkg{viridis} (Garnier et al. 2021) and \CRANpkg{patchwork} (Pedersen 2020) packages in R.
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/qual-plot-1} \caption{The impact of parents' education on their children's academic progress is depicted in this graph. When the parents have greater levels of education, we see a considerable rise in scores and an increase in the median of scores for each category, as shown in the figure. In comparison to parents with lower levels of education qualifications. Parents who have tend to have upper secondary qualification or equivalent credentials their children are more likely to perform better in academics when compared with parent having lesser levels of qualifications.}\label{fig:qual-plot}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/qual-plot-1} \caption{The impact of parents' education on their children's academic progress, as seen through math scores relative to a parent's highest education level. Each point is the country average, shown as jittered dotplots, and values for each level are connected by lines. The bar corresponds to the median over all countries. There is generally an increase in average math score as parents education is higher. In comparison to parents with lower levels of education qualifications. There is some variation across countries, with some showing decreases in average at the lower education levels, but all show an increase between lower and upper secondary levels.}\label{fig:qual-plot}
 \end{figure}
 
 The figure \ref{fig:qual-plot} depicts the impact of mothers' and fathers' qualifications on students academic performance. The figure \ref{fig:qual-plot} allows us to deduce a very important and remarkable insight in which we see a constant increase in the students' academic performance when both mother and father qualifications shift towards higher levels of education. The bold horizontal black lines that we see in each category for mother's and father's qualification here represent median score for that qualification category across countries. As the parent attains higher qualifications, we notice an increasing trend in these medians for each category. Taking a closer look at the figure \ref{fig:qual-plot}, we can see that there is a considerable boost in scores when both the mother and father have upper secondary education. Furthermore, the \texttt{geom\_quasirandom()} function in the \CRANpkg{ggbeeswarm} (Clarke and Sherrill-Mix 2017) package makes this plot more accessible and understandable by providing a way to offset points inside categories to prevent overplotting. Thus, we can clearly see that both the mother's and father's qualifications has a significant influence on the student's academic performance, with the more educated the parent more likely to have their child academically performing better.
@@ -161,7 +161,7 @@ We would like to express our sincere gratitude to the developers of the \href{ht
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
 \leavevmode\vadjust pre{\hypertarget{ref-ggbeeswarm}{}}%
-Clarke, Erik, and Scott Sherrill-Mix. 2017. \emph{Ggbeeswarm: Categorical Scatter (Violin Point) Plots}. \url{https://CRAN.R-project.org/package=ggbeeswarm}.
+Clarke, Erik, and Scott Sherrill-Mix. 2017. \emph{{ggbeeswarm}: Categorical Scatter (Violin Point) Plots}. \url{https://CRAN.R-project.org/package=ggbeeswarm}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-isced}{}}%
 Economic Cooperation, Organization for, and Development. 1999. \emph{ISCED-97 Implementation in OECD Countries}. \url{https://www.oecd.org/education/1841854.pdf}.
@@ -170,7 +170,7 @@ Economic Cooperation, Organization for, and Development. 1999. \emph{ISCED-97 Im
 Garnier, Simon, Ross, Noam, Rudis, Robert, Camargo, et al. 2021. \emph{{viridis} - Colorblind-Friendly Color Maps for r}. \url{https://doi.org/10.5281/zenodo.4679424}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-rjtools}{}}%
-O'Hara-Wild, Mitchell, Stephanie Kobakian, H. Sherry Zhang, and Di Cook. 2021. \emph{Rjtools: Tools for Preparing, Checking, and Submitting Articles to the r Journal}. \url{https://github.com/rjournal/rjtools}.
+O'Hara-Wild, Mitchell, Stephanie Kobakian, H. Sherry Zhang, and Dianne Cook. 2021. \emph{{rjtools}: Tools for Preparing, Checking, and Submitting Articles to the r Journal}. \url{https://github.com/rjournal/rjtools}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-pisabook}{}}%
 Organization for Economic Cooperation and Development. 2014. \emph{What Is PISA?} OECDiLibrary. \url{https://www.oecd-ilibrary.org/content/component/9789264208780-5-en}.
@@ -188,28 +188,28 @@ Organization for Economic Cooperation and Development. 2014. \emph{What Is PISA?
 ---------. 2021d. \emph{Scaling PISA Data}. \url{https://www.oecd.org/pisa/data/pisa2018technicalreport/Ch.09-Scaling-PISA-Data.pdf}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-patchwork}{}}%
-Pedersen, Thomas Lin. 2020. \emph{Patchwork: The Composer of Plots}. \url{https://CRAN.R-project.org/package=patchwork}.
+Pedersen, Thomas Lin. 2020. \emph{{patchwork}: The Composer of Plots}. \url{https://CRAN.R-project.org/package=patchwork}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-gganimate}{}}%
-Pedersen, Thomas Lin, and David Robinson. 2020. \emph{Gganimate: A Grammar of Animated Graphics}. \url{https://CRAN.R-project.org/package=gganimate}.
+Pedersen, Thomas Lin, and David Robinson. 2020. \emph{{gganimate}: A Grammar of Animated Graphics}. \url{https://CRAN.R-project.org/package=gganimate}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-plotly}{}}%
-Sievert, Carson. 2020. \emph{Interactive Web-Based Data Visualization with r, Plotly, and Shiny}. Chapman; Hall/CRC. \url{https://plotly-r.com}.
+Sievert, Carson. 2020. \emph{Interactive Web-Based Data Visualization with r, {plotly}, and {shiny}}. Chapman; Hall/CRC. \url{https://plotly-r.com}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-learningtower}{}}%
-Wang, Kevin, Paul Yacobellis, Erika Siregar, Sarah Romanes, Kim Fitter, Giulio Valentino Dalla Riva, Dianne Cook, Nick Tierney, and Priya Dingorkar. 2021. \emph{Learningtower: OECD PISA Datasets from 2000-2018 in an Easy-to-Use Format}.
+Wang, Kevin, Paul Yacobellis, Erika Siregar, Sarah Romanes, Kim Fitter, Giulio Valentino Dalla Riva, Dianne Cook, Nick Tierney, and Priya Dingorkar. 2021. \emph{{learningtower}: OECD PISA Datasets from 2000-2018 in an Easy-to-Use Format}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-ggplot2}{}}%
-Wickham, Hadley. 2016. \emph{Ggplot2: Elegant Graphics for Data Analysis}. Springer-Verlag New York. \url{https://ggplot2.tidyverse.org}.
+Wickham, Hadley. 2016. \emph{{ggplot2}: Elegant Graphics for Data Analysis}. Springer-Verlag New York. \url{https://ggplot2.tidyverse.org}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-tidyverse}{}}%
 Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D'Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. {``Welcome to the {tidyverse}.''} \emph{Journal of Open Source Software} 4 (43): 1686. \url{https://doi.org/10.21105/joss.01686}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-dplyr}{}}%
-Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2021. \emph{Dplyr: A Grammar of Data Manipulation}. \url{https://CRAN.R-project.org/package=dplyr}.
+Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2021. \emph{{dplyr}: A Grammar of Data Manipulation}. \url{https://CRAN.R-project.org/package=dplyr}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-gghighlight}{}}%
-Yutani, Hiroaki. 2021. \emph{Gghighlight: Highlight Lines and Points in 'Ggplot2'}. \url{https://CRAN.R-project.org/package=gghighlight}.
+Yutani, Hiroaki. 2021. \emph{{gghighlight}: Highlight Lines and Points in 'Ggplot2'}. \url{https://CRAN.R-project.org/package=gghighlight}.
 
 \end{CSLReferences}
 

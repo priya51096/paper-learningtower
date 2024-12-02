@@ -34,7 +34,7 @@ output:
   rjtools::rjournal_pdf_article:
     toc: no
   rjtools::rjournal_web_article:
-    self_contained: yes
+    self_contained: no
     toc: no
 header-includes:
     \usepackage{float}
@@ -197,11 +197,12 @@ math_plot <- ggplot(math_diff_conf_intervals,
   geom_vline(xintercept = 0, color = "#969696") +
   labs(y = "",
   x = "",
-  title = "Math"
+  title = "math"
   ) +
+  theme_bw() +
   theme(legend.position="none") +
-  annotate("text", x = 50, y = 1, label = "Girls") +
-  annotate("text", x = -50, y = 1, label = "Boys") +
+  annotate("text", x = 50, y = 1, label = "girls") +
+  annotate("text", x = -50, y = 1, label = "boys") +
   scale_x_continuous(limits = c(-70, 70),
                      breaks = seq(-60, 60, 20),
                      labels = abs(seq(-60, 60, 20)))
@@ -273,11 +274,12 @@ read_plot <- ggplot(read_diff_conf_intervals,
   geom_vline(xintercept = 0, color = "#969696") +
   labs(y = "",
   x = "",
-  title = "Reading"
+  title = "reading"
   ) +
+  theme_bw() +
   theme(legend.position="none") +
-  annotate("text", x = 50, y = 1, label = "Girls") +
-  annotate("text", x = -50, y = 1, label = "Boys") +
+  annotate("text", x = 50, y = 1, label = "girls") +
+  annotate("text", x = -50, y = 1, label = "boys") +
   scale_x_continuous(limits = c(-70, 70),
                      breaks = seq(-60, 60, 20),
                      labels = abs(seq(-60, 60, 20)))
@@ -351,17 +353,18 @@ sci_plot <- ggplot(sci_diff_conf_intervals,
   geom_vline(xintercept = 0, color = "#969696") +
   labs(y = "",
   x = "",
-  title = "Science"
+  title = "science"
   ) +
+  theme_bw() +
   theme(legend.position="none") +
-  annotate("text", x = 50, y = 1, label = "Girls") +
-  annotate("text", x = -50, y = 1, label = "Boys") +
+  annotate("text", x = 50, y = 1, label = "girls") +
+  annotate("text", x = -50, y = 1, label = "boys") +
   scale_x_continuous(limits = c(-70, 70),
                      breaks = seq(-60, 60, 20),
                      labels = abs(seq(-60, 60, 20)))
 ```
 
-```{r score-differences, fig.cap ="The chart above depicts the gender gap difference in 15-year-olds' in math, reading, and science results in 2018. The scores to the right of the grey line represent the performances of the girls, while the scores to the left of the grey line represent the performances of the boys. One of the most intriguing conclusions we can get from this chart is that in the PISA experiment in 2018, girls from all countries outperformed boys in reading.", fig.width=11, fig.height=11, fig.pos = "H", out.width="100%", layout="l-body"}
+```{r score-differences, fig.cap ="The gender gap difference in 15-year-olds' in math, reading, and science results in 2018, with bootstrapped 95% errors. The scores to the right of the grey line (green) represent the performances of the girls, while the scores to the left of the grey line (purple) represent the performances of the boys. The gender gap is not universal in math and science, but on average in reading, girls from all countries outperformed boys.", fig.width=11, fig.height=11, fig.pos = "H", out.width="100%", layout="l-body"}
 math_plot + read_plot + sci_plot
 ```
 
@@ -486,8 +489,8 @@ mrs_maps <- ggplot(math_read_sci_dat_wider,
                colour = "grey80", linewidth = 0.1) +
   facet_wrap(~subjects, scales = "free", nrow = 3) +
   theme_map() +
-  labs(title = "Gender Gap in Math, Reading and Science",
-       subtitle = "Green: gap in favor of girls; Purple: gap in favor of boys")  +
+  #labs(title = "Gender Gap in Math, Reading and Science",
+  #     subtitle = "Green: gap in favor of girls; Purple: gap in favor of boys")  +
   scale_fill_continuous_diverging(palette = "Purple-Green", 
                        limits = c(-66, 66), 
                        na.value = "white", 
@@ -495,7 +498,7 @@ mrs_maps <- ggplot(math_read_sci_dat_wider,
   theme(panel.border = element_rect(colour = "grey70", fill=NA))
 ```
 
-```{r plotly-maps, fig.cap="Interactive maps showing the difference in average math, reading, and science scores between girls and boys across the world, positive values indicate the girls average to be higher than boys average. Mousing over the plots shows the country and score.  The reading scores are positive for every country, indicating that girls outperform boys across the globe in 2018.", fig.pos="H", fig.height=12, fig.width=18, out.width="100%", layout="l-body", include=knitr::is_html_output(), eval=knitr::is_html_output()}
+```{r plotly-maps, fig.cap="Interactive maps showing the difference in average math, reading, and science scores between girls and boys across the world, positive values (green) indicate the girls average to be higher than boys average, and white indicates a missing value. Mousing over the plots shows the country and score. The average math score is higher for boys in most countries except for some parts of the Middle East, Scandinavia, and Southeast Asia. The average reading score is higher for girls than boys in every country measured.", fig.pos="H", fig.height=12, fig.width=18, out.width="100%", layout="l-body", include=knitr::is_html_output(), eval=knitr::is_html_output()}
 ggplotly(mrs_maps, width=700, height=800) |>
   config(displayModeBar = FALSE)
 ```
@@ -516,24 +519,24 @@ Socioeconomic status is an economic and sociological complete measure of a perso
 p1 <- ggplot(data = student_country,
              aes(x = math, y = read)) +
   geom_hex() +
-  labs(x = "Math Scores",
-       y = "Reading Scores") +
+  labs(x = "math",
+       y = "reading") +
   theme_bw() +
   theme(aspect.ratio=1, legend.position="none")
 
 p2 <- ggplot(data = student_country,
              aes(x = math, y = science)) +
   geom_hex() +
-  labs(x = "Math Scores",
-       y = "Science Scores") +
+  labs(x = "math",
+       y = "science") +
   theme_bw() +
   theme(aspect.ratio=1, legend.position = "none")
 
 p3 <- ggplot(data = student_country,
              aes(x = read, y = science)) +
   geom_hex() +
-  labs(x = "Reading Scores",
-       y = "Science Scores") +
+  labs(x = "reading",
+       y = "science") +
   theme_bw() +
   theme(aspect.ratio=1, legend.position="none")
 
@@ -541,7 +544,7 @@ p1+p2+p3
 ggsave("figures/hexbin.png")
 ```
 
-```{r corr-plot, fig.cap ="The hexagon binned pairs plot displays the relationship between math, reading, and science scores for all PISA countries that participated in the experiment in 2018. This scatterplot shows that all three subjects have a significant and positive correlation with one another.", fig.width=9, fig.pos = "H", out.width="100%", layout="l-body"}
+```{r corr-plot, fig.cap ="The hexagon binned pairs plot displays the relationship between math, reading, and science scores for all PISA countries that participated in the experiment in 2018. This scatterplot shows that all three subjects have a significant and positive correlation with each another. The pattern is so regular that it indicates the data is simulated. The documentation confirms this, that the public data is privatised by simulating scores from the fitted model.", fig.width=7.5, fig.pos = "H", out.width="100%", layout="l-body"}
 knitr::include_graphics("figures/hexbin.png")
 ```
 
@@ -556,23 +559,23 @@ Parents qualification is a vital element of childhood development. As previously
 
 To determine the impact of the parents' qualification we first create data framaes that are categorized by the various countries and regions and grouped by the father's and mother's qualification. We next compute the weighted average of math scores while accounting for student survey weights. Furthermore, we re-factored the parents qualification variable based on the multiple levels of classification, dividing it into four unique levels of education, namely early childhood, primary, lower, and secondary education. Furthermore, we display the weighted math average versus qualification colored by the re factored qualifications levels for both the mother and father using the `geom_quasirandom` function wrapped within \CRANpkg{ggplot2} [@ggplot2], we further plot this with the help of \CRANpkg{viridis} [@viridis] and \CRANpkg{patchwork} [@patchwork] packages in R.
 
-```{r}
+```{r eval=FALSE}
+# Run this code to create the data to examine 
+# the effect of parent's education
 student_country_data <- left_join(student_2018,
                                   countrycode,
                                   by = "country")
-
-
 father_qual_math_read_sci_data <- student_country_data %>%
   group_by(country_name, father_educ) %>%
   dplyr::summarise(math_avg = weighted.mean(math, w = stu_wgt, na.rm = TRUE),
                    read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
                    sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>%
 dplyr::mutate(father_educ = recode_factor(father_educ,
-                "less than ISCED1" = "Early Childhood",
-                "ISCED 1" = "Primary",
-                "ISCED 2" = "Lower Secondary",
-                "ISCED 3A" = "Upper Secondary",
-                "ISCED 3B, C" = "Upper Secondary",
+                "less than ISCED1" = "0",
+                "ISCED 1" = "1",
+                "ISCED 2" = "2",
+                "ISCED 3A" = "3",
+                "ISCED 3B, C" = "3",
                 .ordered = TRUE)) %>%
   na.omit() %>%
   rename(`Father's Education` = father_educ)
@@ -583,63 +586,74 @@ mother_qual_math_read_sci_data <- student_country_data %>%
                    read_avg = weighted.mean(read, w = stu_wgt, na.rm = TRUE),
                    sci_avg  =  weighted.mean(science, w = stu_wgt, na.rm = TRUE)) %>%
 dplyr::mutate(mother_educ = recode_factor(mother_educ,
-                "less than ISCED1" = "Early Childhood",
-                "ISCED 1" = "Primary",
-                "ISCED 2" = "Lower Secondary",
-                "ISCED 3A" = "Upper Secondary",
-                "ISCED 3B, C" = "Upper Secondary",
+                "less than ISCED1" = "0",
+                "ISCED 1" = "1",
+                "ISCED 2" = "2",
+                "ISCED 3A" = "3",
+                "ISCED 3B, C" = "3",
                 .ordered = TRUE)) %>%
   na.omit() %>%
   rename(`Mother's Education` = mother_educ)
 
+save(father_qual_math_read_sci_data,
+     file="data/father_qual_math_read_sci_data.rda")
+save(mother_qual_math_read_sci_data,
+     file="data/mother_qual_math_read_sci_data.rda")
+```
+
+```{r}
+load("data/father_qual_math_read_sci_data.rda")
+load("data/mother_qual_math_read_sci_data.rda")
 mother_qual_math <- ggplot(mother_qual_math_read_sci_data,
        aes(x=`Mother's Education`,
-           y=math_avg,
-           col=`Mother's Education`)) +
+           y=math_avg#,
+           )) + #colour=`Mother's Education`)) +
   geom_quasirandom(size = 1.7,
-             cex = 3) +
+             cex = 3, colour = "grey70") +
   geom_line(aes(group = country_name),
-            size=0.5, alpha=.36) +
-  scale_fill_viridis(discrete = TRUE,
-                     option = "A",
-                      alpha=0.2) +
+            size=0.5, alpha=.36, colour = "grey70") +
+  #scale_fill_viridis(discrete = TRUE,
+  #                   option = "A",
+  #                    alpha=0.2) +
     stat_summary(fun.y = median,
                  fun.ymin = median,
                  fun.ymax = median,
                  geom = "crossbar",
                  width = 0.5,
                  col = "black") +
+  theme_bw() +
   theme(legend.position="none",
       plot.title = element_text(size=11)) +
-    labs(y = "Average Mathematics Score",
-         x = "Mother's Qualification",
-         title = "math Scores and Mother's Qualification")
+    labs(y = "average math score",
+         x = "ISCED Level",
+         title = "mother")
 
 father_qual_math <- ggplot(father_qual_math_read_sci_data,
        aes(x=`Father's Education`,
-           y=math_avg,
-           col=`Father's Education`)) +
+           y=math_avg#,
+           )) + #colour=`Father's Education`)) +
   geom_quasirandom(size = 1.7,
-             cex = 3) +
+             cex = 3, colour = "grey70") +
   geom_line(aes(group = country_name),
-            size=0.5, alpha=.36) +
-  scale_fill_viridis(discrete = TRUE,
-                     option = "A",
-                      alpha=0.2) +
+            size=0.5, alpha=.36, colour = "grey70") +
+  #scale_fill_viridis(discrete = TRUE,
+  #                   option = "A",
+  #                    alpha=0.2) +
     stat_summary(fun.y = median,
                  fun.ymin = median,
                  fun.ymax = median,
                  geom = "crossbar",
                  width = 0.5,
                  col = "black") +
+  theme_bw() +
   theme(legend.position="none",
       plot.title = element_text(size=11)) +
-    labs(y = "Average Mathematics Score",
-         x = "Father's Qualification",
-         title = "math Scores and Father's Qualification")
+    labs(y = "average math score",
+         x = "ISCED Level",
+         title = "father")
 ```
 
-```{r qual-plot, fig.cap ="The impact of parents' education on their children's academic progress is depicted in this graph. When the parents have greater levels of education, we see a considerable rise in scores and an increase in the median of scores for each category, as shown in the figure. In comparison to parents with lower levels of education qualifications. Parents who have tend to have upper secondary qualification or equivalent credentials their children are more likely to perform better in academics when compared with parent having lesser levels of qualifications.", fig.width= 15, fig.height= 8, fig.pos = "H", out.width="100%", layout="l-body"}
+```{r qual-plot, fig.cap ="The impact of parents' education on their children's academic progress, as seen through math scores relative to a parent's highest education level. Each point is the country average, shown as jittered dotplots, and values for each level are connected by lines. The bar corresponds to the median over all countries. There is generally an increase in average math score as parents education is higher. In comparison to parents with lower levels of education qualifications. There is some variation across countries, with some showing decreases in average at the lower education levels, but all show an increase between lower and upper secondary levels.", fig.width = 8, fig.height = 5, fig.pos = "H", out.width="100%", layout="l-body"}
 father_qual_math + mother_qual_math
 ```
 
@@ -817,9 +831,9 @@ In the figure \@ref(fig:compint-plot), we see that students who own a computer a
 
 In this section of analysis, we look at the temporal trends noticed in Australia. The release of PISA results in 2018 led to several headlines on the decline in scores recorded in Australia. In this section, we will determine whether this decrease is indeed significant or whether there are any other aspects to consider when comparing country rankings. To better comprehend Australia's scores and trends since 2000, the developers of the \CRANpkg{learningtower} package, feel it is appropriate to illustrate the temporal trend of Australia in comparison to a few other nations. We evaluate these countries performance using a statistical procedure bootstrapping using the `map_dfr` function which re-samples a single dataset to generate a large number of simulated samples. We will compare the results of these bootstrap samples across all the years they participated in PISA and highlight a few countries with help of \CRANpkg{gghighlight} [@gghighlight] performance to compare with Australia's
 
-```{r}
+```{r eval=FALSE}
 # Load student data, and filter to country, cache a copy of the data
-# to save downloading every time paper is knitted
+# to save downloading every time paper is rendered
 
 if (!file.exists("data/student_all.rda")) {
   student_all <- load_student("all")
@@ -832,20 +846,20 @@ if (!file.exists("data/student_all.rda")) {
 student_country <- left_join(student_all,
                                   countrycode,
                                   by = "country") %>%
-  dplyr::filter(country_name %in%
-                  c("Australia",
-                    "New Zealand",
-                    "Qatar",
-                    "Indonesia",
-                    "Singapore",
-                    "Germany")) %>%
+  #dplyr::filter(country_name %in%
+  #                c("Australia",
+  #                  "New Zealand",
+  #                  "Qatar",
+  #                  "Indonesia",
+  #                  "Singapore",
+  #                  "Germany")) %>%
   dplyr::select(year, country_name, math, read, science, stu_wgt) %>%
   na.omit() %>%
   pivot_longer(c(math, read, science), names_to = "subject", values_to = "score")
+save(student_country, file="data/student_country.rda")
 
 # Compute the bootstrap confidence intervals, and cache result
-if (!file.exists("data/all_bs_cf.rda")) {
-  all_bootstrap <- map_dfr(1:100, ~{
+all_bootstrap <- map_dfr(1:100, ~{
     student_country %>%
     group_by(country_name, #year,
              subject) %>%
@@ -857,9 +871,9 @@ if (!file.exists("data/all_bs_cf.rda")) {
       avg = weighted.mean(score, w = stu_wgt, na.rm = TRUE), .groups = "drop") %>%
     #ungroup() %>%
     mutate(boot_id = .x)
-  })
+})
 
-  all_bootstrap_ci <- all_bootstrap %>%
+all_bootstrap_ci <- all_bootstrap %>%
     group_by(country_name, year,
              subject) %>%
     summarise(
@@ -867,64 +881,68 @@ if (!file.exists("data/all_bs_cf.rda")) {
       upper = max(avg), #sort(avg)[95],
       .groups = "drop")
 
-  # compute original estimate of average and join
-  all_avg <- student_country %>%
+# compute original estimate of average and join
+all_avg <- student_country %>%
     group_by(country_name, year, subject) %>%
     summarise(
       avg = weighted.mean(score,
                           w = stu_wgt, na.rm = TRUE),
       .groups = "drop")
 
-  all_bs_cf <- left_join(all_avg,
+all_bs_cf <- left_join(all_avg,
                       all_bootstrap_ci,
                       by = c("country_name",
                              "year",
                              "subject"))
 
-  save(all_bs_cf, file="data/all_bs_cf.rda")
-
-} else {
-  load("data/all_bs_cf.rda")
-}
-
+save(all_bs_cf, file="data/all_bs_cf.rda")
 ```
 
-```{r bs-plot, fig.cap ="Temporal patterns in math, reading, and science in a variety of countries. The highlighted countries in the chart help us infer Australia's performance in contrast to the other countries; we can see that Australia's scores have always been among the highest in the PISA survey throughout all years.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"}
+```{r bs-plot, fig.cap ="Temporal patterns in math, reading, and science in a variety of countries. The highlighted countries in the chart help us infer Australia's performance in contrast to the other countries; we can see that Australia's scores have always been among the highest in the PISA survey throughout all years.", fig.height=10, fig.width=10, fig.pos = "H", out.width="100%", layout="l-body"}
+load("data/all_bs_cf.rda")
+
 all_bs_cf <- all_bs_cf %>%
   mutate(year = as.numeric(as.character(year)),
          country_name = factor(country_name))
-                 # levels = c("Singapore",
-                 #          "Australia",
-                 #          "New Zealand",
-                 #          "Germany",
-                 #          "Qatar",
-                 #          "Indonesia"))
+                  #levels = c("Singapore",
+                  #         "Australia",
+                  #         "New Zealand",
+                  #         "Germany",
+                  #         "Qatar",
+                  #         "Indonesia"))
 
 
 country_names_highlight <- c("Australia", 
-                             "Germany", 
                              "Peru", 
                              "Qatar", 
-                             "Belgium", 
                              "Brazil", 
                              "Denmark", 
                              "Greece",
                              "Thailand", 
                              "Singapore", 
-                             "Canada", 
-                             "Portugal")
+                             "Canada")
 
-math_all_bs_cf_plot <- all_bs_cf %>% 
+keep <- all_bs_cf |>
+  count(country_name) |>
+  filter(n > 12) |>
+  pull(country_name) 
+  
+all_bs_cf_sub <- all_bs_cf |>
+  filter(country_name %in% keep)
+
+math_all_bs_cf_plot <- all_bs_cf_sub %>% 
   dplyr::filter(subject == "math") %>% 
   ggplot(aes(x = year, 
       y = avg)) +
   geom_point(alpha = 0.45) +
   geom_line(aes(group = country_name)) +
-  gghighlight::gghighlight(country_name %in% country_names_highlight) +
+  gghighlight::gghighlight(country_name %in% country_names_highlight,
+                           label_params = list(fill = NA)) +
   labs(
-    title = "Maths",
+    title = "math",
      x = "",
-     y = "Score") 
+     y = "score") +
+  theme_bw()
 
 
 read_all_bs_cf_plot <- all_bs_cf %>% 
@@ -933,11 +951,13 @@ read_all_bs_cf_plot <- all_bs_cf %>%
       y = avg)) +
   geom_point(alpha = 0.45) +
   geom_line(aes(group = country_name)) +
-  gghighlight::gghighlight(country_name %in% country_names_highlight) +
+  gghighlight::gghighlight(country_name %in% country_names_highlight,
+                           label_params = list(fill = NA)) +
   labs(
-    title = "Reading",
+    title = "reading",
      x = "",
-     y = "Score") 
+     y = "score") +
+  theme_bw()
 
 sci_all_bs_cf_plot <- all_bs_cf %>% 
   dplyr::filter(subject == "science") %>% 
@@ -945,11 +965,13 @@ sci_all_bs_cf_plot <- all_bs_cf %>%
       y = avg)) +
   geom_point(alpha = 0.45) +
   geom_line(aes(group = country_name)) +
-  gghighlight::gghighlight(country_name %in% country_names_highlight) +
+  gghighlight::gghighlight(country_name %in% country_names_highlight,
+                           label_params = list(fill = NA)) +
   labs(
-    title = "Science",
+    title = "science",
      x = "",
-     y = "Score")
+     y = "score") +
+  theme_bw()
 
 
 math_all_bs_cf_plot + read_all_bs_cf_plot + sci_all_bs_cf_plot
@@ -958,7 +980,8 @@ math_all_bs_cf_plot + read_all_bs_cf_plot + sci_all_bs_cf_plot
 
 Taking a deeper look at the figure \@ref(fig:bs-plot) and comparing Australia's scores to a few of the selected countries, we notice the changing scales of their scores in all three plots of math, reading, and science and we infer that Australia's performance has been is much better than than majority of the countries. To deepen our understanding of the topic, we compare Indonesia's, Qatar's or Peru's results to those of Australia and observe and increasing pattern for all of them but Australia. On closer examination we witness that the highest score for Indonesia, Qatar or Peru are initially low scores and this increases further. However, Australia's performance in the PISA was initially a top achievement, and it has only drops by a few points. Though the temporal trend of Australia displays a declining tendency, this is due to the fact that Australia initially performed very well in the PISA experiment and has only decreased it scores by a few points each year, remaining in one of the top scores of the PISA research until the year 2018. As a result, we infer that Australian's performance has declined over time but the country has remained on the list of top scores countries for all of the years this PISA research has been done. Using a similar notion, we conclude that countries with lower initial PISA results have a tendency to increase their score each time the PISA exam is taken whilst countries that have previously established a standard with great score results like Australia may witness a decreasing trend in the scores but optimally the scores has decrease by a few points only thus not making the the declining trend a significant measure of performance. In addition, to understand this better, we have a animation plotted using \CRANpkg{gganimate} [@gganimate] the that explains how performance can only be compared among scales and not based on scores or any other characteristics with respect to several other countries that participated in the PISA experiment.
 
-```{r}
+```{r eval=FALSE}
+# Run this code once to generate the smaller subset
 student_country_anim <- left_join(student_all,
                                   countrycode,
                                   by = "country") %>%
@@ -1019,9 +1042,21 @@ student_country_anim_avg <- left_join(student_country_anim_avg,
 student_anim_data <- student_country_anim_avg
 
 student_anim_data$year <- as.numeric(as.character(student_anim_data$year))
+
+# Only keep countries that have five or more measurements
+keep <- student_anim_data |>
+  count(country_name) |>
+  filter(n > 4) |>
+  pull(country_name) 
+
+student_anim_data <- student_anim_data |>
+  filter(country_name %in% keep)
+
+save(student_anim_data, file="data/student_anim_data.rda")
 ```
 
-```{r anim-plot, fig.cap = "Animation of math and reading scores over time, with selected countries labelled. Australia has a quite stable high scores over the full time period. There is quite a lot of moving of scores between years, perhaps more among lower scoring countries.", eval = knitr::is_html_output(), fig.width = 10, fig.height = 10, out.width="100%", layout="l-body-outset"}
+```{r anim-plot, fig.cap = "Animation of math and reading scores over time, with selected countries labelled. Australia has a quite stable high scores over the full time period. There is quite a lot of moving of scores between years, perhaps more among lower scoring countries.", eval = FALSE, fig.width = 10, fig.height = 10, out.width="100%", layout="l-body-outset", eval=FALSE}
+load("data/student_anim_data.rda")
 gif <- ggplot(student_anim_data,
        aes(x=math_avg, y=read_avg,
            color = continent, group = country_name)) +
@@ -1037,7 +1072,6 @@ gif <- ggplot(student_anim_data,
                               "Malaysia",
                               "Finland",
                               "Canada",
-                              "Germany",
                               "Thailand",
                               "Brazil",
                               "Colombia",
@@ -1063,7 +1097,8 @@ gif <- ggplot(student_anim_data,
 animate(gif, fps = 5, end_pause = 1) 
 ```
 
-```{r facet-time, fig.cap = "Math and reading scores over time, with selected countries labelled. Colour indicates continent. Australia has quite stable scores over the years.", eval = knitr::is_latex_output(), fig.width = 9, fig.height = 6, out.width="100%", layout="l-body-outset"}
+```{r facet-time, fig.cap = "Math and reading scores over time, with selected countries labelled. Colour indicates continent. Australia has quite stable scores over the years.", eval = TRUE, fig.width = 9, fig.height = 6, out.width="100%", layout="l-body-outset"}
+load("data/student_anim_data.rda")
 ggplot(student_anim_data,
        aes(x=math_avg, y=read_avg,
            color = continent)) +
@@ -1071,28 +1106,29 @@ ggplot(student_anim_data,
   geom_text_repel(data = filter(student_anim_data,
                           country_name %in%
                             c("Australia", 
-                              "New Zealand",
+                              #"New Zealand",
                               "Indonesia", 
                               "Qatar",
                               "Singapore",
-                              "Germany",
+                              #"Germany",
                               "Malaysia",
                               "Finland",
                               "Canada",
-                              "Germany",
+                              #"Germany",
                               "Thailand",
                               "Brazil",
-                              "Colombia",
-                              "Chile",
+                              #"Colombia",
+                              #"Chile",
                               "USA")), 
             aes(label = country_name), size=2, 
             max.overlaps = 20) +
+  theme_bw() +
   theme(legend.position = "bottom", 
         aspect.ratio=1) +
   facet_wrap(~year, ncol=4) +
   scale_colour_brewer("", palette = "Dark2") +
-  labs(x = "Math",
-       y = "Reading")
+  labs(x = "math",
+       y = "reading")
 ```
 
 # Discussion

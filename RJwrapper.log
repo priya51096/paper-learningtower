@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.29)  29 NOV 2024 09:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.2)  2 DEC 2024 11:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -773,32 +773,33 @@ Package pdftex.def Info: learningtower_files/figure-latex/score-differences-1.pd
 [3]
 
 [4 <./learningtower_files/figure-latex/score-differences-1.pdf>]
-<learningtower_files/figure-latex/ggplot-maps-1.pdf, id=121, 450.68375pt x 637.38126pt>
+<learningtower_files/figure-latex/ggplot-maps-1.pdf, id=121, 450.68375pt x 632.3625pt>
 File: learningtower_files/figure-latex/ggplot-maps-1.pdf Graphic file (type pdf)
 <use learningtower_files/figure-latex/ggplot-maps-1.pdf>
 Package pdftex.def Info: learningtower_files/figure-latex/ggplot-maps-1.pdf  used on input line 68.
-(pdftex.def)             Requested size: 398.33858pt x 563.37727pt.
+(pdftex.def)             Requested size: 398.33858pt x 558.94124pt.
 
 
 [5]
 
 [6 <./learningtower_files/figure-latex/ggplot-maps-1.pdf>]
-<figures/hexbin.png, id=144, 912.2883pt x 329.0694pt>
+<figures/hexbin.png, id=144, 923.3697pt x 329.0694pt>
 File: figures/hexbin.png Graphic file (type png)
 <use figures/hexbin.png>
 Package pdftex.def Info: figures/hexbin.png  used on input line 79.
-(pdftex.def)             Requested size: 398.33858pt x 143.68129pt.
+(pdftex.def)             Requested size: 398.33858pt x 141.95901pt.
+
+
+[7 <./figures/hexbin.png>]
 LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 89.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 )
-
-[7 <./figures/hexbin.png>]
-<learningtower_files/figure-latex/qual-plot-1.pdf, id=160, 1063.975pt x 556.0775pt>
+<learningtower_files/figure-latex/qual-plot-1.pdf, id=160, 558.085pt x 338.26375pt>
 File: learningtower_files/figure-latex/qual-plot-1.pdf Graphic file (type pdf)
 <use learningtower_files/figure-latex/qual-plot-1.pdf>
 Package pdftex.def Info: learningtower_files/figure-latex/qual-plot-1.pdf  used on input line 101.
-(pdftex.def)             Requested size: 398.33858pt x 208.18066pt.
+(pdftex.def)             Requested size: 398.33858pt x 241.44382pt.
 
 
 [8 <./learningtower_files/figure-latex/qual-plot-1.pdf>]
@@ -823,22 +824,23 @@ File: learningtower_files/figure-latex/compint-plot-1.pdf Graphic file (type pdf
 <use learningtower_files/figure-latex/compint-plot-1.pdf>
 Package pdftex.def Info: learningtower_files/figure-latex/compint-plot-1.pdf  used on input line 125.
 (pdftex.def)             Requested size: 398.33858pt x 189.28732pt.
-<learningtower_files/figure-latex/bs-plot-1.pdf, id=226, 847.165pt x 832.10875pt>
-File: learningtower_files/figure-latex/bs-plot-1.pdf Graphic file (type pdf)
-<use learningtower_files/figure-latex/bs-plot-1.pdf>
-Package pdftex.def Info: learningtower_files/figure-latex/bs-plot-1.pdf  used on input line 136.
-(pdftex.def)             Requested size: 398.33858pt x 391.25623pt.
 
 
 [11 <./learningtower_files/figure-latex/compint-plot-1.pdf>]
-<learningtower_files/figure-latex/facet-time-1.pdf, id=245, 638.385pt x 418.56375pt>
-File: learningtower_files/figure-latex/facet-time-1.pdf Graphic file (type pdf)
-<use learningtower_files/figure-latex/facet-time-1.pdf>
-Package pdftex.def Info: learningtower_files/figure-latex/facet-time-1.pdf  used on input line 142.
-(pdftex.def)             Requested size: 398.33858pt x 261.17378pt.
+<learningtower_files/figure-latex/bs-plot-1.pdf, id=242, 700.6175pt x 687.56876pt>
+File: learningtower_files/figure-latex/bs-plot-1.pdf Graphic file (type pdf)
+<use learningtower_files/figure-latex/bs-plot-1.pdf>
+Package pdftex.def Info: learningtower_files/figure-latex/bs-plot-1.pdf  used on input line 136.
+(pdftex.def)             Requested size: 398.33858pt x 390.92157pt.
 
 
 [12 <./learningtower_files/figure-latex/bs-plot-1.pdf>]
+<learningtower_files/figure-latex/facet-time-1.pdf, id=262, 638.385pt x 412.54124pt>
+File: learningtower_files/figure-latex/facet-time-1.pdf Graphic file (type pdf)
+<use learningtower_files/figure-latex/facet-time-1.pdf>
+Package pdftex.def Info: learningtower_files/figure-latex/facet-time-1.pdf  used on input line 142.
+(pdftex.def)             Requested size: 398.33858pt x 257.41588pt.
+
 
 [13 <./learningtower_files/figure-latex/facet-time-1.pdf>]
 LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 164.
@@ -905,15 +907,15 @@ Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 04166EFDBFA381E3796F7BA7D7D20B55;1949.
  ) 
 Here is how much of TeX's memory you used:
- 26954 strings out of 475247
- 492285 string characters out of 5766994
- 899056 words of memory out of 5000000
+ 26948 strings out of 475247
+ 492231 string characters out of 5766995
+ 899318 words of memory out of 5000000
  49039 multiletter control sequences out of 15000+600000
- 592864 words of font info for 243 fonts, out of 8000000 for 9000
+ 592624 words of font info for 239 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 117i,11n,131p,2075b,725s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 117i,11n,131p,2075b,700s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4b.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (15 pages, 2512861 bytes).
+Output written on RJwrapper.pdf (15 pages, 2511867 bytes).
 PDF statistics:
  385 PDF objects out of 1000 (max. 8388607)
  328 compressed objects within 4 object streams
