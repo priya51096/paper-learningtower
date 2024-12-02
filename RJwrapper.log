@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.2)  2 DEC 2024 11:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.2)  2 DEC 2024 12:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -887,10 +887,10 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 5.21004pt on input line 164.
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 225.
+(Font)              using `T1/zi4/m/n' instead on input line 228.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 225.
+(Font)              scaled to size 9.18004pt on input line 228.
 )
 
 [14]
@@ -907,18 +907,18 @@ Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 04166EFDBFA381E3796F7BA7D7D20B55;1949.
  ) 
 Here is how much of TeX's memory you used:
- 26948 strings out of 475247
- 492231 string characters out of 5766995
+ 26958 strings out of 475247
+ 492325 string characters out of 5766995
  899318 words of memory out of 5000000
  49039 multiletter control sequences out of 15000+600000
- 592624 words of font info for 239 fonts, out of 8000000 for 9000
+ 592949 words of font info for 245 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  117i,11n,131p,2075b,700s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4b.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (15 pages, 2511867 bytes).
+Output written on RJwrapper.pdf (15 pages, 2512315 bytes).
 PDF statistics:
- 385 PDF objects out of 1000 (max. 8388607)
- 328 compressed objects within 4 object streams
- 67 named destinations out of 1000 (max. 500000)
+ 387 PDF objects out of 1000 (max. 8388607)
+ 330 compressed objects within 4 object streams
+ 68 named destinations out of 1000 (max. 500000)
  49818 words of extra memory for PDF output out of 51595 (max. 10000000)
 
