@@ -34,7 +34,7 @@ output:
   rjtools::rjournal_pdf_article:
     toc: no
   rjtools::rjournal_web_article:
-    self_contained: no
+    self_contained: yes
     toc: no
 header-includes:
     \usepackage{float}
@@ -61,8 +61,10 @@ library(plotly)
 library(ggbeeswarm)
 library(gganimate)
 library(ggrepel)
-library(maps)
+#library(maps)
 library(colorspace)
+library(ggthemes)
+library(rnaturalearth)
 ```
 
 # Introduction
@@ -372,7 +374,7 @@ Figure \@ref(fig:score-differences) illustrates the global disparities in mean m
 
 We gathered meaningful insights about the gender gap between girls and boys across the world from the above figure \@ref(fig:score-differences) because this is a geographical research communication topic, the findings will help us better comprehend the score differences in the three educational disciplines using world maps. Let us continue to investigate and discover patterns and correlations using map visualization. To illustrate the gender gap difference between girls and boys throughout the world, we summarize regions on a country level and utilize the `map_data` function to get the latitude and longitude coordinates needed to construct a map for our data. We connect these latitude and longitude coordinates to our PISA data and render the world map using the `geom_polygon` function wrapped within \CRANpkg{ggplot2} [@ggplot2], the interactive features and placement of the plots are made using \CRANpkg{plotly} [@plotly] and \CRANpkg{patchwork} [@patchwork] packages in R.
 
-```{r}
+```{r eval=FALSE}
 theme_map <- function(...) {
   theme_minimal() +
   theme(
@@ -387,7 +389,9 @@ theme_map <- function(...) {
     panel.grid = element_blank()
   )
 }
+```
 
+```{r}
 region2country = function(region_name){
   country_name = case_when(
     region_name == "Brunei Darussalam" ~ "Brunei",
@@ -410,6 +414,26 @@ region2country = function(region_name){
 math_map_data <- math_diff_conf_intervals  %>%
   dplyr::mutate(country_name = region2country(region_name = country_name))
 
+world <- ne_countries(scale = "small", returnclass = "sf") |>
+  filter(sovereignt != "Antarctica") 
+
+math_world_data <- merge(world, math_map_data, 
+                         by.x = "sovereignt", 
+                         by.y = "country_name")
+mrs_maps <- ggplot(math_world_data) + 
+  geom_sf(aes(fill=diff)) +
+  theme_map() +
+  scale_fill_continuous_diverging(palette = "Purple-Green", 
+                       limits = c(-66, 66), 
+                       na.value = "white", 
+                       name = "f-m") +
+  theme(panel.border = element_rect(colour = "grey70", fill=NA))
+```
+
+```{r eval=FALSE}
+math_map_data <- math_diff_conf_intervals  %>%
+  dplyr::mutate(country_name = region2country(region_name = country_name))
+
 world_map <- map_data("world") %>%
   filter(region != "Antarctica") %>%
   fortify() %>%
@@ -424,7 +448,7 @@ math_world_data <- full_join(
   mutate(math = round(math, digits = 2))
 ```
 
-```{r}
+```{r eval=FALSE}
 # Maps in R - Reading Maps
 read_map_data <- read_diff_conf_intervals %>%
   dplyr::mutate(country_name = region2country(region_name = country_name))
@@ -443,7 +467,7 @@ read_world_data <- full_join(
   mutate(reading = round(reading, digits = 2))
 ```
 
-```{r}
+```{r eval=FALSE}
 sci_map_data <- sci_diff_conf_intervals %>%
   dplyr::mutate(country_name = region2country(region_name = country_name))
 
@@ -500,7 +524,7 @@ mrs_maps <- ggplot(math_read_sci_dat_wider,
 
 ```{r plotly-maps, fig.cap="Interactive maps showing the difference in average math, reading, and science scores between girls and boys across the world, positive values (green) indicate the girls average to be higher than boys average, and white indicates a missing value. Mousing over the plots shows the country and score. The average math score is higher for boys in most countries except for some parts of the Middle East, Scandinavia, and Southeast Asia. The average reading score is higher for girls than boys in every country measured.", fig.pos="H", fig.height=12, fig.width=18, out.width="100%", layout="l-body", include=knitr::is_html_output(), eval=knitr::is_html_output()}
 ggplotly(mrs_maps, width=700, height=800) |>
-  config(displayModeBar = FALSE)
+  config(displayModeBar = FALSE) 
 ```
 
 ```{r ggplot-maps, fig.cap="Maps showing the gender gap in math, reading, and science results between girls and boys throughout the world. The diverging colour scale makes it possible to interpret the range of scores and it also helps us intrepret the gender gap difference among these students across the globe. The legend displayed enables interpretation of the score differential for each subject across all maps. A positive score for a country indicates that girls outperformed boys in that country, whereas a negative score for a country difference indicates that boys outperformed girls in that country.The reading scores are all positive, suggesting that girls outperform boys globally in the year 2018.", fig.height=9, fig.pos="H", out.width="100%", layout="l-body", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
