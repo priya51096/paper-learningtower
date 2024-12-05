@@ -420,7 +420,7 @@ world <- ne_countries(scale = "small", returnclass = "sf") |>
 math_world_data <- merge(world, math_map_data, 
                          by.x = "sovereignt", 
                          by.y = "country_name")
-mrs_maps <- ggplot(math_world_data) + 
+maps_math <- ggplot(math_world_data) + 
   geom_sf(aes(fill=diff)) +
   theme_map() +
   scale_fill_continuous_diverging(palette = "Purple-Green", 
@@ -428,6 +428,39 @@ mrs_maps <- ggplot(math_world_data) +
                        na.value = "white", 
                        name = "f-m") +
   theme(panel.border = element_rect(colour = "grey70", fill=NA))
+
+read_map_data <- read_diff_conf_intervals %>%
+  dplyr::mutate(country_name = region2country(region_name = country_name))
+
+read_world_data <- merge(world, read_map_data, 
+                         by.x = "sovereignt", 
+                         by.y = "country_name")
+maps_read <- ggplot(read_world_data) + 
+  geom_sf(aes(fill=diff)) +
+  theme_map() +
+  scale_fill_continuous_diverging(palette = "Purple-Green", 
+                       limits = c(-66, 66), 
+                       na.value = "white", 
+                       name = "f-m") +
+  theme(panel.border = element_rect(colour = "grey70", fill=NA))
+
+sci_map_data <- sci_diff_conf_intervals %>%
+  dplyr::mutate(country_name = region2country(region_name = country_name))
+
+sci_world_data <- merge(world, sci_map_data, 
+                         by.x = "sovereignt", 
+                         by.y = "country_name")
+maps_sci <- ggplot(sci_world_data) + 
+  geom_sf(aes(fill=diff)) +
+  theme_map() +
+  scale_fill_continuous_diverging(palette = "Purple-Green", 
+                       limits = c(-66, 66), 
+                       na.value = "white", 
+                       name = "f-m") +
+  theme(panel.border = element_rect(colour = "grey70", fill=NA))
+
+mrs_maps <- maps_math + maps_read + maps_sci + 
+  plot_layout(ncol=1, guides = "collect")
 ```
 
 ```{r eval=FALSE}
@@ -523,7 +556,7 @@ mrs_maps <- ggplot(math_read_sci_dat_wider,
 ```
 
 ```{r plotly-maps, fig.cap="Interactive maps showing the difference in average math, reading, and science scores between girls and boys across the world, positive values (green) indicate the girls average to be higher than boys average, and white indicates a missing value. Mousing over the plots shows the country and score. The average math score is higher for boys in most countries except for some parts of the Middle East, Scandinavia, and Southeast Asia. The average reading score is higher for girls than boys in every country measured.", fig.pos="H", fig.height=12, fig.width=18, out.width="100%", layout="l-body", include=knitr::is_html_output(), eval=knitr::is_html_output()}
-ggplotly(mrs_maps, width=700, height=800) |>
+ggplotly(mrs_maps, width=700, height=900) |>
   config(displayModeBar = FALSE) 
 ```
 
