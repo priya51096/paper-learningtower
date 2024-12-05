@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.2)  6 DEC 2024 08:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.2)  6 DEC 2024 08:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -773,11 +773,11 @@ Package pdftex.def Info: learningtower_files/figure-latex/score-differences-1.pd
 [3]
 
 [4 <./learningtower_files/figure-latex/score-differences-1.pdf>]
-<learningtower_files/figure-latex/ggplot-maps-1.pdf, id=121, 443.6575pt x 492.84125pt>
+<learningtower_files/figure-latex/ggplot-maps-1.pdf, id=121, 453.695pt x 534.99875pt>
 File: learningtower_files/figure-latex/ggplot-maps-1.pdf Graphic file (type pdf)
 <use learningtower_files/figure-latex/ggplot-maps-1.pdf>
 Package pdftex.def Info: learningtower_files/figure-latex/ggplot-maps-1.pdf  used on input line 68.
-(pdftex.def)             Requested size: 398.33858pt x 442.49268pt.
+(pdftex.def)             Requested size: 398.33858pt x 469.72278pt.
 
 
 [5 <./learningtower_files/figure-latex/ggplot-maps-1.pdf>]
@@ -821,14 +821,14 @@ File: learningtower_files/figure-latex/compint-plot-1.pdf Graphic file (type pdf
 <use learningtower_files/figure-latex/compint-plot-1.pdf>
 Package pdftex.def Info: learningtower_files/figure-latex/compint-plot-1.pdf  used on input line 125.
 (pdftex.def)             Requested size: 398.33858pt x 189.28732pt.
-<learningtower_files/figure-latex/bs-plot-1.pdf, id=222, 700.6175pt x 687.56876pt>
+
+
+[10 <./learningtower_files/figure-latex/compint-plot-1.pdf>]
+<learningtower_files/figure-latex/bs-plot-1.pdf, id=238, 700.6175pt x 687.56876pt>
 File: learningtower_files/figure-latex/bs-plot-1.pdf Graphic file (type pdf)
 <use learningtower_files/figure-latex/bs-plot-1.pdf>
 Package pdftex.def Info: learningtower_files/figure-latex/bs-plot-1.pdf  used on input line 136.
 (pdftex.def)             Requested size: 398.33858pt x 390.92157pt.
-
-
-[10 <./learningtower_files/figure-latex/compint-plot-1.pdf>]
 <learningtower_files/figure-latex/facet-time-1.pdf, id=241, 638.385pt x 412.54124pt>
 File: learningtower_files/figure-latex/facet-time-1.pdf Graphic file (type pdf)
 <use learningtower_files/figure-latex/facet-time-1.pdf>
@@ -909,9 +909,9 @@ Here is how much of TeX's memory you used:
  49039 multiletter control sequences out of 15000+600000
  592949 words of font info for 245 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 117i,11n,131p,2075b,733s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 117i,12n,131p,2075b,725s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4b.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (14 pages, 999336 bytes).
+Output written on RJwrapper.pdf (14 pages, 999468 bytes).
 PDF statistics:
  383 PDF objects out of 1000 (max. 8388607)
  327 compressed objects within 4 object streams

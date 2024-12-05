@@ -328,16 +328,29 @@ region2country = function(region_name){
 
 ## -----------------------------------------------------------------------
 math_map_data <- math_diff_conf_intervals  %>%
-  dplyr::mutate(country_name = region2country(region_name = country_name))
+  dplyr::mutate(country_name = region2country(region_name = country_name)) %>%
+  mutate(test = "math")
+
+read_map_data <- read_diff_conf_intervals %>%
+  dplyr::mutate(country_name = region2country(region_name = country_name)) %>%
+  mutate(test = "reading")
+
+sci_map_data <- sci_diff_conf_intervals %>%
+  dplyr::mutate(country_name = region2country(region_name = country_name)) %>%
+  mutate(test = "science")
+
+mrs_map_data <- bind_rows(math_map_data, read_map_data, sci_map_data)
 
 world <- ne_countries(scale = "small", returnclass = "sf") |>
   filter(sovereignt != "Antarctica") 
 
-math_world_data <- merge(world, math_map_data, 
+mrs_world_data <- merge(world, mrs_map_data, 
                          by.x = "sovereignt", 
                          by.y = "country_name")
-maps_math <- ggplot(math_world_data) + 
+
+mrs_maps <- ggplot(mrs_world_data) + 
   geom_sf(aes(fill=diff)) +
+  facet_wrap(~test, ncol=1) +
   theme_map() +
   scale_fill_continuous_diverging(palette = "Purple-Green", 
                        limits = c(-66, 66), 
@@ -345,38 +358,47 @@ maps_math <- ggplot(math_world_data) +
                        name = "f-m") +
   theme(panel.border = element_rect(colour = "grey70", fill=NA))
 
-read_map_data <- read_diff_conf_intervals %>%
-  dplyr::mutate(country_name = region2country(region_name = country_name))
 
-read_world_data <- merge(world, read_map_data, 
-                         by.x = "sovereignt", 
-                         by.y = "country_name")
-maps_read <- ggplot(read_world_data) + 
-  geom_sf(aes(fill=diff)) +
-  theme_map() +
-  scale_fill_continuous_diverging(palette = "Purple-Green", 
-                       limits = c(-66, 66), 
-                       na.value = "white", 
-                       name = "f-m") +
-  theme(panel.border = element_rect(colour = "grey70", fill=NA))
-
-sci_map_data <- sci_diff_conf_intervals %>%
-  dplyr::mutate(country_name = region2country(region_name = country_name))
-
-sci_world_data <- merge(world, sci_map_data, 
-                         by.x = "sovereignt", 
-                         by.y = "country_name")
-maps_sci <- ggplot(sci_world_data) + 
-  geom_sf(aes(fill=diff)) +
-  theme_map() +
-  scale_fill_continuous_diverging(palette = "Purple-Green", 
-                       limits = c(-66, 66), 
-                       na.value = "white", 
-                       name = "f-m") +
-  theme(panel.border = element_rect(colour = "grey70", fill=NA))
-
-mrs_maps <- maps_math + maps_read + maps_sci + 
-  plot_layout(ncol=1, guides = "collect")
+## ----eval=FALSE---------------------------------------------------------
+# math_world_data <- merge(world, math_map_data,
+#                          by.x = "sovereignt",
+#                          by.y = "country_name")
+# 
+# maps_math <- ggplot(math_world_data) +
+#   geom_sf(aes(fill=diff)) +
+#   theme_map() +
+#   scale_fill_continuous_diverging(palette = "Purple-Green",
+#                        limits = c(-66, 66),
+#                        na.value = "white",
+#                        name = "f-m") +
+#   theme(panel.border = element_rect(colour = "grey70", fill=NA))
+# 
+# read_world_data <- merge(world, read_map_data,
+#                          by.x = "sovereignt",
+#                          by.y = "country_name")
+# maps_read <- ggplot(read_world_data) +
+#   geom_sf(aes(fill=diff)) +
+#   theme_map() +
+#   scale_fill_continuous_diverging(palette = "Purple-Green",
+#                        limits = c(-66, 66),
+#                        na.value = "white",
+#                        name = "f-m") +
+#   theme(panel.border = element_rect(colour = "grey70", fill=NA))
+# 
+# sci_world_data <- merge(world, sci_map_data,
+#                          by.x = "sovereignt",
+#                          by.y = "country_name")
+# maps_sci <- ggplot(sci_world_data) +
+#   geom_sf(aes(fill=diff)) +
+#   theme_map() +
+#   scale_fill_continuous_diverging(palette = "Purple-Green",
+#                        limits = c(-66, 66),
+#                        na.value = "white",
+#                        name = "f-m") +
+#   theme(panel.border = element_rect(colour = "grey70", fill=NA))
+# 
+# mrs_maps <- maps_math + maps_read + maps_sci +
+#   plot_layout(ncol=1, guides = "collect")
 
 
 ## ----eval=FALSE---------------------------------------------------------
