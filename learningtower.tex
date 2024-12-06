@@ -2,7 +2,7 @@
 \title{learningtower: an R package for Exploring Standardised Test Scores Across the Globe}
 
 
-\author{by Priya Ravindra Dingorkar, Kevin Y.X. Wang, and Dianne Cook}
+\author{by Priya Ravindra Dingorkar, Dianne Cook, and Kevin Y.X. Wang}
 
 \maketitle
 
@@ -36,13 +36,13 @@ Each developer at the ROpenSci OzUnconf was assigned to curate a specific year o
 \hypertarget{what-is-learningtower}{%
 \section{\texorpdfstring{What is \texttt{learningtower}?}{What is learningtower?}}\label{what-is-learningtower}}
 
-\href{https://cran.r-project.org/web/packages/learningtower/index.html}{`learningtower'} The R package (Wang et al. 2021) provides quick access to a variety of variables in the OECD PISA data collected over three-year periods from 2000 to 2022. This dataset includes information on the PISA test scores in mathematics, reading, and science. Furthermore, these datasets include information on other socioeconomic aspects, as well as information on their school and its facilities, as well as the nations participating in the program.
+The R package \href{https://cran.r-project.org/web/packages/learningtower/index.html}{`learningtower'} (Wang et al. 2021) provides quick access to a variety of variables in the OECD PISA data collected over three-year periods from 2000 to 2022. This dataset includes information on the PISA test scores in mathematics, reading, and science. Furthermore, these datasets include information on other socioeconomic aspects, as well as information on their school and its facilities, as well as the nations participating in the program.
 
 The motivation for developing the \texttt{learningtower} package was sparked by the announcement of the PISA 2018 results, which caused a collective wringing of hands in the Australian press, with headlines such as \href{https://theconversation.com/vital-signs-australias-slipping-student-scores-will-lead-to-greater-income-inequality-128301}{``Vital Signs: Australia's slipping student scores will lead to greater income inequality''} and \href{https://www.smh.com.au/education/in-china-nicholas-studied-maths-20-hours-a-week-in-australia-it-s-three-20191203-p53ggv.html}{``In China, Nicholas studied math 20 hours a week. In Australia, it's three''}. That's when several academics from Australia, New Zealand, and Indonesia decided to make things easier by providing easy access to PISA scores as part of the \href{https://ozunconf19.ropensci.org/}{ROpenSci OzUnconf}, which was held in Sydney from December 11 to 13, 2019. The data from this survey, as well as all other surveys performed since the initial collection in 2000, is freely accessible to the public. However, downloading and curating data across multiple years of the PISA study could be a time consuming task. As a result, we have made a more convenient subset of the data freely available in a new R package called \CRANpkg{learningtower}, along with sample code for analysis.
 
 The \CRANpkg{learningtower} package primarily comprised of three datasets: \texttt{student}, \texttt{school}, and \texttt{countrycode.} The \texttt{student} dataset includes results from triennial testing of 15-year-old students throughout the world. This dataset also includes information about their parents' education, family wealth, gender, and presence of computers, internet, vehicles, books, rooms, desks, and other comparable factors. Due to the size limitation on CRAN packages, only a subset of the student data can be made available in the downloaded package. These subsets of the student data, known as the \texttt{student\_subset\_yyyy} (\texttt{yyyy} being the specific year of the study) allow uses to quickly load, visualise the trends in the full data. The full student dataset can be downloaded using the \texttt{load\_student()} function included in this \href{https://kevinwang09.github.io/learningtower/}{package.} The \texttt{school} dataset includes school weight as well as other information such as school funding distribution, whether the school is private or public, enrollment of boys and girls, school size, and similar other characteristics of interest of different schools these 15-year-olds attend around the world. The \texttt{countrycode} dataset includes a mapping of a country/region's ISO code to its full name.
 
-\CRANpkg{learningtower} developers are committed to providing R users with data to analyse PISA results every three years. Our package's future enhancements include updating the package every time additional PISA scores are announced. Note that, in order to account for post COVID-19 problems, OECD member nations and associates decided to postpone the PISA 2021 evaluation to 2022 and the PISA 2024 assessment to 2025.
+The \CRANpkg{learningtower} developers are committed to providing R users with data to analyse PISA results every three years. Our package's future enhancements include updating the package every time additional PISA scores are announced. Note that, in order to account for post COVID-19 problems, OECD member nations and associates decided to postpone the PISA 2021 evaluation to 2022 and the PISA 2024 assessment to 2025.
 
 \hypertarget{example-analysis}{%
 \section{Example analysis}\label{example-analysis}}
@@ -106,26 +106,14 @@ The Figure \ref{fig:qual-plot} depicts the impact of mothers' and fathers' quali
 Television is a common household electronic device for entertainment and news. In this segment of the article, we investigate the influence of television by countries/regions, as well as whether this technology has a significant impact on students' academic performance. The television variables that are recorded in the student dataset is a factor variable that records whether or not the students participating in this study have a television and, if they do, the quantity of televisions per family is recorded via the PISA survey. Furthermore, because we are interested in researching the impact of these television on the students' scores, the television variable initially recorded has four levels: ``No TV'', ``1 TV'', ``2 TVs'', or ``3+ TVs''. We are also interested in visualising the confidence intervals for each of these levels in order to determine the uncertainty of the results at each level. We begin with initially creating a \texttt{data.frame} that is grouped by country and the number of television per household for each country. Next we fit a linear model between the math average and television in the 2018 PISA data and finally plot the television impact for all countries sorted as per the slope with the help of the functions available in the \CRANpkg{ggplot2} (Wickham 2016) package.
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/tv-plot-1} \caption{Relationship  between number of TVs in a household and average math scores across countries. Number of TVs ranges from 0 to 3 or more. The orange bands indicate 95 percent standard confidence intervals. The impact of television on student performance is a contentious issue. It is interesting that in some countries for example in Malta and Portugalthe effect appears to be positive, but in other countries like Poland and Germany there is a decline in average math scores.}\label{fig:tv-plot}
+\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/tv-plot-1} \caption{Relationship  between number of TVs in a household and average math scores across countries. Number of TVs ranges from 0 to 3 or more. The orange bands indicate 95 percent standard confidence intervals. The impact of television on student performance is a contentious issue. It is interesting that in some countries for example in Peru and Indonesia the effect appears to be positive, but in other countries like Poland and Germany there is a decline in average math scores.}\label{fig:tv-plot}
 \end{figure}
 
 In the Figure \ref{fig:tv-plot}, we can see highly striking patterns as well as a significant influence of television on students' academic performance. We have arranged the nations in the Figure \ref{fig:tv-plot} according to the slope of math average scores fitted against the different levels of television described previously. Poland, Germany, Slovenia, and Turkey have a lower influence of television on student performance, whereas Malta, Portugal, United Arab Emirates and Qatar have a rising tendency and therefore a larger impact of television on students' performance. Furthermore, the confidence interval plotted in the Figure \ref{fig:tv-plot} show that there is a lot of uncertainty in the level of scores when a household does not possess a TV in the majority of the countries. Taking a closer look at the Figure \ref{fig:tv-plot} we observe that when the slope of television increases in countries, the confidence interval of such countries becomes narrower. Hence depending on the wealth and location, television can be a valuable asset since it has a notable effect on a student's academic performance.
 
-It is a common perception that books play an important role in early childhood because they assist learners develop emotional intelligence and creativity. However, the developers of \CRANpkg{learningtower} package intended to investigate if books has a significant influence on the students score. The book variable initially recorded in the student dataset has been categorized in the following levels: ``0-10'', ``11-25'', ``26-100'', ``101-200'', and ``more than 500 books''. We will do a similar investigation as we did when we investigated the effect of television. First, we construct a \texttt{data.frame} that is grouped by the different levels of books and countries. In addition, we calculated the confidence interval to account for the uncertainty associated with the scores for the different categories of books. We subsequently fit a linear model between the average math score and the book variable to calculate a slope coefficient for each country. Finally, plot the country and score estimations for each country, ordered according to slope with help of the functions available in the \CRANpkg{ggplot2} (Wickham 2016) package.
+It is a common perception that books play an important role in early childhood because they assist learners develop emotional intelligence and creativity. However, the developers of \CRANpkg{learningtower} package intended to investigate if books has a significant influence on the students score. The book variable initially recorded in the student dataset has been categorized in the following levels: ``0-10'', ``11-25'', ``26-100'', ``101-200'', and ``more than 500 books''. Doing a similar analysis for books like done for TVs shows that across all the countries the more books in the household the higher the average math score.
 
-\begin{figure}[H]
-\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/book-plot-1} \caption{Impact of the number of books on average math score. Number of books ranges from 0 to 500 and more. 95 percent standard confidence bands shown in orange. Math scores generally increase as the number of books increases. Averages for some countries at the higher number of books are less reliable, and hence the decline reflects more that there are few households with this many books than a true decline.}\label{fig:book-plot}
-\end{figure}
-
-In the Figure \ref{fig:book-plot}, we arranged the countries/regions by slope and their correlation with math score estimation for each of the book categories. Taking a detailed look at the Figure \ref{fig:book-plot}, we deduced that the more books a family possesses, the more likely it is that its children will perform well academically. Looking at the graph, we can notice a rising tendency as the quantity of books per household increases. Furthermore, we see a decline in the score when the category contains more than 500 books, owing to the lack of data in such categories. Because ideally there are extremely few households that own more than 500 books. In this scenario, we also examine the confidence intervals of our plots to better understand the lower and upper bounds of the math score estimation. The confidence intervals in each of the categories are not particularly very broad except for a few countries like Dominican Republic, Philippines and Saudi Arabia. In addition, arranging the graph by slope allows us to understand the impact of books in different countries. Despite the fact that most countries have a significant influence on books per household, we can see in this graph that most countries have a significant impact on books per household. We may state that the Dominican Republic, Indonesia, and Panama have witnesses a slightly lower impact of owing books than the countries of Luxembourg, Germany, and Hungary. As a result, we may conclude that having a greater quantity of books in a home will undoubtedly benefit a student's academic performance.
-
-Students are becoming more active and adept learners as technologies like computers and internet mature and becoming more commonplace over the past twenty years. We will investigate if having a computer with internet access at the age of 15 has a positive or negative impact on student academic achievement. We will plot the average math results of the several nations that participated in the PISA experiment in 2018 to determine the effect of owning a computer and having access to the internet. We first create \texttt{data.frame} that is grouped by the nations and the frequency of whether the student possesses a computer or not, as well as a students' access to the internet or not. We will plot this result against the weighted average mathematical score to determine the influence of various of television and internet on the student academic performance using the several functions available in the \CRANpkg{ggplot2} (Wickham 2016) package.
-
-\begin{figure}[H]
-\includegraphics[width=1\linewidth]{learningtower_files/figure-latex/compint-plot-1} \caption{Computers and the Internet are two of the most important inventions in the history of technology. In this figure, we observe the impact of owning a computer and having access to the internet on 15-year-old students all over the world. A remarkable finding from the plot is that all nations have higher scores in student performance when they own a computer and have access to the internet.}\label{fig:compint-plot}
-\end{figure}
-
-In the Figure \ref{fig:compint-plot}, we see that students who own a computer and have access to the internet consistently outperform students who do not own a computer or have access to the internet at all. No country has exempted from this finding. Thus, on average, a 15-year-old student's access to a computer and the internet is unquestionably has significant positive influence on their academic performance. While the increase in academic performance is expected, but the magnitude of this increase and the associated educational benefits may be used by policymakers to improve their own domestic access to these technologies.
+There are other household resource variables in the sample of PISA data, including internet, computer access, room of their own, desk access, even whether the household has a dishwasher, that can be examined in relation to test scores.
 
 \hypertarget{temporal-trend}{%
 \section{Temporal trend}\label{temporal-trend}}
@@ -228,16 +216,6 @@ Department of Econometrics and Business Statistics\\ Clayton, Australia\\
 }
 
 \address{%
-Kevin Y.X. Wang\\
-University of Sydney\\%
-School of Mathematics and Statistics\\ Sydney, Australia\\
-%
-\url{https://kevinwang09.github.io/}\\%
-%
-\href{mailto:kevinwangstats@gmail.com}{\nolinkurl{kevinwangstats@gmail.com}}%
-}
-
-\address{%
 Dianne Cook\\
 Monash University\\%
 Department of Econometrics and Business Statistics\\ Clayton, Australia\\
@@ -245,4 +223,14 @@ Department of Econometrics and Business Statistics\\ Clayton, Australia\\
 \url{http://dicook.org/}\\%
 %
 \href{mailto:dicook@monash.edu}{\nolinkurl{dicook@monash.edu}}%
+}
+
+\address{%
+Kevin Y.X. Wang\\
+University of Sydney\\%
+School of Mathematics and Statistics\\ Sydney, Australia\\
+%
+\url{https://kevinwang09.github.io/}\\%
+%
+\href{mailto:kevinwangstats@gmail.com}{\nolinkurl{kevinwangstats@gmail.com}}%
 }

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.2)  6 DEC 2024 08:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.2)  6 DEC 2024 17:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -808,54 +808,41 @@ Package pdftex.def Info: learningtower_files/figure-latex/tv-plot-1.pdf  used on
 
 
 [8 <./learningtower_files/figure-latex/tv-plot-1.pdf>]
-<learningtower_files/figure-latex/book-plot-1.pdf, id=199, 857.2025pt x 855.195pt>
-File: learningtower_files/figure-latex/book-plot-1.pdf Graphic file (type pdf)
-<use learningtower_files/figure-latex/book-plot-1.pdf>
-Package pdftex.def Info: learningtower_files/figure-latex/book-plot-1.pdf  used on input line 117.
-(pdftex.def)             Requested size: 398.33858pt x 397.40059pt.
-
-
-[9 <./learningtower_files/figure-latex/book-plot-1.pdf>]
-<learningtower_files/figure-latex/compint-plot-1.pdf, id=218, 566.115pt x 269.005pt>
-File: learningtower_files/figure-latex/compint-plot-1.pdf Graphic file (type pdf)
-<use learningtower_files/figure-latex/compint-plot-1.pdf>
-Package pdftex.def Info: learningtower_files/figure-latex/compint-plot-1.pdf  used on input line 125.
-(pdftex.def)             Requested size: 398.33858pt x 189.28732pt.
-
-
-[10 <./learningtower_files/figure-latex/compint-plot-1.pdf>]
-<learningtower_files/figure-latex/bs-plot-1.pdf, id=238, 700.6175pt x 687.56876pt>
+<learningtower_files/figure-latex/bs-plot-1.pdf, id=200, 700.6175pt x 687.56876pt>
 File: learningtower_files/figure-latex/bs-plot-1.pdf Graphic file (type pdf)
 <use learningtower_files/figure-latex/bs-plot-1.pdf>
-Package pdftex.def Info: learningtower_files/figure-latex/bs-plot-1.pdf  used on input line 136.
+Package pdftex.def Info: learningtower_files/figure-latex/bs-plot-1.pdf  used on input line 124.
 (pdftex.def)             Requested size: 398.33858pt x 390.92157pt.
-<learningtower_files/figure-latex/facet-time-1.pdf, id=241, 638.385pt x 412.54124pt>
+
+
+[9]
+<learningtower_files/figure-latex/facet-time-1.pdf, id=208, 638.385pt x 412.54124pt>
 File: learningtower_files/figure-latex/facet-time-1.pdf Graphic file (type pdf)
 <use learningtower_files/figure-latex/facet-time-1.pdf>
-Package pdftex.def Info: learningtower_files/figure-latex/facet-time-1.pdf  used on input line 142.
+Package pdftex.def Info: learningtower_files/figure-latex/facet-time-1.pdf  used on input line 130.
 (pdftex.def)             Requested size: 398.33858pt x 257.41588pt.
 
 
-[11 <./learningtower_files/figure-latex/bs-plot-1.pdf>]
+[10 <./learningtower_files/figure-latex/bs-plot-1.pdf>]
 
-[12 <./learningtower_files/figure-latex/facet-time-1.pdf>]
-LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 164.
+[11 <./learningtower_files/figure-latex/facet-time-1.pdf>]
+LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 152.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
-LaTeX Font Info:    Trying to load font information for OML+zplm on input line 164.
+LaTeX Font Info:    Trying to load font information for OML+zplm on input line 152.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 164.
+LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 152.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 164.
+LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 152.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 164.
+LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 152.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
@@ -864,34 +851,34 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 164.
+(Font)              scaled to size 9.37807pt on input line 152.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 164.
+(Font)              scaled to size 7.29405pt on input line 152.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 164.
+(Font)              scaled to size 5.21004pt on input line 152.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 164.
+(Font)              scaled to size 9.37807pt on input line 152.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 164.
+(Font)              scaled to size 7.29405pt on input line 152.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 164.
+(Font)              scaled to size 5.21004pt on input line 152.
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 228.
+(Font)              using `T1/zi4/m/n' instead on input line 216.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 228.
+(Font)              scaled to size 9.18004pt on input line 216.
 )
 
-[13]
+[12]
 
-[14] (./RJwrapper.aux)
+[13] (./RJwrapper.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-11-02>
@@ -903,18 +890,18 @@ Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 04166EFDBFA381E3796F7BA7D7D20B55;1949.
  ) 
 Here is how much of TeX's memory you used:
- 26957 strings out of 475247
- 492318 string characters out of 5766995
- 899317 words of memory out of 5000000
- 49039 multiletter control sequences out of 15000+600000
- 592949 words of font info for 245 fonts, out of 8000000 for 9000
+ 26931 strings out of 475247
+ 491178 string characters out of 5766995
+ 898465 words of memory out of 5000000
+ 49019 multiletter control sequences out of 15000+600000
+ 592864 words of font info for 243 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  117i,12n,131p,2075b,725s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4b.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (14 pages, 999404 bytes).
+Output written on RJwrapper.pdf (13 pages, 916146 bytes).
 PDF statistics:
- 383 PDF objects out of 1000 (max. 8388607)
- 327 compressed objects within 4 object streams
- 67 named destinations out of 1000 (max. 500000)
- 49818 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 348 PDF objects out of 1000 (max. 8388607)
+ 300 compressed objects within 3 object streams
+ 64 named destinations out of 1000 (max. 500000)
+ 49808 words of extra memory for PDF output out of 51595 (max. 10000000)
 
