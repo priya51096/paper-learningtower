@@ -13,13 +13,6 @@ author:
     address:
     - Department of Econometrics and Business Statistics
     - Clayton, Australia
-  - name: Kevin Y.X. Wang
-    affiliation: University of Sydney
-    address:
-    - School of Mathematics and Statistics 
-    - Sydney, Australia
-    url: https://kevinwang09.github.io/
-    email: kevinwangstats@gmail.com 
   - name: Dianne Cook
     affiliation: Monash University
     address:
@@ -27,6 +20,13 @@ author:
     - Clayton, Australia
     url: http://dicook.org/
     email: dicook@monash.edu
+  - name: Kevin Y.X. Wang
+    affiliation: University of Sydney
+    address:
+    - School of Mathematics and Statistics 
+    - Sydney, Australia
+    url: https://kevinwang09.github.io/
+    email: kevinwangstats@gmail.com 
 type: package
 # csl: "rjournal.csl"
 creative_commons: CC BY
