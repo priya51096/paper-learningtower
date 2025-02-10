@@ -20,6 +20,7 @@ author:
     - Clayton, Australia
     url: http://dicook.org/
     email: dicook@monash.edu
+    orcid: 0000-0002-3813-7155
   - name: Kevin Y.X. Wang
     affiliation: University of Sydney
     address:
@@ -27,15 +28,12 @@ author:
     - Sydney, Australia
     url: https://kevinwang09.github.io/
     email: kevinwangstats@gmail.com 
+    orcid: 0000-0003-2615-6102
 type: package
 # csl: "rjournal.csl"
 creative_commons: CC BY
 output: 
-  rjtools::rjournal_pdf_article:
-    toc: no
-  rjtools::rjournal_web_article:
-    self_contained: yes
-    toc: no
+  rjtools::rjournal_article:
 header-includes:
     \usepackage{float}
     \floatplacement{figure}{H}
@@ -361,10 +359,10 @@ tv_plot <- tv_math_data |>
   scale_x_continuous("number of TVs", 
                      labels = levels(tv_math_data$television)) +
   facet_wrap(~country_name, ncol = 8, scales = "free_y") +
-  theme(axis.text.x = element_text(vjust = 0.5, hjust=1)) +
-  theme(axis.text = element_blank()) +
-  labs(#x = "number of TVs",
-       y = "math")
+  theme_bw() +
+  theme(axis.text.x = element_text(vjust = 0.5, hjust=1),
+        axis.text.y = element_blank()) +
+  ylab("math")
 ```
 
 ```{r tv-plot, fig.cap ="Relationship  between number of TVs in a household and average math scores across countries. Number of TVs ranges from 0 to 3 or more. The orange bands indicate 95 percent standard confidence intervals. The impact of television on student performance is a contentious issue. It is interesting that in some countries for example in Peru and Indonesia the effect appears to be positive, but in other countries like Poland and Germany there is a decline in average math scores.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"}

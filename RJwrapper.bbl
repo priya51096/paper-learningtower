@@ -1,0 +1,119 @@
+\begin{thebibliography}{18}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Clarke and Sherrill-Mix(2017)]{ggbeeswarm}
+E.~Clarke and S.~Sherrill-Mix.
+\newblock \emph{{ggbeeswarm}: Categorical Scatter (Violin Point) Plots}, 2017.
+\newblock URL \url{https://CRAN.R-project.org/package=ggbeeswarm}.
+\newblock R package version 0.6.0.
+
+\bibitem[for Economic~Cooperation and Development(1999)]{isced}
+O.~for Economic~Cooperation and Development.
+\newblock \emph{ISCED-97 Implementation in OECD Countries}, 1999.
+\newblock URL \url{https://www.oecd.org/education/1841854.pdf}.
+\newblock Accessed: 2021-11-03.
+
+\bibitem[{Garnier} et~al.(2021){Garnier}, {Simon}, {Ross}, {Noam}, {Rudis}, {Robert}, {Camargo}, Pedro, {Sciaini}, {Marco}, {Scherer}, and {Cédric}]{viridis}
+{Garnier}, {Simon}, {Ross}, {Noam}, {Rudis}, {Robert}, {Camargo}, A.~Pedro, {Sciaini}, {Marco}, {Scherer}, and {Cédric}.
+\newblock \emph{{viridis} - Colorblind-Friendly Color Maps for R}, 2021.
+\newblock URL \url{https://sjmgarnier.github.io/viridis/}.
+\newblock R package version 0.6.2.
+
+\bibitem[O'Hara-Wild et~al.(2021)O'Hara-Wild, Kobakian, Zhang, and Cook]{rjtools}
+M.~O'Hara-Wild, S.~Kobakian, H.~S. Zhang, and D.~Cook.
+\newblock \emph{{rjtools}: Tools for Preparing, Checking, and Submitting Articles to the R Journal}, 2021.
+\newblock URL \url{https://github.com/rjournal/rjtools}.
+\newblock R package version 0.0.0.9002.
+
+\bibitem[{Organization for Economic Cooperation and Development}(2014)]{pisabook}
+{Organization for Economic Cooperation and Development}.
+\newblock \emph{What is PISA?}
+\newblock OECDiLibrary, 2014.
+\newblock ISBN 978-92-64-20878-0.
+\newblock URL \url{https://www.oecd-ilibrary.org/content/component/9789264208780-5-en}.
+
+\bibitem[{Organization for Economic Cooperation and Development}(2021{\natexlab{a}})]{oecd}
+{Organization for Economic Cooperation and Development}.
+\newblock \emph{About OECD}, 2021{\natexlab{a}}.
+\newblock URL \url{https://www.oecd.org/about/}.
+\newblock Accessed: 2021-11-03.
+
+\bibitem[{Organization for Economic Cooperation and Development}(2021{\natexlab{b}})]{pisa}
+{Organization for Economic Cooperation and Development}.
+\newblock \emph{About PISA}, 2021{\natexlab{b}}.
+\newblock URL \url{https://www.oecd.org/pisa/}.
+\newblock Accessed: 2021-11-03.
+
+\bibitem[{Organization for Economic Cooperation and Development}(2021{\natexlab{c}})]{scaling}
+{Organization for Economic Cooperation and Development}.
+\newblock \emph{Scaling PISA data}, 2021{\natexlab{c}}.
+\newblock URL \url{https://www.oecd.org/pisa/data/pisa2018technicalreport/Ch.09-Scaling-PISA-Data.pdf}.
+\newblock Accessed: 2021-11-03.
+
+\bibitem[{Organization for Economic Cooperation and Development}(2021{\natexlab{d}})]{test}
+{Organization for Economic Cooperation and Development}.
+\newblock \emph{About the PISA Test}, 2021{\natexlab{d}}.
+\newblock URL \url{https://www.oecd.org/pisa/test/}.
+\newblock Accessed: 2021-11-03.
+
+\bibitem[Pedersen(2020)]{patchwork}
+T.~L. Pedersen.
+\newblock \emph{{patchwork}: The Composer of Plots}, 2020.
+\newblock URL \url{https://CRAN.R-project.org/package=patchwork}.
+\newblock R package version 1.1.1.
+
+\bibitem[Pedersen and Robinson(2020)]{gganimate}
+T.~L. Pedersen and D.~Robinson.
+\newblock \emph{{gganimate}: A Grammar of Animated Graphics}, 2020.
+\newblock URL \url{https://CRAN.R-project.org/package=gganimate}.
+\newblock R package version 1.0.7.
+
+\bibitem[Sievert(2020)]{plotly}
+C.~Sievert.
+\newblock \emph{Interactive Web-Based Data Visualization with R, {plotly}, and {shiny}}.
+\newblock Chapman and Hall/CRC, 2020.
+\newblock ISBN 9781138331457.
+\newblock URL \url{https://plotly-r.com}.
+
+\bibitem[Wang et~al.(2021)Wang, Yacobellis, Siregar, Romanes, Fitter, {Valentino Dalla Riva}, Cook, Tierney, and Dingorkar]{learningtower}
+K.~Wang, P.~Yacobellis, E.~Siregar, S.~Romanes, K.~Fitter, G.~{Valentino Dalla Riva}, D.~Cook, N.~Tierney, and P.~Dingorkar.
+\newblock \emph{{learningtower}: OECD PISA datasets from 2000-2018 in an easy-to-use format}, 2021.
+\newblock https://kevinwang09.github.io/learningtower/, https://github.com/kevinwang09/learningtower.
+
+\bibitem[Wickham(2016)]{ggplot2}
+H.~Wickham.
+\newblock \emph{{ggplot2}: Elegant Graphics for Data Analysis}.
+\newblock Springer-Verlag New York, 2016.
+\newblock ISBN 978-3-319-24277-4.
+\newblock URL \url{https://ggplot2.tidyverse.org}.
+
+\bibitem[Wickham et~al.(2019)Wickham, Averick, Bryan, Chang, McGowan, François, Grolemund, Hayes, Henry, Hester, Kuhn, Pedersen, Miller, Bache, Müller, Ooms, Robinson, Seidel, Spinu, Takahashi, Vaughan, Wilke, Woo, and Yutani]{tidyverse}
+H.~Wickham, M.~Averick, J.~Bryan, W.~Chang, L.~D. McGowan, R.~François, G.~Grolemund, A.~Hayes, L.~Henry, J.~Hester, M.~Kuhn, T.~L. Pedersen, E.~Miller, S.~M. Bache, K.~Müller, J.~Ooms, D.~Robinson, D.~P. Seidel, V.~Spinu, K.~Takahashi, D.~Vaughan, C.~Wilke, K.~Woo, and H.~Yutani.
+\newblock Welcome to the {tidyverse}.
+\newblock \emph{Journal of Open Source Software}, 4\penalty0 (43):\penalty0 1686, 2019.
+\newblock \doi{10.21105/joss.01686}.
+
+\bibitem[Wickham et~al.(2021)Wickham, François, Henry, and Müller]{dplyr}
+H.~Wickham, R.~François, L.~Henry, and K.~Müller.
+\newblock \emph{{dplyr}: A Grammar of Data Manipulation}, 2021.
+\newblock URL \url{https://CRAN.R-project.org/package=dplyr}.
+\newblock R package version 1.0.7.
+
+\bibitem[Xie et~al.(2020)Xie, Dervieux, and Riederer]{rmarkdown}
+Y.~Xie, C.~Dervieux, and E.~Riederer.
+\newblock \emph{R Markdown Cookbook}.
+\newblock Chapman and Hall/CRC, Boca Raton, Florida, 2020.
+\newblock ISBN 9780367563837.
+\newblock URL \url{https://bookdown.org/yihui/rmarkdown-cookbook}.
+
+\bibitem[Yutani(2021)]{gghighlight}
+H.~Yutani.
+\newblock \emph{{gghighlight}: Highlight Lines and Points in 'ggplot2'}, 2021.
+\newblock URL \url{https://CRAN.R-project.org/package=gghighlight}.
+\newblock R package version 0.3.2.
+
+\end{thebibliography}

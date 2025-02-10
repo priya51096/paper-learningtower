@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.2)  6 DEC 2024 17:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.2.4)  11 FEB 2025 10:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **RJwrapper.tex
 (./RJwrapper.tex
-LaTeX2e <2024-11-01> patch level 1
-L3 programming layer <2024-11-02>
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/base/report.cls
 Document Class: report 2024/06/29 v1.4n Standard LaTeX document class
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/base/size10.clo
@@ -247,7 +247,7 @@ Package: geometry 2020/01/02 v5.9 Page Geometry
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
-Package: iftex 2022/02/03 v1.0f TeX engine tests
+Package: iftex 2024/12/12 v1.0g TeX engine tests
 ))
 \Gm@cnth=\count292
 \Gm@cntv=\count293
@@ -262,43 +262,52 @@ Package: iftex 2022/02/03 v1.0f TeX engine tests
 \Gm@layoutvoffset=\dimen257
 \Gm@dimlist=\toks32
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
-Package: fancyhdr 2024/11/20 v4.4 Extensive control of page headers and footers
+Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 \f@nch@headwidth=\skip51
-\f@nch@O@elh=\skip52
-\f@nch@O@erh=\skip53
-\f@nch@O@olh=\skip54
-\f@nch@O@orh=\skip55
-\f@nch@O@elf=\skip56
-\f@nch@O@erf=\skip57
-\f@nch@O@olf=\skip58
-\f@nch@O@orf=\skip59
+\f@nch@offset@elh=\skip52
+\f@nch@offset@erh=\skip53
+\f@nch@offset@olh=\skip54
+\f@nch@offset@orh=\skip55
+\f@nch@offset@elf=\skip56
+\f@nch@offset@erf=\skip57
+\f@nch@offset@olf=\skip58
+\f@nch@offset@orf=\skip59
+\f@nch@height=\skip60
+\f@nch@footalignment=\skip61
+\f@nch@widthL=\skip62
+\f@nch@widthC=\skip63
+\f@nch@widthR=\skip64
+\@temptokenb=\toks33
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/microtype/microtype.sty
-Package: microtype 2024/03/29 v3.1b Micro-typographical refinements (RS)
+Package: microtype 2024/12/12 v3.2 Micro-typographical refinements (RS)
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count295
 )
-\MT@toks=\toks33
+\MT@toks=\toks34
 \MT@tempbox=\box63
 \MT@count=\count296
-LaTeX Info: Redefining \noprotrusionifhmode on input line 1061.
-LaTeX Info: Redefining \leftprotrusion on input line 1062.
-\MT@prot@toks=\toks34
-LaTeX Info: Redefining \rightprotrusion on input line 1081.
-LaTeX Info: Redefining \textls on input line 1392.
+LaTeX Info: Redefining \noprotrusionifhmode on input line 1075.
+LaTeX Info: Redefining \leftprotrusion on input line 1076.
+\MT@prot@toks=\toks35
+LaTeX Info: Redefining \rightprotrusion on input line 1095.
+LaTeX Info: Redefining \textls on input line 1437.
 \MT@outer@kern=\dimen258
-LaTeX Info: Redefining \textmicrotypecontext on input line 2013.
+LaTeX Info: Redefining \microtypecontext on input line 2041.
+LaTeX Info: Redefining \textmicrotypecontext on input line 2058.
 \MT@listname@count=\count297
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/microtype/microtype-pdftex.def
-File: microtype-pdftex.def 2024/03/29 v3.1b Definitions specific to pdftex (RS)
-LaTeX Info: Redefining \lsstyle on input line 902.
-LaTeX Info: Redefining \lslig on input line 902.
-\MT@outer@space=\skip60
+File: microtype-pdftex.def 2024/12/12 v3.2 Definitions specific to pdftex (RS)
+LaTeX Info: Redefining \lsstyle on input line 944.
+LaTeX Info: Redefining \lslig on input line 944.
+\MT@outer@space=\skip65
 )
 Package microtype Info: Loading configuration file microtype.cfg.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/microtype/microtype.cfg
-File: microtype.cfg 2024/03/29 v3.1b microtype main configuration file (RS)
-)) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/helvet.sty
+File: microtype.cfg 2024/12/12 v3.2 microtype main configuration file (RS)
+)
+LaTeX Info: Redefining \microtypesetup on input line 3053.
+) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/helvet.sty
 Package: helvet 2020/03/25 PSNFSS-v9.3 (WaS) 
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/palatino.sty
 Package: palatino 2020/03/25 PSNFSS-v9.3 (SPQR) 
@@ -312,8 +321,8 @@ Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/xkeyval/xkeyval.sty
 Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/Users/cookd/Library/TinyTeX/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks35
-\XKV@tempa@toks=\toks36
+\XKV@toks=\toks36
+\XKV@tempa@toks=\toks37
 )
 \XKV@depth=\count298
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
@@ -426,31 +435,31 @@ Package hyperref Info: Driver (autodetected): hpdftex.
 File: hpdftex.def 2024-11-05 v7.01l Hyperref driver for pdfTeX
 \Fld@listcount=\count309
 \c@bookmark@seq@number=\count310
-\Hy@SectionHShift=\skip61
+\Hy@SectionHShift=\skip66
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 68.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/titlesec/titlesec.sty
-Package: titlesec 2023/10/27 v2.16 Sectioning titles
+Package: titlesec 2025/01/04 v2.17 Sectioning titles
 \ttl@box=\box64
-\beforetitleunit=\skip62
-\aftertitleunit=\skip63
+\beforetitleunit=\skip67
+\aftertitleunit=\skip68
 \ttl@plus=\dimen263
 \ttl@minus=\dimen264
-\ttl@toksa=\toks37
+\ttl@toksa=\toks38
 \titlewidth=\dimen265
 \titlewidthlast=\dimen266
 \titlewidthfirst=\dimen267
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/titlesec/titletoc.sty
-Package: titletoc 2023/10/27 v2.16 TOC entries
+Package: titletoc 2025/01/04 v2.17 TOC entries
 \ttl@leftsep=\dimen268
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/placeins/placeins.sty
 Package: placeins 2005/04/18  v 2.2
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip64
-\bibsep=\skip65
+\bibhang=\skip69
+\bibsep=\skip70
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count311
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
@@ -465,7 +474,7 @@ Package: fancyvrb 2024/01/20 4.5c verbatim text (tvz,hv)
 Package: alltt 2024/07/07 v2.0g defines alltt environment
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
-\@emptytoks=\toks38
+\@emptytoks=\toks39
 \symAMSa=\mathgroup5
 \symAMSb=\mathgroup6
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
@@ -493,16 +502,16 @@ Package: environ 2014/05/04 v0.3 A new way to define environments
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 )
-\@envbody=\toks39
+\@envbody=\toks40
 )) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2024/11/05 v2.17t AMS math features
-\@mathmargin=\skip66
+\@mathmargin=\skip71
 For additional information on amsmath, use the `?' option.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks40
+\@emptytoks=\toks41
 \ex@=\dimen277
 )) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
@@ -541,21 +550,21 @@ LaTeX Info: Redefining \Relbar on input line 970.
 \dotsspace@=\muskip18
 \c@parentequation=\count324
 \dspbrk@lvl=\count325
-\tag@help=\toks41
+\tag@help=\toks42
 \row@=\count326
 \column@=\count327
 \maxfields@=\count328
-\andhelp@=\toks42
+\andhelp@=\toks43
 \eqnshift@=\dimen280
 \alignsep@=\dimen281
 \tagshift@=\dimen282
 \tagwidth@=\dimen283
 \totwidth@=\dimen284
 \lineht@=\dimen285
-\@envbody=\toks43
-\multlinegap=\skip67
-\multlinetaggap=\skip68
-\mathdisplay@stack=\toks44
+\@envbody=\toks44
+\multlinegap=\skip72
+\multlinetaggap=\skip73
+\mathdisplay@stack=\toks45
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
@@ -565,9 +574,9 @@ Package: array 2024/10/17 v2.6g Tabular extension package (FMi)
 \col@sep=\dimen286
 \ar@mcellbox=\box68
 \extrarowheight=\dimen287
-\NC@list=\toks45
-\extratabsurround=\skip69
-\backup@length=\skip70
+\NC@list=\toks46
+\extratabsurround=\skip74
+\backup@length=\skip75
 \ar@cellbox=\box69
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
@@ -590,10 +599,10 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisrulewidth=\dimen300
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2024-10-27 v4.22 Multi-page Table package (DPC)
-\LTleft=\skip71
-\LTright=\skip72
-\LTpre=\skip73
-\LTpost=\skip74
+\LTleft=\skip76
+\LTright=\skip77
+\LTpre=\skip78
+\LTpost=\skip79
 \LTchunksize=\count333
 \LTcapwidth=\dimen301
 \LT@head=\box70
@@ -605,29 +614,28 @@ Package: longtable 2024-10-27 v4.22 Multi-page Table package (DPC)
 \LT@rows=\count335
 \c@LT@tables=\count336
 \c@LT@chunks=\count337
-\LT@p@ftn=\toks46
+\LT@p@ftn=\toks47
 )
-\cslhangindent=\skip75
-\csllabelwidth=\skip76
-\cslentryspacingunit=\skip77
+\cslhangindent=\skip80
+\csllabelwidth=\skip81
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2023/07/08 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count338
 \calc@Bcount=\count339
 \calc@Adimen=\dimen302
 \calc@Bdimen=\dimen303
-\calc@Askip=\skip78
-\calc@Bskip=\skip79
+\calc@Askip=\skip82
+\calc@Bskip=\skip83
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Ccount=\count340
-\calc@Cskip=\skip80
+\calc@Cskip=\skip84
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count341
-\float@exts=\toks47
+\float@exts=\toks48
 \float@box=\box75
-\@float@everytoks=\toks48
+\@float@everytoks=\toks49
 \@floatcapt=\box76
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
@@ -636,24 +644,24 @@ File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 ) (./RJwrapper.aux)
 \openout1 = `RJwrapper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -696,21 +704,22 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 49.
-Package microtype Info: Applying patch `item' on input line 49.
-Package microtype Info: Applying patch `toc' on input line 49.
-Package microtype Info: Applying patch `eqnum' on input line 49.
+LaTeX Info: Redefining \microtypecontext on input line 55.
+Package microtype Info: Applying patch `item' on input line 55.
+Package microtype Info: Applying patch `toc' on input line 55.
+Package microtype Info: Applying patch `eqnum' on input line 55.
 
-Package microtype Warning: Unable to apply patch `footnote' on input line 49.
+Package microtype Warning: Unable to apply patch `footnote' on input line 55.
 
-Package microtype Info: Applying patch `verbatim' on input line 49.
+Package microtype Info: Applying patch `verbatim' on input line 55.
+LaTeX Info: Redefining \microtypesetup on input line 55.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 49.
+LaTeX Info: Redefining \showhyphens on input line 55.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -719,8 +728,8 @@ File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
 ) (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/upquote/upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verbatim
 )
-Package backref Info: ** backref set up for natbib ** on input line 49.
-Package hyperref Info: Link coloring ON on input line 49.
+Package backref Info: ** backref set up for natbib ** on input line 55.
+Package hyperref Info: Link coloring ON on input line 55.
 (./RJwrapper.out) (./RJwrapper.out)
 \@outlinefile=\write5
 \openout5 = `RJwrapper.out'.
@@ -749,100 +758,104 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 {/Users/cookd/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}]
 LaTeX Font Info:    Font shape `T1/zi4/b/n' will be
-(Font)              scaled to size 12.24005pt on input line 37.
+(Font)              scaled to size 12.24005pt on input line 33.
 
-Overfull \hbox (1.0895pt too wide) in paragraph at lines 41--42
+Overfull \hbox (1.0895pt too wide) in paragraph at lines 37--38
 \T1/ppl/m/n/9 (-20) headlines such as [][]``Vital Signs: Australia's slipping student scores will lead to greater income inequality''[][]
  []
 
 
-Overfull \hbox (10.7412pt too wide) in paragraph at lines 43--44
+Overfull \hbox (10.7412pt too wide) in paragraph at lines 39--40
 []\T1/ppl/m/n/9 (-20) The [][]\T1/ppl/b/n/9 (-20) learn-ing-tower[][] \T1/ppl/m/n/9 (-20) pack-age pri-mar-ily com-prised of three datasets: \T1/zi4/m/n/9 student\T1/ppl/m/n/9 (-20) , \T1/zi4/m/n/9 school\T1/ppl/m/n/9 (-20) , and \T1/zi4/m/n/9 countrycode.
  []
 
 
 
 [2]
-<learningtower_files/figure-latex/score-differences-1.pdf, id=95, 760.8425pt x 759.83875pt>
+<learningtower_files/figure-latex/score-differences-1.pdf, id=114, 760.8425pt x 759.83875pt>
 File: learningtower_files/figure-latex/score-differences-1.pdf Graphic file (type pdf)
 <use learningtower_files/figure-latex/score-differences-1.pdf>
-Package pdftex.def Info: learningtower_files/figure-latex/score-differences-1.pdf  used on input line 60.
+Package pdftex.def Info: learningtower_files/figure-latex/score-differences-1.pdf  used on input line 54.
 (pdftex.def)             Requested size: 398.33858pt x 397.81987pt.
 
 
 [3]
 
 [4 <./learningtower_files/figure-latex/score-differences-1.pdf>]
-<learningtower_files/figure-latex/ggplot-maps-1.pdf, id=121, 453.695pt x 534.99875pt>
+<learningtower_files/figure-latex/ggplot-maps-1.pdf, id=146, 461.725pt x 594.22pt>
 File: learningtower_files/figure-latex/ggplot-maps-1.pdf Graphic file (type pdf)
 <use learningtower_files/figure-latex/ggplot-maps-1.pdf>
-Package pdftex.def Info: learningtower_files/figure-latex/ggplot-maps-1.pdf  used on input line 68.
-(pdftex.def)             Requested size: 398.33858pt x 469.72278pt.
+Package pdftex.def Info: learningtower_files/figure-latex/ggplot-maps-1.pdf  used on input line 62.
+(pdftex.def)             Requested size: 398.33858pt x 512.64224pt.
 
 
 [5 <./learningtower_files/figure-latex/ggplot-maps-1.pdf>]
-<figures/hexbin.png, id=140, 923.3697pt x 329.0694pt>
+<figures/hexbin.png, id=169, 923.3697pt x 329.0694pt>
 File: figures/hexbin.png Graphic file (type png)
 <use figures/hexbin.png>
-Package pdftex.def Info: figures/hexbin.png  used on input line 79.
+Package pdftex.def Info: figures/hexbin.png  used on input line 72.
 (pdftex.def)             Requested size: 398.33858pt x 141.95901pt.
-LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 89.
+
+
+[6 <./figures/hexbin.png>]
+LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 82.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 )
-
-[6 <./figures/hexbin.png>]
-<learningtower_files/figure-latex/qual-plot-1.pdf, id=155, 558.085pt x 338.26375pt>
+<learningtower_files/figure-latex/qual-plot-1.pdf, id=192, 558.085pt x 338.26375pt>
 File: learningtower_files/figure-latex/qual-plot-1.pdf Graphic file (type pdf)
 <use learningtower_files/figure-latex/qual-plot-1.pdf>
-Package pdftex.def Info: learningtower_files/figure-latex/qual-plot-1.pdf  used on input line 101.
+Package pdftex.def Info: learningtower_files/figure-latex/qual-plot-1.pdf  used on input line 94.
 (pdftex.def)             Requested size: 398.33858pt x 241.44382pt.
 
 
 [7 <./learningtower_files/figure-latex/qual-plot-1.pdf>]
-<learningtower_files/figure-latex/tv-plot-1.pdf, id=177, 857.2025pt x 855.195pt>
+<learningtower_files/figure-latex/tv-plot-1.pdf, id=222, 857.2025pt x 855.195pt>
 File: learningtower_files/figure-latex/tv-plot-1.pdf Graphic file (type pdf)
 <use learningtower_files/figure-latex/tv-plot-1.pdf>
-Package pdftex.def Info: learningtower_files/figure-latex/tv-plot-1.pdf  used on input line 109.
+Package pdftex.def Info: learningtower_files/figure-latex/tv-plot-1.pdf  used on input line 102.
 (pdftex.def)             Requested size: 398.33858pt x 397.40059pt.
 
 
 [8 <./learningtower_files/figure-latex/tv-plot-1.pdf>]
-<learningtower_files/figure-latex/bs-plot-1.pdf, id=200, 700.6175pt x 687.56876pt>
+<learningtower_files/figure-latex/bs-plot-1.pdf, id=247, 700.6175pt x 687.56876pt>
 File: learningtower_files/figure-latex/bs-plot-1.pdf Graphic file (type pdf)
 <use learningtower_files/figure-latex/bs-plot-1.pdf>
-Package pdftex.def Info: learningtower_files/figure-latex/bs-plot-1.pdf  used on input line 124.
+Package pdftex.def Info: learningtower_files/figure-latex/bs-plot-1.pdf  used on input line 116.
 (pdftex.def)             Requested size: 398.33858pt x 390.92157pt.
 
 
 [9]
-<learningtower_files/figure-latex/facet-time-1.pdf, id=208, 638.385pt x 412.54124pt>
+<learningtower_files/figure-latex/facet-time-1.pdf, id=257, 638.385pt x 412.54124pt>
 File: learningtower_files/figure-latex/facet-time-1.pdf Graphic file (type pdf)
 <use learningtower_files/figure-latex/facet-time-1.pdf>
-Package pdftex.def Info: learningtower_files/figure-latex/facet-time-1.pdf  used on input line 130.
+Package pdftex.def Info: learningtower_files/figure-latex/facet-time-1.pdf  used on input line 122.
 (pdftex.def)             Requested size: 398.33858pt x 257.41588pt.
 
 
 [10 <./learningtower_files/figure-latex/bs-plot-1.pdf>]
 
-[11 <./learningtower_files/figure-latex/facet-time-1.pdf>]
-LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 152.
+[11 <./learningtower_files/figure-latex/facet-time-1.pdf>] (./RJwrapper.bbl (./RJwrapper.brf)
+\tf@brf=\write6
+\openout6 = `RJwrapper.brf'.
+
+LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 13.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
-LaTeX Font Info:    Trying to load font information for OML+zplm on input line 152.
+LaTeX Font Info:    Trying to load font information for OML+zplm on input line 13.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 152.
+LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 13.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 152.
+LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 13.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 152.
+LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 13.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
@@ -851,57 +864,60 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 152.
+(Font)              scaled to size 9.37807pt on input line 13.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 152.
+(Font)              scaled to size 7.29405pt on input line 13.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 152.
+(Font)              scaled to size 5.21004pt on input line 13.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 152.
+(Font)              scaled to size 9.37807pt on input line 13.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 152.
+(Font)              scaled to size 7.29405pt on input line 13.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 152.
+(Font)              scaled to size 5.21004pt on input line 13.
+
+
+[12])
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 216.
+(Font)              using `T1/zi4/m/n' instead on input line 145.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 216.
+(Font)              scaled to size 9.18004pt on input line 145.
 )
-
-[12]
 
 [13] (./RJwrapper.aux)
  ***********
-LaTeX2e <2024-11-01> patch level 1
-L3 programming layer <2024-11-02>
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
  ***********
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
-(rerunfilecheck)             Checksum: 04166EFDBFA381E3796F7BA7D7D20B55;1949.
+(rerunfilecheck)             Checksum: 402B0C96CFAE0C69BA561984CB37CDDE;1842.
+Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
+(rerunfilecheck)             Checksum: 1E386B8D39EAA039BEC8FA744E1CB9E9;1062.
  ) 
 Here is how much of TeX's memory you used:
- 26931 strings out of 475247
- 491178 string characters out of 5766995
- 898465 words of memory out of 5000000
- 49019 multiletter control sequences out of 15000+600000
- 592864 words of font info for 243 fonts, out of 8000000 for 9000
+ 27233 strings out of 475129
+ 496871 string characters out of 5764045
+ 910092 words of memory out of 5000000
+ 49445 multiletter control sequences out of 15000+600000
+ 593842 words of font info for 243 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 117i,12n,131p,2075b,725s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 117i,12n,131p,2064b,821s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4b.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (13 pages, 916146 bytes).
+Output written on RJwrapper.pdf (13 pages, 922678 bytes).
 PDF statistics:
- 348 PDF objects out of 1000 (max. 8388607)
- 300 compressed objects within 3 object streams
- 64 named destinations out of 1000 (max. 500000)
- 49808 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 409 PDF objects out of 1000 (max. 8388607)
+ 360 compressed objects within 4 object streams
+ 52 named destinations out of 1000 (max. 500000)
+ 49800 words of extra memory for PDF output out of 51595 (max. 10000000)
 
