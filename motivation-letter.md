@@ -10,7 +10,7 @@ Editor
 The R Journal  
 \bigskip
 
-Dear Professor Cook,
+Dear Professor Hyndman,
 \bigskip
 
 Please consider our article titled "ToOoOlTiPs: An R Package for Customizable Tooltips in Interactive Graphics" for publication in the R Journal.

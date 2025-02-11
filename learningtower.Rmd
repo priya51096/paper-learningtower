@@ -33,7 +33,7 @@ type: package
 # csl: "rjournal.csl"
 creative_commons: CC BY
 output: 
-  rjtools::rjournal_article:
+  rjtools::rjournal_article
 header-includes:
     \usepackage{float}
     \floatplacement{figure}{H}
