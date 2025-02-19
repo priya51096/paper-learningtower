@@ -107,7 +107,8 @@ sci_plot <- ggplot(sci_diff_conf_intervals,
                      labels = abs(seq(-60, 60, 20)))
 
 
-## ----score-differences, fig.cap ="The gender gap difference in 15-year-olds' in math, reading, and science results in 2018, with bootstrapped 95% errors. The scores to the right of the grey line (green) represent the performances of the girls, while the scores to the left of the grey line (purple) represent the performances of the boys. The gender gap is not universal in math and science, but on average in reading, girls from all countries outperformed boys.", fig.width=11, fig.height=11, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----score-differences, fig.cap ="The gender gap difference in 15-year-olds' in math, reading, and science results in 2018, with bootstrapped 95% errors. The scores to the right of the grey line (green) represent the performances of the girls, while the scores to the left of the grey line (purple) represent the performances of the boys. The gender gap is not universal in math and science, but on average in reading, girls from all countries outperformed boys.", fig.width=11, fig.height=11, fig.pos = "H", out.width="100%", layout="l-body", fig.alt="A comparative dot plot visualizing gender differences in math, reading, and science scores across various countries. The x-axis represents the gender gap, with boys on the left and girls on the right. Each country is listed on the y-axis, with color-coded points indicating the degree of gender difference. In math, boys tend to outperform girls in most countries, as shown by the purple dots to the left. In reading, girls outperform boys, indicated by the green dots on the right. Science scores exhibit a more balanced distribution, with some variation by country."----
+
 math_plot + read_plot + sci_plot
 
 
@@ -170,16 +171,16 @@ mrs_maps <- ggplot(mrs_world_data) +
   theme(panel.border = element_rect(colour = "grey70", fill=NA))
 
 
-## ----plotly-maps, fig.cap="Interactive maps showing the difference in average math, reading, and science scores between girls and boys across the world, positive values (green) indicate the girls average to be higher than boys average, and white indicates a missing value. Mousing over the plots shows the country and score. The average math score is higher for boys in most countries except for some parts of the Middle East, Scandinavia, and Southeast Asia. The average reading score is higher for girls than boys in every country measured.", fig.pos="H", fig.height=12, fig.width=18, out.width="100%", layout="l-body", include=knitr::is_html_output(), eval=knitr::is_html_output()----
-# ggplotly(mrs_maps, width=700, height=900) |>
-#   config(displayModeBar = FALSE)
+## ----plotly-maps, fig.cap="Interactive maps showing the difference in average math, reading, and science scores between girls and boys across the world, positive values (green) indicate the girls average to be higher than boys average, and white indicates a missing value. Mousing over the plots shows the country and score. The average math score is higher for boys in most countries except for some parts of the Middle East, Scandinavia, and Southeast Asia. The average reading score is higher for girls than boys in every country measured.", fig.pos="H", fig.height=12, fig.width=18, out.width="100%", layout="l-body", include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.alt="A set of interactive world maps displaying the difference in average math, reading, and science scores between girls and boys across various countries. The color coding represents the gender difference in scores: green indicates that girls have higher average scores than boys, while purple indicates the opposite. White areas signify missing data. The math score map shows that boys tend to outperform girls in most countries, except in some parts of the Middle East, Scandinavia, and Southeast Asia. The reading score map indicates that girls outperform boys in reading across all measured countries. Hovering over the maps reveals specific country names and score differences."----
+#> ggplotly(mrs_maps, width=700, height=900) |>
+#>   config(displayModeBar = FALSE)
 
 
 ## ----ggplot-maps, fig.cap="Maps showing the gender gap in math, reading, and science results between girls and boys throughout the world. The diverging colour scale makes it possible to interpret the range of scores and it also helps us intrepret the gender gap difference among these students across the globe. The legend displayed enables interpretation of the score differential for each subject across all maps. A positive score for a country indicates that girls outperformed boys in that country, whereas a negative score for a country difference indicates that boys outperformed girls in that country.The reading scores are all positive, suggesting that girls outperform boys globally in the year 2018.", fig.height=9, fig.pos="H", out.width="100%", layout="l-body", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
 mrs_maps
 
 
-## ----corr-plot, fig.cap ="The hexagon binned pairs plot displays the relationship between math, reading, and science scores for all PISA countries that participated in the experiment in 2018. This scatterplot shows that all three subjects have a significant and positive correlation with each another. The pattern is so regular that it indicates the data is simulated. The documentation confirms this, that the public data is privatised by simulating scores from the fitted model.", fig.width=7.5, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----corr-plot, fig.cap ="The hexagon binned pairs plot displays the relationship between math, reading, and science scores for all PISA countries that participated in the experiment in 2018. This scatterplot shows that all three subjects have a significant and positive correlation with each another. The pattern is so regular that it indicates the data is simulated. The documentation confirms this, that the public data is privatised by simulating scores from the fitted model.", fig.width=7.5, fig.pos = "H", out.width="100%", layout="l-body", fig.alt="testing", fig.alt="A set of three hexbin scatter plots visualizing the relationships between math, reading, and science scores. The first plot (left) shows the correlation between math and reading scores, the second (middle) between math and science scores, and the third (right) between reading and science scores. Each plot has a dense central region with lighter shades in the middle, indicating a strong positive correlation between the respective subjects."----
 knitr::include_graphics("figures/hexbin.png")
 
 
@@ -229,7 +230,7 @@ father_qual_math <- ggplot(father_qual_math_read_sci_data,
          title = "father")
 
 
-## ----qual-plot, fig.cap ="The impact of parents' education on their children's academic progress, as seen through math scores relative to a parent's highest education level. Each point is the country average, shown as jittered dotplots, and values for each level are connected by lines. The bar corresponds to the median over all countries. There is generally an increase in average math score as parents education is higher. In comparison to parents with lower levels of education qualifications. There is some variation across countries, with some showing decreases in average at the lower education levels, but all show an increase between lower and upper secondary levels.", fig.width = 8, fig.height = 5, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----qual-plot, fig.cap ="The impact of parents' education on their children's academic progress, as seen through math scores relative to a parent's highest education level. Each point is the country average, shown as jittered dotplots, and values for each level are connected by lines. The bar corresponds to the median over all countries. There is generally an increase in average math score as parents education is higher. In comparison to parents with lower levels of education qualifications. There is some variation across countries, with some showing decreases in average at the lower education levels, but all show an increase between lower and upper secondary levels.", fig.width = 8, fig.height = 5, fig.pos = "H", out.width="100%", layout="l-body", fig.alt="A pair of scatter plots visualizing the relationship between parents' highest education level (ISCED Level) and their children's average math scores. The left plot represents fathers, and the right plot represents mothers. Each gray dot represents a country's average math score, with points jittered for better visibility. Lines connect data points within each country across different ISCED levels. The thick black horizontal bars indicate the median math score at each education level across all countries. The trend suggests that higher parental education levels correlate with higher average math scores, though there is some variation among countries, particularly at lower education levels."----
 father_qual_math + mother_qual_math
 
 
@@ -260,38 +261,38 @@ tv_plot <- tv_math_data |>
   ylab("math")
 
 
-## ----tv-plot, fig.cap ="Relationship  between number of TVs in a household and average math scores across countries. Number of TVs ranges from 0 to 3 or more. The orange bands indicate 95 percent standard confidence intervals. The impact of television on student performance is a contentious issue. It is interesting that in some countries for example in Peru and Indonesia the effect appears to be positive, but in other countries like Poland and Germany there is a decline in average math scores.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----tv-plot, fig.cap ="Relationship  between number of TVs in a household and average math scores across countries. Number of TVs ranges from 0 to 3 or more. The orange bands indicate 95 percent standard confidence intervals. The impact of television on student performance is a contentious issue. It is interesting that in some countries for example in Peru and Indonesia the effect appears to be positive, but in other countries like Poland and Germany there is a decline in average math scores.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body", fig.alt="A grid of small line charts, each representing a different country, showing the relationship between the number of televisions in a household (ranging from 0 to 3 or more) and average math scores. The x-axis represents the number of TVs, while the y-axis represents average math scores. Each chart contains a black line with data points and an orange band representing the 95% confidence interval. The trends vary across countries: some, like Peru and Indonesia, show an increase in math scores with more TVs, while others, like Poland and Germany, show a decline. This suggests that the effect of television on student performance differs across different countries."----
 tv_plot
 
 
 ## ----eval=FALSE---------------------------------------------------------------
-# z_star_95 <- qnorm(0.975)
-# load("data/book_math_read_sci_data.rda")
-# linear_model <- function(y, x){
-#   coef(lm(y ~ x))[2]
-# }
-# 
-# book_plot <- book_math_read_sci_data |>
-#   group_by(country_name) |>
-#   mutate(slope = linear_model(math_avg, book)) |>
-#   ungroup() |>
-#   mutate(country_name = fct_reorder(country_name, slope)) |>
-#   ggplot(aes(x=as.numeric(book), y=math_avg)) +
-#   geom_ribbon(aes(ymin = bk_lower, ymax = bk_upper),
-#                 colour="orange", fill="orange", alpha=0.45) +
-#   geom_point(size=1.8) +
-#   geom_line(aes(group = country_name)) +
-#   facet_wrap(~country_name, ncol = 8, scales = "free") +
-#   theme(axis.text = element_blank()) +
-#   labs(x = "Number of Books",
-#        y = "Average Mathematics Score")
+#> z_star_95 <- qnorm(0.975)
+#> load("data/book_math_read_sci_data.rda")
+#> linear_model <- function(y, x){
+#>   coef(lm(y ~ x))[2]
+#> }
+#> 
+#> book_plot <- book_math_read_sci_data |>
+#>   group_by(country_name) |>
+#>   mutate(slope = linear_model(math_avg, book)) |>
+#>   ungroup() |>
+#>   mutate(country_name = fct_reorder(country_name, slope)) |>
+#>   ggplot(aes(x=as.numeric(book), y=math_avg)) +
+#>   geom_ribbon(aes(ymin = bk_lower, ymax = bk_upper),
+#>                 colour="orange", fill="orange", alpha=0.45) +
+#>   geom_point(size=1.8) +
+#>   geom_line(aes(group = country_name)) +
+#>   facet_wrap(~country_name, ncol = 8, scales = "free") +
+#>   theme(axis.text = element_blank()) +
+#>   labs(x = "Number of Books",
+#>        y = "Average Mathematics Score")
 
 
 ## ----book-plot, fig.cap ="Impact of the number of books on average math score. Number of books ranges from 0 to 500 and more. 95 percent standard confidence bands shown in orange. Math scores generally increase as the number of books increases. Averages for some countries at the higher number of books are less reliable, and hence the decline reflects more that there are few households with this many books than a true decline.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body", eval=FALSE----
-# book_plot
+#> book_plot
 
 
-## ----bs-plot, fig.cap ="Temporal patterns in math, reading, and science in a variety of countries. The highlighted countries in the chart help us infer Australia's performance in contrast to the other countries; we can see that Australia's scores have always been among the highest in the PISA survey throughout all years.", fig.height=10, fig.width=10, fig.pos = "H", out.width="100%", layout="l-body"----
+## ----bs-plot, fig.cap ="Temporal patterns in math, reading, and science in a variety of countries. The highlighted countries in the chart help us infer Australia's performance in contrast to the other countries; we can see that Australia's scores have always been among the highest in the PISA survey throughout all years.", fig.height=10, fig.width=10, fig.pos = "H", out.width="100%", layout="l-body", fig.alt=" A set of three line charts showing temporal trends in math, reading, and science scores across multiple countries from the early 2000s to 2020. Each panel represents a different subject, with individual country trends shown in faint gray lines, while selected countries, including Singapore, Canada, Australia, Denmark, Greece, Qatar, Thailand, Peru, and Brazil, are highlighted in bold black lines with labels. The chart indicates that Australia's performance has consistently remained among the highest in the PISA survey across all years, while other countries show varying trends of improvement or decline in scores."----
 load("data/all_bs_cf.rda")
 
 all_bs_cf <- all_bs_cf |>

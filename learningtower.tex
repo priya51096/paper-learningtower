@@ -7,7 +7,7 @@
 \maketitle
 
 \abstract{%
-Reproducibility is a key aspect of data analysis. Furthermore, it adds context to scientific results, increasing public confidence and laying the groundwork for future study. The Programme for International Student Assessment (PISA) is a well-known open data set that is freely available. This data has the ability to provide meaningful results and insights that can help with various decisions in the fields of education and research. This experiment has a direct influence on society for the benefit of people's lives. In this article, we introduce the \texttt{learningtower} package, which provides a user-friendly easy accessibility to a subset of variables from PISA data gathered by the Organization for Economic Cooperation and Development (OECD) from 2000 to 2018. This dataset is well suited for data exploration, visualisation and various analytical and statistical analysis. In addition, we present a few example analysis utilizing this dataset addressing some research questions regarding the gender gap noticed in these students, the effect of different socioeconomic factors on the students' performance, and we go further to study Australia's PISA scores.
+Reproducibility is a key aspect of data analysis. Furthermore, it adds context to scientific results, increasing public confidence and laying the groundwork for future study. The Programme for International Student Assessment (PISA) is a well-known open data set that is freely available. This data has the ability to provide meaningful results and insights that can help with various decisions in the fields of education and research. This experiment has a direct influence on society for the benefit of people's lives. In this article, we introduce the \texttt{learningtower} package, which provides a user-friendly easy accessibility to a subset of variables from PISA data gathered by the Organization for Economic Cooperation and Development (OECD) from 2000 to 2022. This dataset is well suited for data exploration, visualisation and various analytical and statistical analysis. In addition, we present a few example analysis utilizing this dataset addressing some research questions regarding the gender gap noticed in these students, the effect of different socioeconomic factors on the students' performance, and we go further to study Australia's PISA scores.
 }
 
 \section{Introduction}\label{introduction}
@@ -28,7 +28,7 @@ PISA data is publicly accessible for \href{https://www.oecd.org/pisa/data/}{down
 
 \section{Data compilation}\label{data-compilation}
 
-Each developer at the ROpenSci OzUnconf was assigned to curate a specific year of the PISA study. Data on the participating students and schools were first downloaded from the PISA website, in either SPSS or SAS format. The data were read into an R environment with the exception of the year 2000 and 2003. Due to formatting issues, the data for these two particular years were first read using SPSS and then exported into compatible \texttt{.sav} files. After some data cleaning and wrangling with the appropriate script, the variables of interest were re-categorised and saved as RDS files. One major challenge faced by the developers was to ensure the consistency of variables over the years. For example, a student's mother's highest level of education was never recorded in 2000, but it was categorised as ``ST11R01'' between 2003 and 2012 and ``ST005Q01TA'' between 2015 and 2022. Such a problem was tackled manually by curating these values as an integer variable named ``mother\_educ'' in the output data. These final RDS file for each PISA year were then thoroughly vetted and made available in a separate \href{https://github.com/kevinwang09/learningtower_masonry}{GitHub repository}.
+Each developer at the ROpenSci OzUnconf was assigned to curate a specific year of the PISA study. Data on the participating students and schools were first downloaded from the PISA website, in either SPSS or SAS format. The data were read into an R environment with the exception of the year 2000 and 2003. Due to formatting issues, the data for these two particular years were first read using SPSS and then exported into compatible \texttt{.sav} files. After some data cleaning and wrangling with the appropriate script, the variables of interest were re-categorised and saved as RDS files. One major challenge faced by the developers was to ensure the consistency of variables over the years. For example, a student's mother's highest level of education was never recorded in 2000, but it was categorised as ``ST11R01'' between 2003 and 2012 and ``ST005Q01TA'' between 2015 and 2022. Such a problem was tackled manually by curating these values as an integer variable named ``mother\_educ'' in the output data.
 
 \section{\texorpdfstring{What is \texttt{learningtower}?}{What is learningtower?}}\label{what-is-learningtower}
 
@@ -130,7 +130,7 @@ Conducting research and analysis provides insight into what the researchers have
 
 \section{Acknowledgments}\label{acknowledgments}
 
-This paper is written using the \href{https://github.com/rjournal/rjtools}{rjtools} \citep{rjtools} package, which depends on Rmarkdown \citep{rmarkdown}. The work depends on the many contributors to the \CRANpkg{learningtower} package. Two Master of Business Analytics students at Monash University, Shabarish Sai Subramanian and Guan Ru Chen compiled the 2022 PISA data, and updated the package.
+This paper is written using the \href{https://github.com/rjournal/rjtools}{rjtools} \citep{rjtools} package, which depends on Rmarkdown \citep{rmarkdown}. The work depends on the many contributors to the \CRANpkg{learningtower} package. Two Master of Business Analytics students at Monash University, Shabarish Sai Subramanian and Guan Ru Chen compiled the 2022 PISA data, and updated the package. These final RDS file for each PISA year were then thoroughly vetted and made available in a separate \href{https://github.com/kevinwang09/learningtower_masonry}{GitHub repository}.
 
 \bibliography{learningtower.bib}
 
@@ -140,7 +140,7 @@ Monash University\\%
 Department of Econometrics and Business Statistics\\ Clayton, Australia\\
 %
 \url{https://www.linkedin.com/in/priya-dingorkar/}\\%
-%
+\textit{ORCiD: \href{https://orcid.org/0009-0007-2655-1475}{0009-0007-2655-1475}}\\%
 \href{mailto:priyadingorkar@gmail.com}{\nolinkurl{priyadingorkar@gmail.com}}%
 }
 
