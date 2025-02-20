@@ -372,7 +372,7 @@ math_all_bs_cf_plot + read_all_bs_cf_plot + sci_all_bs_cf_plot
 
 
 
-## ----facet-time, fig.cap = "Math and reading scores over time, with selected countries labelled. Colour indicates continent. Australia has quite stable scores over the years.", eval = TRUE, fig.width = 9, fig.height = 6, out.width="100%", layout="l-body-outset"----
+## ----facet-time, fig.cap = "Math and reading scores over time, with selected countries labelled. Colour indicates continent. Australia has quite stable scores over the years.", eval = TRUE, fig.width = 9, fig.height = 6, out.width="100%", layout="l-body-outset", fig.alt="A series of eight scatter plots arranged in a 2x4 grid, each representing different years (2000, 2003, 2006, 2009, 2012, 2015, 2018, and 2022). The x-axis represents math scores, and the y-axis represents reading scores from the PISA survey. Each point represents a country, colored by continent. Some countries, including Australia, Finland, Canada, Singapore, the USA, Brazil, Thailand, Indonesia, and Qatar, are labeled. Australia, consistently positioned among the top-performing countries, is highlighted. The overall trend shows a strong positive correlation between math and reading scores across all years."----
 load("data/student_anim_data.rda")
 ggplot(student_anim_data,
        aes(x=math_avg, y=read_avg,
