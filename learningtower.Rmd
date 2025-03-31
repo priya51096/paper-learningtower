@@ -40,7 +40,7 @@ header-includes:
     \floatplacement{figure}{H}
 bibliography: learningtower.bib
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r setup, include=FALSE}
@@ -63,6 +63,7 @@ library(ggrepel)
 library(colorspace)
 library(ggthemes)
 library(rnaturalearth)
+library(sf)
 # Note: rnaturalearth provides a map that is 1/10th size of 
 # of the map provided by ggplot2::map_data()
 ```
@@ -102,7 +103,6 @@ The \CRANpkg{learningtower} developers are committed to providing R users with d
 In this section we will illustrate how the \CRANpkg{learningtower} package can be utilized to answer some research questions by applying various methodologies and statistical computations on the \CRANpkg{learningtower} datasets.
 
 We will utilize the 2018 PISA data and scores for illustrative purposes throughout the example analysis section. During the post-development phase, the \CRANpkg{learningtower} developers collectively decided to answer a few intriguing questions on the PISA data and see if we could identify any interesting trends or insights utilizing this dataset. Some of these questions include if there is any significant gender difference between girls and boys and explore their performance in the areas of mathematics, reading, and science. Furthermore, we will inspect the various socioeconomic characteristics reflected in the student data and investigate if they have any substantial impact on the scores of these 15-year-olds. We will delve into Australia's score history and study the temporal trends to uncover some noteworthy trends that Australia has observed as a result of its participation in the PISA experiment.
-
 
 # Gender analysis
 
@@ -215,7 +215,9 @@ region2country = function(region_name){
                         "Russian Federation") ~ "Russia",
     region_name == "Slovak Republic" ~ "Slovakia",
     region_name == "Chinese Taipei" ~ "Taiwan",
-    region_name == "United States" ~ "USA",
+    region_name == "United States" ~ "United States of America",
+    region_name == "Serbia" ~ "Republic of Serbia",
+    region_name == "Bosnia & Herzegovina" ~ "Bosnia and Herzegovina",
     TRUE ~ as.character(region_name))
 }
 ```
@@ -236,32 +238,44 @@ sci_map_data <- sci_diff_conf_intervals |>
 
 mrs_map_data <- bind_rows(math_map_data, read_map_data, sci_map_data)
 
-world <- ne_countries(scale = "small", returnclass = "sf") |>
+world <- ne_countries(scale = "small", 
+                      returnclass = "sf") |>
   filter(sovereignt != "Antarctica") 
 
 mrs_world_data <- merge(world, mrs_map_data, 
                          by.x = "sovereignt", 
-                         by.y = "country_name")
+                         by.y = "country_name", 
+                        all = TRUE)
 
 mrs_world_data$diff <- round(mrs_world_data$diff, 2)
 
 mrs_world_data <- rename(mrs_world_data, `f-m` = diff,
                          country = sovereignt)
 
-mrs_maps <- ggplot(mrs_world_data) + 
+mrs_world_data_fixed <- mrs_world_data %>%
+  filter(!is.na(test)) %>%
+  bind_rows(
+    mrs_world_data %>% 
+      filter(is.na(test)) %>% 
+      select(-test) %>% 
+      tidyr::crossing(test = c("math", "reading", "science"))) %>% 
+  dplyr::filter(st_geometry_type(geometry) != "GEOMETRYCOLLECTION")
+
+mrs_maps <- ggplot(mrs_world_data_fixed) + 
   geom_sf(aes(fill = `f-m`,
               label = country)) +
-  facet_wrap(~test, ncol=1) +
+  facet_wrap(~test, ncol = 1) +
   theme_map() +
   scale_fill_continuous_diverging(palette = "Purple-Green", 
-                       limits = c(-66, 66), 
-                       na.value = "white") +
-  theme(panel.border = element_rect(colour = "grey70", fill=NA))
+                                  limits = c(-66, 66), 
+                                  na.value = "white") +
+  theme(panel.border = element_rect(colour = "grey70", fill = NA))
 ```
 
 ```{r plotly-maps, fig.cap="Interactive maps showing the difference in average math, reading, and science scores between girls and boys across the world, positive values (green) indicate the girls average to be higher than boys average, and white indicates a missing value. Mousing over the plots shows the country and score. The average math score is higher for boys in most countries except for some parts of the Middle East, Scandinavia, and Southeast Asia. The average reading score is higher for girls than boys in every country measured.", fig.pos="H", fig.height=12, fig.width=18, out.width="100%", layout="l-body", include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.alt="A set of interactive world maps displaying the difference in average math, reading, and science scores between girls and boys across various countries. The color coding represents the gender difference in scores: green indicates that girls have higher average scores than boys, while purple indicates the opposite. White areas signify missing data. The math score map shows that boys tend to outperform girls in most countries, except in some parts of the Middle East, Scandinavia, and Southeast Asia. The reading score map indicates that girls outperform boys in reading across all measured countries. Hovering over the maps reveals specific country names and score differences."}
-ggplotly(mrs_maps, width=700, height=900) |>
-  config(displayModeBar = FALSE) 
+interactive_map <- ggplotly(mrs_maps, width = 700, height = 900) %>%
+  config(displayModeBar = FALSE)
+interactive_map
 ```
 
 ```{r ggplot-maps, fig.cap="Maps showing the gender gap in math, reading, and science results between girls and boys throughout the world. The diverging colour scale makes it possible to interpret the range of scores and it also helps us intrepret the gender gap difference among these students across the globe. The legend displayed enables interpretation of the score differential for each subject across all maps. A positive score for a country indicates that girls outperformed boys in that country, whereas a negative score for a country difference indicates that boys outperformed girls in that country.The reading scores are all positive, suggesting that girls outperform boys globally in the year 2018.", fig.height=9, fig.pos="H", out.width="100%", layout="l-body", include=knitr::is_latex_output(), eval=knitr::is_latex_output()}
