@@ -186,9 +186,9 @@ mrs_maps <- ggplot(mrs_world_data_fixed) +
 
 
 ## ----plotly-maps, fig.cap="Interactive maps showing the difference in average math, reading, and science scores between girls and boys across the world, positive values (green) indicate the girls average to be higher than boys average, and white indicates a missing value. Mousing over the plots shows the country and score. The average math score is higher for boys in most countries except for some parts of the Middle East, Scandinavia, and Southeast Asia. The average reading score is higher for girls than boys in every country measured.", fig.pos="H", fig.height=12, fig.width=18, out.width="100%", layout="l-body", include=knitr::is_html_output(), eval=knitr::is_html_output(), fig.alt="A set of interactive world maps displaying the difference in average math, reading, and science scores between girls and boys across various countries. The color coding represents the gender difference in scores: green indicates that girls have higher average scores than boys, while purple indicates the opposite. White areas signify missing data. The math score map shows that boys tend to outperform girls in most countries, except in some parts of the Middle East, Scandinavia, and Southeast Asia. The reading score map indicates that girls outperform boys in reading across all measured countries. Hovering over the maps reveals specific country names and score differences."----
-#> interactive_map <- ggplotly(mrs_maps, width = 700, height = 900) %>%
-#>   config(displayModeBar = FALSE)
-#> interactive_map
+# interactive_map <- ggplotly(mrs_maps, width = 700, height = 900) %>%
+#   config(displayModeBar = FALSE)
+# interactive_map
 
 
 ## ----ggplot-maps, fig.cap="Maps showing the gender gap in math, reading, and science results between girls and boys throughout the world. The diverging colour scale makes it possible to interpret the range of scores and it also helps us intrepret the gender gap difference among these students across the globe. The legend displayed enables interpretation of the score differential for each subject across all maps. A positive score for a country indicates that girls outperformed boys in that country, whereas a negative score for a country difference indicates that boys outperformed girls in that country.The reading scores are all positive, suggesting that girls outperform boys globally in the year 2018.", fig.height=9, fig.pos="H", out.width="100%", layout="l-body", include=knitr::is_latex_output(), eval=knitr::is_latex_output()----
@@ -281,30 +281,30 @@ tv_plot
 
 
 ## ----eval=FALSE---------------------------------------------------------------
-#> z_star_95 <- qnorm(0.975)
-#> load("data/book_math_read_sci_data.rda")
-#> linear_model <- function(y, x){
-#>   coef(lm(y ~ x))[2]
-#> }
-#> 
-#> book_plot <- book_math_read_sci_data |>
-#>   group_by(country_name) |>
-#>   mutate(slope = linear_model(math_avg, book)) |>
-#>   ungroup() |>
-#>   mutate(country_name = fct_reorder(country_name, slope)) |>
-#>   ggplot(aes(x=as.numeric(book), y=math_avg)) +
-#>   geom_ribbon(aes(ymin = bk_lower, ymax = bk_upper),
-#>                 colour="orange", fill="orange", alpha=0.45) +
-#>   geom_point(size=1.8) +
-#>   geom_line(aes(group = country_name)) +
-#>   facet_wrap(~country_name, ncol = 8, scales = "free") +
-#>   theme(axis.text = element_blank()) +
-#>   labs(x = "Number of Books",
-#>        y = "Average Mathematics Score")
+# z_star_95 <- qnorm(0.975)
+# load("data/book_math_read_sci_data.rda")
+# linear_model <- function(y, x){
+#   coef(lm(y ~ x))[2]
+# }
+# 
+# book_plot <- book_math_read_sci_data |>
+#   group_by(country_name) |>
+#   mutate(slope = linear_model(math_avg, book)) |>
+#   ungroup() |>
+#   mutate(country_name = fct_reorder(country_name, slope)) |>
+#   ggplot(aes(x=as.numeric(book), y=math_avg)) +
+#   geom_ribbon(aes(ymin = bk_lower, ymax = bk_upper),
+#                 colour="orange", fill="orange", alpha=0.45) +
+#   geom_point(size=1.8) +
+#   geom_line(aes(group = country_name)) +
+#   facet_wrap(~country_name, ncol = 8, scales = "free") +
+#   theme(axis.text = element_blank()) +
+#   labs(x = "Number of Books",
+#        y = "Average Mathematics Score")
 
 
 ## ----book-plot, fig.cap ="Impact of the number of books on average math score. Number of books ranges from 0 to 500 and more. 95 percent standard confidence bands shown in orange. Math scores generally increase as the number of books increases. Averages for some countries at the higher number of books are less reliable, and hence the decline reflects more that there are few households with this many books than a true decline.", fig.height=12, fig.width=12, fig.pos = "H", out.width="100%", layout="l-body", eval=FALSE----
-#> book_plot
+# book_plot
 
 
 ## ----bs-plot, fig.cap ="Temporal patterns in math, reading, and science in a variety of countries. The highlighted countries in the chart help us infer Australia's performance in contrast to the other countries; we can see that Australia's scores have always been among the highest in the PISA survey throughout all years.", fig.height=10, fig.width=10, fig.pos = "H", out.width="100%", layout="l-body", fig.alt=" A set of three line charts showing temporal trends in math, reading, and science scores across multiple countries from the early 2000s to 2020. Each panel represents a different subject, with individual country trends shown in faint gray lines, while selected countries, including Singapore, Canada, Australia, Denmark, Greece, Qatar, Thailand, Peru, and Brazil, are highlighted in bold black lines with labels. The chart indicates that Australia's performance has consistently remained among the highest in the PISA survey across all years, while other countries show varying trends of improvement or decline in scores."----
