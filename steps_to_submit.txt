@@ -1,0 +1,14 @@
+# TO SUBMIT
+
+https://journal.r-project.org/submissions.html
+
+- Tags: Reproducible Research, Graphics and Visualisation,
+Spatio-Temporal Analyses, Social Sciences, Missing Data
+
+Files to zip
+- *.Rmd, *.tex, *.html, *.pdf, .R, *.bib, Rjournal.sty, rjournal.css, rjournal.csl
+- motivation-letter.pdf
+- data, figures, scripts
+
+Entered on form
+- list supplementary file directories: data, figures, scripts, .R
