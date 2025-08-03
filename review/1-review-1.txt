@@ -1,0 +1,47 @@
+The package ‘learningtower’ provides access to a subset of variables from the PISA data collected from the OECD. It contains data for the years 2000 - 2022 and can be used as a real data example for data exploring, data visualization and statistical computations as well as for getting started with the PISA data. The package contains no code  except for the function to load preprocessed and saved as .RDS files data from a GitHub repository. 
+
+Given that the PISA data is readily available at the OECD web site, that reading SAS files is straightforward in R and that the package does not contain any “practical tools and methodologies applicable to a wide range of research fields” contrary to what is stated in the motivation letter, it does not represent a major contribution. There are other R packages, e.g. 'EdSurvey', 'intsvy', providing tools to download the data from OECD and to conduct analysis with specific for large international educational surveys methods.
+
+With the three examples presented in the paper, it would be a nice vignette to the package.
+
+Below I provide some additional details about the package and the paper.
+
+The package contains no code  except for the function to load preprocessed and saved as .RDS files data from a GitHub repository. The paper summarizes: "As a result, we have made a more convenient subset of the data freely available in a new R package called learningtower, along with sample code for analysis" - but I wonder what sample code is meant here.
+
+The documentation of the R package 'learningtower' is limited to a one-liner description of the variables selected from the original OECD data. Not much can be learned from this documentation.
+
+- For example it says that student_id is unique within school, which is not true.
+
+- Mother's and father's highest level of education is a factor 'from "less than ISCED1" to "ISCED 3A" ', but what is actually "ISCED1"? Which version of the classification (International Standard Classification of Education) was used and how the conversion between 1997 and 2011 was done (if done at all)?
+
+Below I cross tabulated the variable mother’s education level, downloaded from learningtower and from OECD SAS file for 2018 and 2022 - more than 44% were misclassified in 2018 and more than 68% in 2022.
+
+Table 1. Crosstable mother’s education, Austria, 2018, 44 percent are misclassified
+             OECD
+learningtower None ISCED1 ISCED2 ISCED3B, C ISCED3A ISCED5B ISCED5A, 6   NA
+   LT ISCED1    90      0      0          0       1       3          2    0
+   ISCED1        0     90      0          0       1       3          3    0
+   ISCED2        0      0    404          0      25      29         26    0
+   ISCED3B, C    0      0      0       2052     365     500        149    0
+   ISCED3A       0      0      0          0    1129     464       1136    0
+   NA            0      0      0          0      19      20         24  267
+
+Table 2. Crosstable mother’s education, Austria, 2022, 68 percent are misclassified
+             OECD
+learningtower LT ISCED1 ISCED1 ISCED2 ISCED3.3 ISCED3.4 ISCED5 ISCED6 ISCED7 ISCED8   NA
+    LT ISCED1       133      0      0        0        7     10      0      2      0    0
+    ISCED1            0     72      0        0        3      7      0      1      3    0
+    ISCED2            0      0    486        0      103     88      0     21     12    0
+    ISCED3A           0      0      0     1215      659    641    227    714    205    0
+    NA                0      0      0        0       24    764     83    276     47  348
+
+- The scores in maths, reading and science are described as "simulated scores". The paper states further that "This is known as synthetic data, and it is a popular technique to ensuring data privacy" - actually the plausible values model used in PISA has nothing to do with data privacy. The reference to the OECD documentation is a dead/outdated link.
+
+- In the paper there is one sentence stating the importance of the survey weights, but the reference to the OECD documentation is a dead/outdated link. By the way, the package vignette shows boxplots of the student scores without using the weights!
+
+The help page refers to a document which should describe "the data curation and sampling process", but this is actually an Rmd file containing code without any explanation.
+
+There should be more information about the curation process in the GitHub repository, but we are talking about an R package and not about a GitHub repository, aren't we?
+
+The paper presents three example analyses using the data in the package, but in my opinion these examples rather illustrate the use of functions from the ggplot2 and related packages then the PISA data. The code provided with the paper creates the graphs using precompiled data sets. The only information how these data sets were created is "we use the tidyverse (Wickham et al., 2019) and dplyr (Wickham et al., 2021) R packages". Further it is said: "To demonstrate the variability in the mean estimate, we use bootstrap sampling with replacement using the map_dfr function on the data and compute the same mean difference estimate". This is not very informative, especially keeping in mind that purrr::map_dfr() is deprecated.
+
